@@ -29,20 +29,40 @@ void HtmlInit(const char* lang)
     free(temp);
 }
 
-void Header(const char* title)
-{  
+void AddDefaultMetaTags(){
     CstrArray header = clib_cstr_array_make(
-        "<head>",
         "<meta charset=\"UTF-8\">",
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
-        CONCAT("<title>", title, "</title>"),
-        "</head>\n",
         NULL
     );
 
     char* temp = (char*) clib_cstr_array_join("\n", header);
     Append(temp);
     free(temp);
+}
+
+void Header(int8_t add_default, const char* title, ...)
+{  
+
+    Append("<head>");
+    if (add_default == 1)
+    {
+        AddDefaultMetaTags();
+    }
+    va_list args;
+    va_start(args, title);
+    const char* text = title;
+    text = va_arg(args, const char*);
+    while (text != NULL) {
+        Append(text);
+        text = va_arg(args, const char*);
+    }
+    va_end(args);
+    Append(CONCAT("<title>", title, "</title>"));
+    Append("</head>");
+
+
+    // free(temp);
 }
 
 void Body(const char* first, ...)
@@ -74,7 +94,7 @@ void Export()
 int main(void)
 {
     HtmlInit("en");
-    Header("Test");
+    Header(1, "Test");
     Body(
         "<h1>Hello, World!</h1>", 
         "<p>This is a test paragraph.</p>",
