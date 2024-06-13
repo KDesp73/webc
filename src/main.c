@@ -8,6 +8,13 @@
 #define CLIB_IMPLEMENTATION
 #include "clib.h"
 
+void address_content(char** buffer){
+    PlainText(buffer, "Written by KDesp73");
+    Br(buffer);
+    PlainText(buffer, "Visit Us at: ");
+    Br(buffer);
+    PlainText(buffer, "Example.com");
+}
 
 int main(void)
 {
@@ -29,10 +36,17 @@ int main(void)
     );
 
     BodyStart(&buffer);
-        for (size_t i = 0; i <= 6; ++i) {
-            Heading(&buffer, i, clib_format_text("Heading %zu", i));
+        for (size_t i = 1; i <= 6; ++i) {
+            Heading(&buffer, MakeAttributeList(MakeAttribute(STYLE, "color: blue;"), NULL), i, clib_format_text("Heading %zu", i));
         }
-        Paragraph(&buffer, "Hello from C");
+        Paragraph(&buffer, NULL, "Hello from C");
+
+        Input(&buffer, MakeAttribute(STYLE, "color: red;"), NULL);
+        Br(&buffer);
+        Hr(&buffer);
+        Abbr(&buffer, MakeAttributeList(MakeAttribute(TITLE, "World Health Organization"), NULL), "WHO");
+
+    Address(&buffer, NULL, address_content);
 
     BodyEnd(&buffer);
     HtmlEnd(&buffer);

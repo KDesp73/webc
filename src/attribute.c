@@ -38,7 +38,44 @@ Cstr AttributeNameToString(AttributeName attr)
             return "property";
         case HTTP_EQUIV:
             return "http_equiv";
+        case STYLE:
+            return "style";
+        case TITLE:
+            return "title";
         default:
             return NULL;
     }
+}
+
+Attribute** MakeAttributeList(Attribute* first, ...)
+{
+    if(first == NULL) return NULL;
+
+    Attribute** attributes;
+    size_t count = 0;
+
+    count += 1;
+
+    va_list args;
+    va_start(args, first);
+    for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
+        count += 1;
+    }
+    va_end(args);
+
+    attributes = (Attribute**) malloc(sizeof(attributes[0]) * count);
+    if (attributes == NULL) {
+        PANIC("could not allocate memory: %s", strerror(errno));
+    }
+    count = 0;
+
+    attributes[count++] = first;
+
+    va_start(args, first);
+    for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
+        attributes[count++] = next;
+    }
+    va_end(args);
+
+    return attributes; 
 }

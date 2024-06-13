@@ -12,6 +12,8 @@ typedef enum {
     HREF,
     PROPERTY,
     HTTP_EQUIV,
+    STYLE,
+    TITLE,
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
 
@@ -21,6 +23,7 @@ typedef struct {
 } Attribute;
 
 Attribute* MakeAttribute(int name, Cstr value);
+Attribute** MakeAttributeList(Attribute* first, ...);
 Cstr AttributeNameToString(AttributeName attr);
 
 #endif // ATTRIBUTE_H
