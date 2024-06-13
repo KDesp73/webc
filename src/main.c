@@ -1,10 +1,13 @@
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #define CLIB_IMPLEMENTATION
 #include "clib.h"
 
+#define VERSION "0.0.1"
 #define MAX_BUFFER_SIZE 1024
 char* file;
+
 
 void Append(const char* text){
     size_t new_size = strlen(file) + strlen(CONCAT(text, "\n")) + 1;
@@ -45,18 +48,44 @@ void Header(const char* title)
     free(temp);
 }
 
-void Body(const char* first, ...)
+void BodyStart()
 {
     Append("<body>");
+}
+
+void BodyEnd()
+{
+    Append("</body");
+}
+
+// TODO: Add to clib.h
+char* format_text(const char *format, ...) {
     va_list args;
-    va_start(args, first);
-    const char* text = first;
-    while (text != NULL) {
-        Append(text);
-        text = va_arg(args, const char*);
-    }
+    va_start(args, format);
+
+    int size = vsnprintf(NULL, 0, format, args) + 1; // +1 for the null terminator
+
     va_end(args);
-    Append("</body>");
+
+    char *formatted_string = (char*)malloc(size);
+    if (formatted_string == NULL) {
+        return NULL;
+    }
+
+    va_start(args, format);
+    vsnprintf(formatted_string, size, format, args);
+
+    va_end(args);
+
+    return formatted_string;
+}
+
+void Heading(size_t size, Cstr text){
+    if(size > 6) {
+        PANIC("Heading size should be between 1 and 6");
+    }
+
+    Append(CONCAT(format_text("<h%zu>", size), text, format_text("</h%zu>")));
 }
 
 void Clean()
@@ -64,24 +93,28 @@ void Clean()
     free(file);
 }
 
-void Export()
+void Export(Cstr path)
 {
-    Cstr html_file = "index.html";
-    clib_write_file(html_file, file, "w");
-    INFO("%s created", html_file);
+    clib_write_file(path, file, "w");
+    INFO("%s created", path);
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
+    Cstr output = "index.html";
     HtmlInit("en");
     Header("Test");
-    Body(
-        "<h1>Hello, World!</h1>", 
-        "<p>This is a test paragraph.</p>",
-        NULL
-    );
 
-    Export();
+    BodyStart();
+        Heading(1, "Heading 1");
+        Heading(2, "Heading 2");
+        Heading(3, "Heading 3");
+        Heading(4, "Heading 4");
+        Heading(5, "Heading 5");
+        Heading(6, "Heading 6");
+    BodyEnd();
+
+    Export(output);
     Clean();
     return 0;
 }

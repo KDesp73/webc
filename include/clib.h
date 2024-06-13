@@ -43,6 +43,7 @@
 #ifndef CLIB_H
 #define CLIB_H
 
+#include <stdint.h>
 #define CLIB_VERSION_MAJOR 0
 #define CLIB_VERSION_MINOR 1
 #define CLIB_VERSION_PATCH 0
@@ -63,6 +64,7 @@
 
 // START [TYPES] START //
 typedef const char * Cstr;
+typedef int8_t Bool;
 
 typedef struct {
     Cstr* items;
