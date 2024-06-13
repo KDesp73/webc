@@ -9,7 +9,7 @@
 #include "clib.h"
 
 
-int main(int argc, char** argv)
+int main(void)
 {
     Cstr output = "index.html";
     char* file = NULL;
