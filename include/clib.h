@@ -183,6 +183,7 @@ CLIBAPI int clib_eu_mod(int a, int b);
 #define JOIN(sep, ...) clib_cstr_array_join(sep, clib_cstr_array_make(__VA_ARGS__, NULL))
 #define CONCAT(...) JOIN("", __VA_ARGS__)
 #define PATH(...) JOIN(PATH_SEP, __VA_ARGS__)
+CLIBAPI char* clib_format_text(const char *format, ...);
 
 // CLI
 CLIBAPI char* clib_shift_args(int *argc, char ***argv);
@@ -342,6 +343,27 @@ CLIBAPI int clib_menu(Cstr title, int color, ClibPrintOptionFunc print_option, C
 
 // START [IMPLEMENTATIONS] START //
 #ifdef CLIB_IMPLEMENTATION
+CLIBAPI char* clib_format_text(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    int size = vsnprintf(NULL, 0, format, args) + 1; // +1 for the null terminator
+
+    va_end(args);
+
+    char *formatted_string = (char*)malloc(size);
+    if (formatted_string == NULL) {
+        return NULL;
+    }
+
+    va_start(args, format);
+    vsnprintf(formatted_string, size, format, args);
+
+    va_end(args);
+
+    return formatted_string;
+}
+
 CLIBAPI CliArg* clib_create_argument(char abr, Cstr full, Cstr help, size_t argument_required) {
     CliArg* arg = (CliArg*) clib_safe_malloc(sizeof(CliArg));
 
