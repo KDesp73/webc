@@ -17,11 +17,12 @@ Tag* MakeTag(Cstr name, Attribute* first, ...);
 Cstr ClosingTag(Tag* tag);
 Cstr TagToString(Tag* tag);
 
-void HtmlInit(char** file, Cstr lang);
-void Header(char** file, Cstr title, Tag* first, ...);
-void BodyEnd(char** file);
-void BodyStart(char** file);
-void Paragraph(char** file, Cstr text);
-void Heading(char** file, size_t size, Cstr text);
+void HtmlStart(char** buffer, Cstr lang);
+void HtmlEnd(char** buffer);
+void Head(char** buffer, Cstr title, Tag* first, ...);
+void BodyEnd(char** buffer);
+void BodyStart(char** buffer);
+void Paragraph(char** buffer, Cstr text);
+void Heading(char** buffer, size_t size, Cstr text);
 
 #endif // TAGS_H

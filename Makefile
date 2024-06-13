@@ -12,7 +12,7 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 
 # Target: the final executable
-TARGET = c_to_html
+TARGET = webc 
 
 # Default target, build the executable
 all: $(BUILD_DIR) $(TARGET)

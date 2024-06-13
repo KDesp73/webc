@@ -1,22 +1,22 @@
 #include "utils.h"
 #include "clib.h"
 
-void Append(char** file, Cstr text)
+void Append(char** buffer, Cstr text)
 {
     if(text == NULL) return;
 
-    size_t new_size = strlen(*file) + strlen(CONCAT(text, "\n")) + 1;
-    *file = (char*) realloc(*file, new_size);
-    strcat(*file, CONCAT(text, "\n"));
+    size_t new_size = strlen(*buffer) + strlen(CONCAT(text, "\n")) + 1;
+    *buffer = (char*) realloc(*buffer, new_size);
+    strcat(*buffer, CONCAT(text, "\n"));
 }
 
-void Export(char* file, Cstr path)
+void Export(char* buffer, Cstr path)
 {
-    clib_write_file(path, file, "w");
+    clib_write_file(path, buffer, "w");
     INFO("%s created", path);
 }
 
-void Clean(char* file)
+void Clean(char** buffer)
 {
-    free(file);
+    free(*buffer);
 }

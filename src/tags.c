@@ -95,7 +95,7 @@ Tag* MakeTag(Cstr name, Attribute* first, ...)
 
  
 
-void Header(char** file, Cstr title, Tag* first, ...)
+void Head(char** buffer, Cstr title, Tag* first, ...)
 {
     CstrArray header_arr = clib_cstr_array_make(
         "<head>",
@@ -127,58 +127,64 @@ void Header(char** file, Cstr title, Tag* first, ...)
 
     Cstr title_tag = clib_format_text("<title>%s</title>", title);
     Cstr header_str = clib_format_text("%s\n%s\n</head>", header, title_tag);
-    Append(file, header_str);
+    Append(buffer, header_str);
+
     free(header);
 }
 
-void HtmlInit(char**file, Cstr lang)
+void HtmlStart(char**buffer, Cstr lang)
 {
     if(lang == NULL){
         PANIC("Language is NULL");
     }
 
-    *file = (char*) malloc(MAX_BUFFER_SIZE);
-    if(*file == NULL){
+    *buffer = (char*) malloc(MAX_BUFFER_SIZE);
+    if(*buffer == NULL){
         PANIC("Couldnt initialize buffer");
     }
-    *file[0] = '\0';
+    *buffer[0] = '\0';
 
     char* temp = (char*) JOIN("\n",
         "<!DOCTYPE html>",
         CONCAT("<html lang=\"", lang, "\">\n")
     );
 
-    *file = (char*) realloc(*file, strlen(temp) + 1);
-    if(*file == NULL){
+    *buffer = (char*) realloc(*buffer, strlen(temp) + 1);
+    if(*buffer == NULL){
         PANIC("Couldnt reallocate buffer");
     }
 
-    strcpy(*file, temp);
+    strcpy(*buffer, temp);
     free(temp);
 }
 
-
-void BodyStart(char** file)
+void HtmlEnd(char** buffer)
 {
-    Append(file, "<body>");
+    Append(buffer, CLOSE_TAG("html"));
 }
 
-void BodyEnd(char** file)
+
+void BodyStart(char** buffer)
 {
-    Append(file, "</body>");
+    Append(buffer, "<body>");
 }
 
-void Heading(char** file, size_t size, Cstr text){
+void BodyEnd(char** buffer)
+{
+    Append(buffer, "</body>");
+}
+
+void Heading(char** buffer, size_t size, Cstr text){
     if(size > 6) {
         PANIC("Heading size should be between 1 and 6");
     }
 
     Cstr tag_name = clib_format_text("h%zu", size);
-    Append(file, clib_format_text("%s%s</%s>", TagToString(MakeTag(tag_name, NULL)), text, tag_name));
+    Append(buffer, clib_format_text("%s%s</%s>", TagToString(MakeTag(tag_name, NULL)), text, tag_name));
 }
 
-void Paragraph(char** file, Cstr text)
+void Paragraph(char** buffer, Cstr text)
 {
-    Append(file, clib_format_text("<p>%s</p>", text));
+    Append(buffer, clib_format_text("<p>%s</p>", text));
 }
 

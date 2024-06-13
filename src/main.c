@@ -12,10 +12,10 @@
 int main(void)
 {
     Cstr output = "index.html";
-    char* file = NULL;
+    char* buffer = NULL;
 
-    HtmlInit(&file, "en");
-    Header(&file, "WebC",
+    HtmlStart(&buffer, "en");
+    Head(&buffer, "WebC",
         MakeTag("meta",
             MakeAttribute(NAME, "author"),
             MakeAttribute(CONTENT, "Konstantinos Despoinidis"),
@@ -28,22 +28,17 @@ int main(void)
         NULL
     );
 
-    BodyStart(&file);
-        Heading(&file, 1, "Heading 1");
-        Heading(&file, 2, "Heading 2");
-        Heading(&file, 3, "Heading 3");
-        Heading(&file, 4, "Heading 4");
-        Heading(&file, 5, "Heading 5");
-        Heading(&file, 6, "Heading 6");
-        Paragraph(&file, "Hello from C");
-
-        for(size_t i = 0; i < 4; i++){
-            Paragraph(&file, clib_format_text("%zu", i));
+    BodyStart(&buffer);
+        for (size_t i = 0; i <= 6; ++i) {
+            Heading(&buffer, i, clib_format_text("Heading %zu", i));
         }
-    BodyEnd(&file);
+        Paragraph(&buffer, "Hello from C");
 
-    Export(file, output);
-    Clean(file);
+    BodyEnd(&buffer);
+    HtmlEnd(&buffer);
+
+    Export(buffer, output);
+    Clean(&buffer);
     return 0;
 }
 
