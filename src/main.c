@@ -36,6 +36,10 @@ int main(void)
         Heading(&file, 5, "Heading 5");
         Heading(&file, 6, "Heading 6");
         Paragraph(&file, "Hello from C");
+
+        for(size_t i = 0; i < 4; i++){
+            Paragraph(&file, clib_format_text("%zu", i));
+        }
     BodyEnd(&file);
 
     Export(file, output);

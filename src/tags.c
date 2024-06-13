@@ -39,7 +39,7 @@ Cstr TagToString(Tag* tag)
         char* attr_str = clib_format_text(" %s=\"%s\"", name, value);
         size_t attr_len = strlen(attr_str);
 
-        if (current_size + attr_len >= initial_size) {
+        if ((int) (current_size + attr_len) >= initial_size) {
             initial_size *= 2;
             tag_str = (char*)realloc(tag_str, initial_size * sizeof(char));
             if (tag_str == NULL) {
@@ -61,9 +61,11 @@ Cstr TagToString(Tag* tag)
 Tag* MakeTag(Cstr name, Attribute* first, ...)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
+    tag->count = 0;
     tag->name = name;
 
     if(first == NULL) return tag;
+
 
     tag->count += 1;
 
@@ -114,7 +116,7 @@ void Header(char** file, Cstr title, Tag* first, ...)
         va_start(args, first);
         Tag* tag = va_arg(args, Tag*);
         while (tag != NULL) {
-            char* tag_str = TagToString(tag);
+            char* tag_str = (char*) TagToString(tag);
             strcat(header, "\n");
             strcat(header, tag_str);
             free(tag_str);
@@ -141,7 +143,7 @@ void HtmlInit(char**file, Cstr lang)
     }
     *file[0] = '\0';
 
-    char* temp = JOIN("\n",
+    char* temp = (char*) JOIN("\n",
         "<!DOCTYPE html>",
         CONCAT("<html lang=\"", lang, "\">\n")
     );
