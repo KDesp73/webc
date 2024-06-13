@@ -42,6 +42,8 @@ Cstr AttributeNameToString(AttributeName attr)
             return "style";
         case TITLE:
             return "title";
+        case TARGET:
+            return "target";
         default:
             return NULL;
     }

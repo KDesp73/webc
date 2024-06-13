@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Iinclude -Wextra -ggdb -DDEBUG
+CFLAGS = -Wall -Iinclude -ggdb -DDEBUG
 
 SRC_DIR = src
 INCLUDE_DIR = include

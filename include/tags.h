@@ -28,13 +28,23 @@ void BodyEnd(char** buffer);
 void BodyStart(char** buffer);
 
 
+void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text);
 void Block(char** buffer, Tag* tag, void(* func)(char**));
+void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(char**));
+void Anchor(char** buffer, Attribute** attributes, Cstr text);
+void AnchorEx(char** buffer, Attribute** attributes, void(* func)(char**));
 void Abbr(char** buffer, Attribute** attributes, Cstr abbr);
 void Paragraph(char** buffer, Attribute** attributes, Cstr text);
 void ParagraphEx(char** buffer, Attribute** attributes, void(* func)(char**));
 void Address(char** buffer, Attribute** attributes, void(* func)(char**));
 void Div(char** buffer, Attribute** attributes, void(* func)(char**));
 void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text);
+void Bold(char** buffer, Attribute** attributes, Cstr text);
+void Blockquote(char** buffer, Attribute** attributes, Cstr text);
+void Cite(char** buffer, Attribute** attributes, Cstr text);
+void Code(char** buffer, Attribute** attributes, Cstr text);
+void Del(char** buffer, Attribute** attributes, Cstr text);
+
 
 
 #define PlainText(buffer, text) \

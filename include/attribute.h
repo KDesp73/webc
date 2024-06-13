@@ -14,6 +14,7 @@ typedef enum {
     HTTP_EQUIV,
     STYLE,
     TITLE,
+    TARGET,
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
 

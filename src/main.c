@@ -9,11 +9,11 @@
 #include "clib.h"
 
 void address_content(char** buffer){
-    PlainText(buffer, "Written by KDesp73");
+    PlainText(buffer, "Written by ");
+    Anchor(buffer, MakeAttributeList(MakeAttribute(HREF, "https://github.com/KDesp73"), MakeAttribute(TARGET, "_blank"), NULL), "KDesp73");
     Br(buffer);
-    PlainText(buffer, "Visit Us at: ");
-    Br(buffer);
-    PlainText(buffer, "Example.com");
+    PlainText(buffer, "Source code at: ");
+    Anchor(buffer, MakeAttributeList(MakeAttribute(HREF, "https://github.com/KDesp73/webc"), MakeAttribute(TARGET, "_blank"), NULL), "webc");
 }
 
 int main(void)
@@ -29,6 +29,7 @@ int main(void)
             NULL
         ),
         MakeTag("link",
+            MakeAttribute(REL, "stylesheet"),
             MakeAttribute(HREF, "./style.css"),
             NULL
         ),
