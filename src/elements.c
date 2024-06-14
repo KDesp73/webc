@@ -1,6 +1,47 @@
+#include "elements.h"
 #include "config.h"
 #include "tags.h"
 
+void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(char**))
+{
+    Tag* tag = (Tag*) malloc(sizeof(Tag));
+    tag->name = name;
+    tag->attributes = attributes;
+
+    tag->attr_count = 0;
+    if(attributes != NULL)
+        while(attributes[tag->attr_count] != NULL) tag->attr_count++;
+    tag->attr_capacity = tag->attr_count;
+
+    Block(buffer, tag, func);
+}
+
+void Block(char** buffer, Tag* tag, void(* func)(char**))
+{
+    assert(tag != NULL);
+
+    Append(buffer, TagToString(tag));
+    func(buffer);
+    Append(buffer, ClosingTag(tag));
+    free(tag);
+}
+
+void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text)
+{
+    Tag* tag = (Tag*) malloc(sizeof(Tag));
+    tag->name = name;
+    tag->attributes = attributes;
+
+    tag->attr_count = 0;
+    if(attributes != NULL)
+        while(attributes[tag->attr_count] != NULL) tag->attr_count++;
+    tag->attr_capacity = tag->attr_count;
+
+    Append(buffer, clib_format_text("%s%s%s", TagToString(tag), text, ClosingTag(tag)));
+    free(tag);
+}
+
+/* ######################### Elements Below ######################### */
 
 void Head(char** buffer, Cstr title, Tag* first, ...)
 {
@@ -89,20 +130,6 @@ void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text){
     InlineBlock(buffer, clib_format_text("h%zu", size), attributes, text);
 }
 
-void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text)
-{
-    Tag* tag = (Tag*) malloc(sizeof(Tag));
-    tag->name = name;
-    tag->attributes = attributes;
-
-    tag->attr_count = 0;
-    if(attributes != NULL)
-        while(attributes[tag->attr_count] != NULL) tag->attr_count++;
-    tag->attr_capacity = tag->attr_count;
-
-    Append(buffer, clib_format_text("%s%s%s", TagToString(tag), text, ClosingTag(tag)));
-    free(tag);
-}
 
 void Paragraph(char** buffer, Attribute** attributes, Cstr text)
 {
@@ -126,31 +153,7 @@ void AnchorEx(char** buffer, Attribute** attributes, void(* func)(char**))
 
 void Abbr(char** buffer, Attribute** attributes, Cstr abbr)
 {
-    InlineBlock(buffer, "abbt", attributes, abbr);
-}
-
-void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(char**))
-{
-    Tag* tag = (Tag*) malloc(sizeof(Tag));
-    tag->name = name;
-    tag->attributes = attributes;
-
-    tag->attr_count = 0;
-    if(attributes != NULL)
-        while(attributes[tag->attr_count] != NULL) tag->attr_count++;
-    tag->attr_capacity = tag->attr_count;
-
-    Block(buffer, tag, func);
-}
-
-void Block(char** buffer, Tag* tag, void(* func)(char**))
-{
-    assert(tag != NULL);
-
-    Append(buffer, TagToString(tag));
-    func(buffer);
-    Append(buffer, ClosingTag(tag));
-    free(tag);
+    InlineBlock(buffer, "abbr", attributes, abbr);
 }
 
 void Address(char** buffer, Attribute** attributes, void(* func)(char**))
@@ -161,4 +164,29 @@ void Address(char** buffer, Attribute** attributes, void(* func)(char**))
 void Div(char** buffer, Attribute** attributes, void(* func)(char**))
 {
     BlockAttr(buffer, "div", attributes, func);
+}
+
+void Cite(char** buffer, Attribute** attributes, Cstr text)
+{
+    InlineBlock(buffer, "cite", attributes, text);
+}
+
+void Code(char** buffer, Attribute** attributes, Cstr text)
+{
+    InlineBlock(buffer, "code", attributes, text);
+}
+
+void Bold(char** buffer, Attribute** attributes, Cstr text)
+{
+    InlineBlock(buffer, "b", attributes, text);
+}
+
+void Blockquote(char** buffer, Attribute** attributes, Cstr text)
+{
+    InlineBlock(buffer, "blockquote", attributes, text);
+}
+
+void Del(char** buffer, Attribute** attributes, Cstr text)
+{
+    InlineBlock(buffer, "del", attributes, text);
 }
