@@ -17,9 +17,8 @@ WEBCAPI void Export(char* buffer, Cstr path)
 
 WEBCAPI void ExportRoute(Route route)
 {
-    char* buffer = (char*) route.route();
-    Export(buffer, route.path);
-    Clean(&buffer);
+    Export(route.buffer, route.path);
+    Clean(&route.buffer);
 }
 
 WEBCAPI void Clean(char** buffer)

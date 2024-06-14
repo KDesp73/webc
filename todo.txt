@@ -1,4 +1,6 @@
 TODO: add all the existing html tags
 TODO: backend framework in C
 TODO: http server in C to handle both frontend and backend
-TODO: single header file for easier use
+TODO: UI library (Thanasis)
+TODO: Project website using the project itself
+DONE: single header file for easier use

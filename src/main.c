@@ -33,7 +33,7 @@ void list_fruits(char** buffer){
     }
 }
 
-Cstr Index(){
+char* Index(){
     char* buffer = NULL;
 
     HtmlStart(&buffer, "en");
@@ -85,7 +85,7 @@ Cstr Index(){
     return buffer;
 }
 
-Cstr About(){
+char* About(){
     char* buffer = NULL;
     HtmlStart(&buffer, "en");
     Head(&buffer, "About",
@@ -114,13 +114,13 @@ Cstr About(){
 int main(void)
 {
     Route index = {
-        .path = "/",
-        .route = Index
+        .path = "site/index.html",
+        .buffer = Index()
     };
     
     Route about = {
-        .path = "/about/",
-        .route = About
+        .path = "site/about.html",
+        .buffer = About()
     };
 
     ExportRoute(index);

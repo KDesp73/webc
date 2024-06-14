@@ -79,7 +79,7 @@ typedef struct {
 
 typedef struct {
     Cstr path;
-    Cstr (* route)();
+    char* buffer;
 }Route;
 
 typedef void (*BlockContents)(char** buffer);
@@ -223,6 +223,8 @@ WEBCAPI void Li(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void LiEx(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Ul(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Ol(char** buffer, Attribute** attributes, BlockContents contents);
+
+/* TODO */
 
 #define PlainText(buffer, text) \
     Append(buffer, text)
