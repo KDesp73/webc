@@ -1,15 +1,12 @@
-#include "tags.h"
-#include "clib.h"
-#include "config.h"
-#include "utils.h"
+#include "webc.h"
 #include <stdlib.h>
 
-Cstr ClosingTag(Tag* tag)
+WEBCAPI Cstr ClosingTag(Tag* tag)
 {
     return clib_format_text("</%s>", tag->name);
 }
 
-Cstr TagToString(Tag* tag)
+WEBCAPI Cstr TagToString(Tag* tag)
 {
     assert(tag != NULL);
     assert(tag->name != NULL);
@@ -57,7 +54,7 @@ Cstr TagToString(Tag* tag)
     return CONCAT(tag_str, ">");
 }
 
-Tag* MakeTag(Cstr name, Attribute* first, ...)
+WEBCAPI Tag* MakeTag(Cstr name, Attribute* first, ...)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
     tag->attr_count = 0;

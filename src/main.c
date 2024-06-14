@@ -1,8 +1,4 @@
-#include "attribute.h"
-#include "config.h"
-#include "tags.h"
-#include "elements.h"
-#include "utils.h"
+#include "webc.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -11,10 +7,10 @@
 
 void address_content(char** buffer){
     PlainText(buffer, "Written by ");
-    Anchor(buffer, MakeAttributeList(MakeAttribute(HREF, "https://github.com/KDesp73"), MakeAttribute(TARGET, "_blank"), NULL), "KDesp73");
+    Anchor(buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "https://github.com/KDesp73"), MakeAttribute(ATTR_TARGET, "_blank"), NULL), "KDesp73");
     Br(buffer);
     PlainText(buffer, "Source code at: ");
-    Anchor(buffer, MakeAttributeList(MakeAttribute(HREF, "https://github.com/KDesp73/webc"), MakeAttribute(TARGET, "_blank"), NULL), "webc");
+    Anchor(buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "https://github.com/KDesp73/webc"), MakeAttribute(ATTR_TARGET, "_blank"), NULL), "webc");
 }
 
 void text_demo(char** buffer){
@@ -33,7 +29,7 @@ void list_fruits(char** buffer){
     );
 
     for(size_t i = 0; i < fruits.count; ++i){
-        Li(buffer, MakeAttributeList(MakeAttribute(STYLE, clib_format_text("color: %s;", colors.items[i])), NULL), fruits.items[i]);
+        Li(buffer, MakeAttributeList(MakeAttribute(ATTR_STYLE, clib_format_text("color: %s;", colors.items[i])), NULL), fruits.items[i]);
     }
 }
 
@@ -45,13 +41,13 @@ int main(void)
     HtmlStart(&buffer, "en");
     Head(&buffer, "WebC",
         MakeTag("meta",
-            MakeAttribute(NAME, "author"),
-            MakeAttribute(CONTENT, "Konstantinos Despoinidis"),
+            MakeAttribute(ATTR_NAME, "author"),
+            MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
             NULL
         ),
         MakeTag("link",
-            MakeAttribute(REL, "stylesheet"),
-            MakeAttribute(HREF, "./style.css"),
+            MakeAttribute(ATTR_REL, "stylesheet"),
+            MakeAttribute(ATTR_HREF, "./style.css"),
             NULL
         ),
         NULL
@@ -64,21 +60,21 @@ int main(void)
     BodyStart(&buffer);
         Div(
             &buffer,
-            MakeAttributeList(MakeAttribute(STYLE, "background-color: grey;"), NULL),
+            MakeAttributeList(MakeAttribute(ATTR_STYLE, "background-color: grey;"), NULL),
             text_demo
         );
 
-        Input(&buffer, MakeAttribute(STYLE, "color: red;"), NULL);
+        Input(&buffer, MakeAttribute(ATTR_STYLE, "color: red;"), NULL);
         Br(&buffer);
         Hr(&buffer);
-        Abbr(&buffer, MakeAttributeList(MakeAttribute(TITLE, "World Health Organization"), NULL), "WHO");
+        Abbr(&buffer, MakeAttributeList(MakeAttribute(ATTR_TITLE, "World Health Organization"), NULL), "WHO");
 
         Address(&buffer, NULL, address_content);
         Img(&buffer, 
-            MakeAttribute(SRC, "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"),
-            MakeAttribute(ALT, "chameleon"),
-            MakeAttribute(WIDTH, "500"),
-            MakeAttribute(HEIGHT, "300"),
+            MakeAttribute(ATTR_SRC, "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"),
+            MakeAttribute(ATTR_ALT, "chameleon"),
+            MakeAttribute(ATTR_WIDTH, "500"),
+            MakeAttribute(ATTR_HEIGHT, "300"),
             NULL
         );
 

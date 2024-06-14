@@ -1,7 +1,6 @@
-#include "utils.h"
-#include "clib.h"
+#include "webc.h"
 
-void Append(char** buffer, Cstr text)
+WEBCAPI void Append(char** buffer, Cstr text)
 {
     if(text == NULL) return;
 
@@ -10,13 +9,13 @@ void Append(char** buffer, Cstr text)
     strcat(*buffer, CONCAT(text, "\n"));
 }
 
-void Export(char* buffer, Cstr path)
+WEBCAPI void Export(char* buffer, Cstr path)
 {
     clib_write_file(path, buffer, "w");
     INFO("%s created", path);
 }
 
-void Clean(char** buffer)
+WEBCAPI void Clean(char** buffer)
 {
     free(*buffer);
 }

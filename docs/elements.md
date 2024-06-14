@@ -106,23 +106,23 @@
 
 ## DONE
 
-- `<ul>`
-- `<p>`
-- `<ol>`
-- `<meta>`
-- `<link>`
-- `<li>`
-- `<img>`
-- `<hr>`
-- `<html>`
-- `<h1> - <h6>`
-- `<head>`
-- `<header>`
-- `<div>`
-- `<br>`
-- `<body>`
-- `<blockquote>`
 - `<!DOCTYPE>`
 - `<a>`
 - `<abbr>`
 - `<address>`
+- `<blockquote>`
+- `<body>`
+- `<br>`
+- `<div>`
+- `<h1> - <h6>`
+- `<head>`
+- `<header>`
+- `<hr>`
+- `<html>`
+- `<img>`
+- `<li>`
+- `<link>`
+- `<meta>`
+- `<ol>`
+- `<p>`
+- `<ul>`

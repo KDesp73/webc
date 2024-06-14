@@ -43,7 +43,6 @@
 #ifndef CLIB_H
 #define CLIB_H
 
-#include <stdint.h>
 #define CLIB_VERSION_MAJOR 0
 #define CLIB_VERSION_MINOR 1
 #define CLIB_VERSION_PATCH 0
@@ -55,6 +54,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdarg.h>
 #include <string.h>
 #include <errno.h>

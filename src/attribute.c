@@ -1,8 +1,8 @@
-#include "attribute.h"
+#include "webc.h"
 #include <stdlib.h>
 #include <string.h>
 
-Attribute* MakeAttribute(int name, const char* value)
+WEBCAPI Attribute* MakeAttribute(int name, const char* value)
 {
     Attribute* attr = (Attribute*)malloc(sizeof(Attribute));
     if (attr == NULL) {
@@ -21,43 +21,43 @@ Attribute* MakeAttribute(int name, const char* value)
     return attr;
 }
 
-Cstr AttributeNameToString(AttributeName attr)
+WEBCAPI Cstr AttributeNameToString(AttributeName attr)
 {
     switch (attr) {
-        case CHARSET:
+        case ATTR_CHARSET:
             return "charset";
-        case NAME:
+        case ATTR_NAME:
             return "name";
-        case CONTENT:
+        case ATTR_CONTENT:
             return "content";
-        case REL:
+        case ATTR_REL:
             return "rel";
-        case HREF:
+        case ATTR_HREF:
             return "href";
-        case PROPERTY:
+        case ATTR_PROPERTY:
             return "property";
-        case HTTP_EQUIV:
+        case ATTR_HTTP_EQUIV:
             return "http_equiv";
-        case STYLE:
+        case ATTR_STYLE:
             return "style";
-        case TITLE:
+        case ATTR_TITLE:
             return "title";
-        case TARGET:
+        case ATTR_TARGET:
             return "target";
-        case SRC:
+        case ATTR_SRC:
             return "src";
-        case ALT:
+        case ATTR_ALT:
             return "alt";
-        case WIDTH:
+        case ATTR_WIDTH:
             return "width";
-        case HEIGHT:
+        case ATTR_HEIGHT:
             return "height";
         default:
             return NULL;
     }
 }
 
-Attribute** MakeAttributeList(Attribute* first, ...)
+WEBCAPI Attribute** MakeAttributeList(Attribute* first, ...)
 {
     if(first == NULL) return NULL;
 

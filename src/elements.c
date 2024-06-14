@@ -1,8 +1,6 @@
-#include "elements.h"
-#include "config.h"
-#include "tags.h"
+#include "webc.h"
 
-void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(char**))
+WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(char**))
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
     tag->name = name;
@@ -16,7 +14,7 @@ void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(ch
     Block(buffer, tag, func);
 }
 
-void Block(char** buffer, Tag* tag, void(* func)(char**))
+WEBCAPI void Block(char** buffer, Tag* tag, void(* func)(char**))
 {
     assert(tag != NULL);
 
@@ -26,7 +24,7 @@ void Block(char** buffer, Tag* tag, void(* func)(char**))
     free(tag);
 }
 
-void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text)
+WEBCAPI void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
     tag->name = name;
@@ -43,7 +41,7 @@ void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text)
 
 /* ######################### Elements Below ######################### */
 
-void Head(char** buffer, Cstr title, Tag* first, ...)
+WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...)
 {
     CstrArray header_arr = clib_cstr_array_make(
         "<head>",
@@ -80,7 +78,7 @@ void Head(char** buffer, Cstr title, Tag* first, ...)
     free(header);
 }
 
-void HtmlStart(char**buffer, Cstr lang)
+WEBCAPI void HtmlStart(char**buffer, Cstr lang)
 {
     if(lang == NULL){
         PANIC("Language is NULL");
@@ -106,39 +104,43 @@ void HtmlStart(char**buffer, Cstr lang)
     free(temp);
 }
 
-void HtmlEnd(char** buffer)
+WEBCAPI void HtmlEnd(char** buffer)
 {
     Append(buffer, CLOSING_TAG("html"));
 }
 
 
-void BodyStart(char** buffer)
+WEBCAPI void BodyStart(char** buffer)
 {
     Append(buffer, OPENING_TAG("body"));
 }
 
-void BodyEnd(char** buffer)
+WEBCAPI void BodyEnd(char** buffer)
 {
     Append(buffer, CLOSING_TAG("body"));
 }
-void ScriptStart(char** buffer)
+
+WEBCAPI void ScriptStart(char** buffer)
 {
     Append(buffer, OPENING_TAG("script"));
 }
-void ScriptEnd(char** buffer)
+
+WEBCAPI void ScriptEnd(char** buffer)
 {
     Append(buffer, CLOSING_TAG("script"));
 }
-void StyleStart(char** buffer)
+
+WEBCAPI void StyleStart(char** buffer)
 {
     Append(buffer, OPENING_TAG("style"));
 }
-void StyleEnd(char** buffer)
+
+WEBCAPI void StyleEnd(char** buffer)
 {
     Append(buffer, CLOSING_TAG("style"));
 }
 
-void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text){
+WEBCAPI void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text){
     if(size == 0 || size > 6) {
         PANIC("Heading size should be between 1 and 6");
     }
@@ -146,79 +148,78 @@ void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text){
     InlineBlock(buffer, clib_format_text("h%zu", size), attributes, text);
 }
 
-
-void Paragraph(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "p", attributes, text);
 }
 
-void ParagraphEx(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, void(* func)(char**))
 {
     BlockAttr(buffer, "p", attributes, func);
 }
 
-void Anchor(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Anchor(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "a", attributes, text);
 }
 
-void AnchorEx(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, void(* func)(char**))
 {
     BlockAttr(buffer, "a", attributes, func);
 }
 
-void Abbr(char** buffer, Attribute** attributes, Cstr abbr)
+WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr)
 {
     InlineBlock(buffer, "abbr", attributes, abbr);
 }
 
-void Address(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Address(char** buffer, Attribute** attributes, void(* func)(char**))
 {
     BlockAttr(buffer, "address", attributes, func);
 }
 
-void Div(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Div(char** buffer, Attribute** attributes, void(* func)(char**))
 {
     BlockAttr(buffer, "div", attributes, func);
 }
 
-void Cite(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Cite(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "cite", attributes, text);
 }
 
-void Code(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Code(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "code", attributes, text);
 }
 
-void Bold(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Bold(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "b", attributes, text);
 }
 
-void Blockquote(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Blockquote(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "blockquote", attributes, text);
 }
 
-void Del(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Del(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "del", attributes, text);
 }
 
-void Li(char** buffer, Attribute** attributes, Cstr text)
+WEBCAPI void Li(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "li", attributes, text);
 }
 
-void Ul(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Ul(char** buffer, Attribute** attributes, void(* func)(char**))
 {
     BlockAttr(buffer, "ul", attributes, func);
 }
 
 
-void Ol(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Ol(char** buffer, Attribute** attributes, void(* func)(char**))
 {
     BlockAttr(buffer, "ol", attributes, func);
 }
