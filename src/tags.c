@@ -57,7 +57,6 @@ Cstr TagToString(Tag* tag)
     return CONCAT(tag_str, ">");
 }
 
-
 Tag* MakeTag(Cstr name, Attribute* first, ...)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));

@@ -1,3 +1,4 @@
 TODO: add all the existing html tags
 TODO: backend framework in C
 TODO: http server in C to handle both frontend and backend
+TODO: single header file for easier use

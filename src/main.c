@@ -19,14 +19,27 @@ void address_content(char** buffer){
 
 void text_demo(char** buffer){
     for (size_t i = 1; i <= 6; ++i) {
-        Heading(buffer, MakeAttributeList(MakeAttribute(STYLE, "color: blue;"), NULL), i, clib_format_text("Heading %zu", i));
+        Heading(buffer, NULL, i, clib_format_text("Heading %zu", i));
     }
     Paragraph(buffer, NULL, "Hello from C");
 }
 
+void list_fruits(char** buffer){
+    CstrArray fruits = clib_cstr_array_make(
+        "apple", "banana", "cherry", "watermelon", "pear", NULL
+    );
+    CstrArray colors = clib_cstr_array_make(
+        "red", "yellow", "red", "green", "lightgreen", NULL
+    );
+
+    for(size_t i = 0; i < fruits.count; ++i){
+        Li(buffer, MakeAttributeList(MakeAttribute(STYLE, clib_format_text("color: %s;", colors.items[i])), NULL), fruits.items[i]);
+    }
+}
+
 int main(void)
 {
-    Cstr output = "docs/index.html";
+    Cstr output = "site/index.html";
     char* buffer = NULL;
 
     HtmlStart(&buffer, "en");
@@ -44,10 +57,14 @@ int main(void)
         NULL
     );
 
+    ScriptStart(&buffer);
+        Javascript(&buffer, "console.log('Hello World!')");
+    ScriptEnd(&buffer);
+
     BodyStart(&buffer);
         Div(
             &buffer,
-            MakeAttributeList(MakeAttribute(STYLE, "background-color: green;"), NULL),
+            MakeAttributeList(MakeAttribute(STYLE, "background-color: grey;"), NULL),
             text_demo
         );
 
@@ -57,6 +74,16 @@ int main(void)
         Abbr(&buffer, MakeAttributeList(MakeAttribute(TITLE, "World Health Organization"), NULL), "WHO");
 
         Address(&buffer, NULL, address_content);
+        Img(&buffer, 
+            MakeAttribute(SRC, "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"),
+            MakeAttribute(ALT, "chameleon"),
+            MakeAttribute(WIDTH, "500"),
+            MakeAttribute(HEIGHT, "300"),
+            NULL
+        );
+
+        Ul(&buffer, NULL, list_fruits);
+        text_demo(&buffer);
 
     BodyEnd(&buffer);
     HtmlEnd(&buffer);

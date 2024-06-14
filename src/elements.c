@@ -114,12 +114,28 @@ void HtmlEnd(char** buffer)
 
 void BodyStart(char** buffer)
 {
-    Append(buffer, "<body>");
+    Append(buffer, OPENING_TAG("body"));
 }
 
 void BodyEnd(char** buffer)
 {
-    Append(buffer, "</body>");
+    Append(buffer, CLOSING_TAG("body"));
+}
+void ScriptStart(char** buffer)
+{
+    Append(buffer, OPENING_TAG("script"));
+}
+void ScriptEnd(char** buffer)
+{
+    Append(buffer, CLOSING_TAG("script"));
+}
+void StyleStart(char** buffer)
+{
+    Append(buffer, OPENING_TAG("style"));
+}
+void StyleEnd(char** buffer)
+{
+    Append(buffer, CLOSING_TAG("style"));
 }
 
 void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text){
@@ -190,3 +206,20 @@ void Del(char** buffer, Attribute** attributes, Cstr text)
 {
     InlineBlock(buffer, "del", attributes, text);
 }
+
+void Li(char** buffer, Attribute** attributes, Cstr text)
+{
+    InlineBlock(buffer, "li", attributes, text);
+}
+
+void Ul(char** buffer, Attribute** attributes, void(* func)(char**))
+{
+    BlockAttr(buffer, "ul", attributes, func);
+}
+
+
+void Ol(char** buffer, Attribute** attributes, void(* func)(char**))
+{
+    BlockAttr(buffer, "ol", attributes, func);
+}
+

@@ -15,11 +15,15 @@ typedef enum {
     STYLE,
     TITLE,
     TARGET,
+    SRC,
+    ALT,
+    WIDTH,
+    HEIGHT,
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
 
 typedef struct {
-    int name; 
+    AttributeName name; 
     char* value;
 } Attribute;
 
