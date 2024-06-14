@@ -2,6 +2,13 @@
 
 Write websites using the far superior (and actual programming language) C. 
 
+<!--toc:start-->
+- [webc](#webc)
+  - [Example](#example)
+  - [Documentation](#documentation)
+  - [LICENSE](#license)
+<!--toc:end-->
+
 ## Example
 
 ```c
@@ -36,6 +43,10 @@ int main(void)
     return 0;
 }
 ```
+
+## Documentation
+
+See [webc.h](./include/webc.h)
 
 ## LICENSE
 
