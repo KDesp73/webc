@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-WEBCAPI Attribute* MakeAttribute(int name, const char* value)
+WEBCAPI Attribute* MakeAttribute(AttributeName name, const char* value)
 {
     Attribute* attr = (Attribute*)malloc(sizeof(Attribute));
     if (attr == NULL) {

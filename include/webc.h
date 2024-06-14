@@ -77,10 +77,36 @@ typedef struct {
     size_t attr_capacity;
 } Tag;
 
+typedef void (*BlockContents)(char** buffer);
 // ############ Tags ############ //
 
+/**
+ * Creates a Tag struct pointer
+ *
+ * @param name The tage name
+ * @param first The first Attribute struct pointer for the tag
+ * @param ... The rest of the Attribute struct pointers
+ *
+ * @return Tag*
+ */
 WEBCAPI Tag* MakeTag(Cstr name, Attribute* first, ...);
+
+/**
+ * Creates a closing tag (</>) for any Tag struct pointer
+ *
+ * @param tag The Tag struct pointer
+ *
+ * @return Cstr
+ */
 WEBCAPI Cstr ClosingTag(Tag* tag);
+
+/**
+ * Creates the opening tag (<name attr1="value" attr2="value">) for any Tag struct pointer
+ *
+ * @param tag The Tag struct pointer
+ *
+ * @return Cstr
+ */
 WEBCAPI Cstr TagToString(Tag* tag);
 
 #define OPENING_TAG(name) CONCAT("<", name, ">")
@@ -88,14 +114,58 @@ WEBCAPI Cstr TagToString(Tag* tag);
 
 // ############ Utils ############ //
 
+/**
+ * Appends text (and a newline) to the buffer
+ *
+ * @param buffer The buffer's pointer
+ * @param text The text to append
+ */
 WEBCAPI void Append(char** buffer, Cstr text);
+
+/**
+ * Frees the buffer's pointer
+ *
+ * @param buffer The buffer to free
+ */
 WEBCAPI void Clean(char** buffer);
+
+/**
+ * Exports the contents of the buffer to an html file 
+ *
+ * @param buffer The contents of the buffer
+ * @param path The path to export the html file to
+ */
 WEBCAPI void Export(char* buffer, Cstr path);
 
 // ############ Attributes ############ //
 
-WEBCAPI Attribute* MakeAttribute(int name, Cstr value);
+/**
+ * Creates an Attribute struct pointer
+ *
+ * @param name AttributeName enum to specify the attribute name
+ * @param value The value of the attribute
+ *
+ * @return Attribute*
+ */
+WEBCAPI Attribute* MakeAttribute(AttributeName name, Cstr value);
+
+/**
+ * Creates an Attribute struct pointer array
+ *
+ * @param first The first attribute
+ * @param ... The rest of the attributes
+ *
+ * @return Attribute** The array
+ */
 WEBCAPI Attribute** MakeAttributeList(Attribute* first, ...);
+
+/**
+ * Stringifies the AttributeName enum
+ *
+ * @param attr The enum
+ *
+ * @return Cstr
+ */
 WEBCAPI Cstr AttributeNameToString(AttributeName attr);
 
 
@@ -113,27 +183,27 @@ WEBCAPI void StyleStart(char** buffer);
 WEBCAPI void StyleEnd(char** buffer);
 
 // Helpers
-WEBCAPI void Block(char** buffer, Tag* tag, void(* func)(char**));
-WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(char**));
+WEBCAPI void Block(char** buffer, Tag* tag, BlockContents contents);
+WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, BlockContents contents);
 WEBCAPI void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text);
 
 WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr);
-WEBCAPI void Address(char** buffer, Attribute** attributes, void(* func)(char**));
+WEBCAPI void Address(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Anchor(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, void(* func)(char**));
+WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Blockquote(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Bold(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Cite(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Code(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Del(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void Div(char** buffer, Attribute** attributes, void(* func)(char**));
+WEBCAPI void Div(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text);
 WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, void(* func)(char**));
+WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Li(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void LiEx(char** buffer, Attribute** attributes, void(* func)(char**));
-WEBCAPI void Ul(char** buffer, Attribute** attributes, void(* func)(char**));
-WEBCAPI void Ol(char** buffer, Attribute** attributes, void(* func)(char**));
+WEBCAPI void LiEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Ul(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Ol(char** buffer, Attribute** attributes, BlockContents contents);
 
 #define PlainText(buffer, text) \
     Append(buffer, text)

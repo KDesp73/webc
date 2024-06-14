@@ -1,6 +1,6 @@
 #include "webc.h"
 
-WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* func)(char**))
+WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, BlockContents contents)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
     tag->name = name;
@@ -11,15 +11,15 @@ WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, void(* 
         while(attributes[tag->attr_count] != NULL) tag->attr_count++;
     tag->attr_capacity = tag->attr_count;
 
-    Block(buffer, tag, func);
+    Block(buffer, tag, contents);
 }
 
-WEBCAPI void Block(char** buffer, Tag* tag, void(* func)(char**))
+WEBCAPI void Block(char** buffer, Tag* tag, BlockContents contents)
 {
     assert(tag != NULL);
 
     Append(buffer, TagToString(tag));
-    func(buffer);
+    contents(buffer);
     Append(buffer, ClosingTag(tag));
     free(tag);
 }
@@ -153,9 +153,9 @@ WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text)
     InlineBlock(buffer, "p", attributes, text);
 }
 
-WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "p", attributes, func);
+    BlockAttr(buffer, "p", attributes, contents);
 }
 
 WEBCAPI void Anchor(char** buffer, Attribute** attributes, Cstr text)
@@ -163,9 +163,9 @@ WEBCAPI void Anchor(char** buffer, Attribute** attributes, Cstr text)
     InlineBlock(buffer, "a", attributes, text);
 }
 
-WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "a", attributes, func);
+    BlockAttr(buffer, "a", attributes, contents);
 }
 
 WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr)
@@ -173,14 +173,14 @@ WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr)
     InlineBlock(buffer, "abbr", attributes, abbr);
 }
 
-WEBCAPI void Address(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Address(char** buffer, Attribute** attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "address", attributes, func);
+    BlockAttr(buffer, "address", attributes, contents);
 }
 
-WEBCAPI void Div(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Div(char** buffer, Attribute** attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "div", attributes, func);
+    BlockAttr(buffer, "div", attributes, contents);
 }
 
 WEBCAPI void Cite(char** buffer, Attribute** attributes, Cstr text)
@@ -213,14 +213,14 @@ WEBCAPI void Li(char** buffer, Attribute** attributes, Cstr text)
     InlineBlock(buffer, "li", attributes, text);
 }
 
-WEBCAPI void Ul(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Ul(char** buffer, Attribute** attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "ul", attributes, func);
+    BlockAttr(buffer, "ul", attributes, contents);
 }
 
 
-WEBCAPI void Ol(char** buffer, Attribute** attributes, void(* func)(char**))
+WEBCAPI void Ol(char** buffer, Attribute** attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "ol", attributes, func);
+    BlockAttr(buffer, "ol", attributes, contents);
 }
 
