@@ -33,13 +33,11 @@ void list_fruits(char** buffer){
     }
 }
 
-int main(void)
-{
-    Cstr output = "site/index.html";
+Cstr Index(){
     char* buffer = NULL;
 
     HtmlStart(&buffer, "en");
-    Head(&buffer, "WebC",
+    Head(&buffer, "WebC Example",
         MakeTag("meta",
             MakeAttribute(ATTR_NAME, "author"),
             MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
@@ -84,8 +82,50 @@ int main(void)
     BodyEnd(&buffer);
     HtmlEnd(&buffer);
 
-    Export(buffer, output);
-    Clean(&buffer);
+    return buffer;
+}
+
+Cstr About(){
+    char* buffer = NULL;
+    HtmlStart(&buffer, "en");
+    Head(&buffer, "About",
+        MakeTag("meta",
+            MakeAttribute(ATTR_NAME, "author"),
+            MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
+            NULL
+        ),
+        MakeTag("link",
+            MakeAttribute(ATTR_REL, "stylesheet"),
+            MakeAttribute(ATTR_HREF, "./style.css"),
+            NULL
+        ),
+        NULL
+    );
+
+    BodyStart(&buffer);
+    
+        Heading(&buffer, NULL, 1, "About");
+
+    BodyEnd(&buffer);
+
+    return buffer;
+}
+
+int main(void)
+{
+    Route index = {
+        .path = "/",
+        .route = Index
+    };
+    
+    Route about = {
+        .path = "/about/",
+        .route = About
+    };
+
+    ExportRoute(index);
+    ExportRoute(about);
+
     return 0;
 }
 

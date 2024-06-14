@@ -77,6 +77,11 @@ typedef struct {
     size_t attr_capacity;
 } Tag;
 
+typedef struct {
+    Cstr path;
+    Cstr (* route)();
+}Route;
+
 typedef void (*BlockContents)(char** buffer);
 // ############ Tags ############ //
 
@@ -137,6 +142,11 @@ WEBCAPI void Clean(char** buffer);
  */
 WEBCAPI void Export(char* buffer, Cstr path);
 
+/**
+ * TODO
+ */
+WEBCAPI void ExportRoute(Route route);
+
 // ############ Attributes ############ //
 
 /**
@@ -171,7 +181,12 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr);
 
 // ############ Elements ############ //
 
+/**
+ * TODO
+ */
 WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...);
+
+/* TODO */
 
 WEBCAPI void HtmlStart(char** buffer, Cstr lang);
 WEBCAPI void HtmlEnd(char** buffer);
@@ -182,10 +197,14 @@ WEBCAPI void ScriptEnd(char** buffer);
 WEBCAPI void StyleStart(char** buffer);
 WEBCAPI void StyleEnd(char** buffer);
 
+/* TODO */
+
 // Helpers
 WEBCAPI void Block(char** buffer, Tag* tag, BlockContents contents);
 WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, BlockContents contents);
 WEBCAPI void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text);
+
+/* TODO */
 
 WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr);
 WEBCAPI void Address(char** buffer, Attribute** attributes, BlockContents contents);

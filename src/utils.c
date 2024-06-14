@@ -15,6 +15,13 @@ WEBCAPI void Export(char* buffer, Cstr path)
     INFO("%s created", path);
 }
 
+WEBCAPI void ExportRoute(Route route)
+{
+    char* buffer = (char*) route.route();
+    Export(buffer, route.path);
+    Clean(&buffer);
+}
+
 WEBCAPI void Clean(char** buffer)
 {
     free(*buffer);
