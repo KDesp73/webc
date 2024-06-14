@@ -13,29 +13,26 @@ int main(void)
     HtmlInit(&file, "en");
     Header(&file, "WebC-Example",
         MakeTag("meta",
-            MakeAttribute(NAME, "author"),
-            MakeAttribute(CONTENT, "Konstantinos Despoinidis"),
+            MakeAttribute(ATTR_NAME, "author"),
+            MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
             NULL
         ),
         MakeTag("link",
-            MakeAttribute(HREF, "./style.css"),
+            MakeAttribute(ATTR_HREF, "./style.css"),
             NULL
         ),
         NULL
     );
 
     BodyStart(&file);
-        Heading(&file, 1, "Heading 1");
-        Heading(&file, 2, "Heading 2");
-        Heading(&file, 3, "Heading 3");
-        Heading(&file, 4, "Heading 4");
-        Heading(&file, 5, "Heading 5");
-        Heading(&file, 6, "Heading 6");
+        for(size_t i = 1; i <= 6; ++i){
+            Heading(&file, i, clib_format_text("Heading %zu", i));
+        }
         Paragraph(&file, "Hello from C");
     BodyEnd(&file);
 
     Export(file, output);
-    Clean(file);
+    Clean(&file);
     return 0;
 }
 ```

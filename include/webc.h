@@ -32,7 +32,9 @@
 #define VERSION_PATCH 1
 #define VERSION "0.0.1"
 
-#define WEBCAPI 
+#ifndef WEBCAPI
+    #define WEBCAPI extern // Functions defined as 'extern' by default (implicit specifiers)
+#endif
 
 // ############ Includes  ############ //
 
