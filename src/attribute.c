@@ -1,4 +1,6 @@
 #include "webc.h"
+#include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -57,39 +59,37 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr)
         case ATTR_HEIGHT:
             return "height";
         default:
+            WARN("attr: %d not implemented", attr);
             return NULL;
     }
 }
 
-WEBCAPI Attribute** MakeAttributeList(Attribute* first, ...)
+WEBCAPI AttributeList MakeAttributeList(Attribute* first, ...)
 {
-    if(first == NULL) return NULL;
-
-    Attribute** attributes;
-    size_t count = 0;
-
-    count += 1;
+    AttributeList result = {0};
+    result.count = 0;
+    if(first == NULL) return result;
 
     va_list args;
     va_start(args, first);
+    result.count++;
     for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
-        count += 1;
+        result.count++;
     }
     va_end(args);
 
-    attributes = (Attribute**) malloc(sizeof(attributes[0]) * count);
-    if (attributes == NULL) {
+    result.items = (Attribute**) malloc(sizeof(result.items[0]) * result.count);
+    if (result.items == NULL) {
         PANIC("could not allocate memory: %s", strerror(errno));
     }
-    count = 0;
-
-    attributes[count++] = first;
 
     va_start(args, first);
-    for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
-        attributes[count++] = next;
+    result.items[0] = first;
+    for (size_t i = 1; i < result.count; ++i) {
+        Attribute* next = va_arg(args, Attribute*);
+        result.items[i]= next;
     }
     va_end(args);
 
-    return attributes; 
+    return result; 
 }

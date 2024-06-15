@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
+// Not in webc.h
 WEBCAPI void CreatePath(const char *path) {
     char *token;
     char *path_copy = strdup(path);
@@ -57,4 +58,5 @@ WEBCAPI void ExportRoute(Route route)
 WEBCAPI void Clean(char** buffer)
 {
     free(*buffer);
+    *buffer = NULL;
 }

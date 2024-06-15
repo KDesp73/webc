@@ -1,13 +1,20 @@
 #include "webc.h"
 #include <stdlib.h>
 
-WEBCAPI void CleanTag(Tag *tag)
+WEBCAPI void CleanTag(Tag** tag)
 {
-    for(size_t i = 0; i < tag->attr_count; ++i){
-        free(tag->attributes[i]);
+    if (*tag == NULL) {
+        return;
     }
-    free(tag->attributes);
-    free(tag);
+
+    for (size_t i = 0; i < (*tag)->attributes.count; ++i) {
+        free((*tag)->attributes.items[i]);
+        (*tag)->attributes.items[i] = NULL;
+    }
+    free((*tag)->attributes.items);
+    (*tag)->attributes.items = NULL;
+    free(*tag);
+    *tag = NULL;
 }
 
 WEBCAPI Cstr ClosingTag(Tag* tag)
@@ -29,11 +36,11 @@ WEBCAPI Cstr TagToString(Tag* tag)
     strcpy(tag_str, CONCAT("<", tag->name));
     size_t current_size = strlen(tag_str);
 
-    for (size_t i = 0; i < tag->attr_count; ++i) {
-        Cstr name = AttributeNameToString(tag->attributes[i]->name);
-        Cstr value = tag->attributes[i]->value;
+    for (size_t i = 0; i < tag->attributes.count; ++i) {
+        Cstr name = AttributeNameToString(tag->attributes.items[i]->name);
+        Cstr value = tag->attributes.items[i]->value;
         if(name == NULL) {
-            ERRO("Null name for name=%d", tag->attributes[i]->name);
+            ERRO("Null name for name=%d", tag->attributes.items[i]->name);
             continue;
         }
 
@@ -62,35 +69,44 @@ WEBCAPI Cstr TagToString(Tag* tag)
     return CONCAT(tag_str, ">");
 }
 
-WEBCAPI Tag* MakeTag(Cstr name, Attribute* first, ...)
+WEBCAPI Tag* MakeTag(Cstr name, AttributeList attributes)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
-    tag->attr_count = 0;
+    tag->name = name;
+    tag->attributes = attributes;
+
+    return tag;
+}
+
+WEBCAPI Tag* MakeTagAttr(Cstr name, Attribute* first, ...)
+{
+    Tag* tag = (Tag*) malloc(sizeof(Tag));
+    tag->attributes.count= 0;
     tag->name = name;
 
     if(first == NULL) return tag;
 
 
-    tag->attr_count += 1;
+    tag->attributes.count += 1;
 
     va_list args;
     va_start(args, first);
     for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
-        tag->attr_count += 1;
+        tag->attributes.count += 1;
     }
     va_end(args);
 
-    tag->attributes = (Attribute**) malloc(sizeof(tag->attributes[0]) * tag->attr_count);
-    if (tag->attributes == NULL) {
+    tag->attributes.items = (Attribute**) malloc(sizeof(tag->attributes.items[0]) * tag->attributes.count);
+    if (tag->attributes.items == NULL) {
         PANIC("could not allocate memory: %s", strerror(errno));
     }
-    tag->attr_count = 0;
+    tag->attributes.count = 0;
 
-    tag->attributes[tag->attr_count++] = first;
+    tag->attributes.items[tag->attributes.count++] = first;
 
     va_start(args, first);
     for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
-        tag->attributes[tag->attr_count++] = next;
+        tag->attributes.items[tag->attributes.count++] = next;
     }
     va_end(args);
 

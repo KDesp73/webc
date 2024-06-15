@@ -15,9 +15,9 @@ void address_content(char** buffer)
 
 void text_demo(char** buffer){
     for (size_t i = 1; i <= 6; ++i) {
-        Heading(buffer, NULL, i, clib_format_text("Heading %zu", i));
+        Heading(buffer, NO_ATTRIBUTES, i, clib_format_text("Heading %zu", i));
     }
-    Paragraph(buffer, NULL, "Hello from C");
+    Paragraph(buffer, NO_ATTRIBUTES, "Hello from C");
 }
 
 void list_fruits(char** buffer)
@@ -33,8 +33,7 @@ void list_fruits(char** buffer)
         Li(buffer, 
             MakeAttributeList(
                 MakeAttribute(ATTR_STYLE, clib_format_text("color: %s;", colors.items[i])), 
-                MakeAttribute(ATTR_CLASS, "item"),
-                NULL
+                MakeAttribute(ATTR_CLASS, "item"), NULL
             ), 
             fruits.items[i]
         );
@@ -48,19 +47,25 @@ char* Index()
     HtmlStart(&buffer, "en");
     Head(&buffer, "WebC Example",
         MakeTag(META,
-            MakeAttribute(ATTR_NAME, "author"),
-            MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
-            NULL
+            MakeAttributeList(
+                MakeAttribute(ATTR_NAME, "author"),
+                MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
+                NULL
+            )
         ),
         MakeTag(LINK,
-            MakeAttribute(ATTR_REL, "stylesheet"),
-            MakeAttribute(ATTR_HREF, "./style.css"),
-            NULL
+            MakeAttributeList(
+                MakeAttribute(ATTR_REL, "stylesheet"),
+                MakeAttribute(ATTR_HREF, "./style.css"),
+                NULL
+            )
         ),
         MakeTag(BASE, 
-            MakeAttribute(ATTR_HREF, "https://www.github.com"),
-            MakeAttribute(ATTR_TARGET, "_blank"),
-            NULL
+            MakeAttributeList(
+                MakeAttribute(ATTR_HREF, "https://www.github.com"),
+                MakeAttribute(ATTR_TARGET, "_blank"),
+                NULL
+            )
         ),
         NULL
     );
@@ -80,21 +85,23 @@ char* Index()
             text_demo
         );
 
-        Input(&buffer, MakeAttribute(ATTR_STYLE, "color: red;"), NULL);
+        Input(&buffer, MakeAttributeList(MakeAttribute(ATTR_STYLE, "color: red;"), NULL));
         Br(&buffer);
         Hr(&buffer);
         Abbr(&buffer, MakeAttributeList(MakeAttribute(ATTR_TITLE, "World Health Organization"), NULL), "WHO");
 
-        Address(&buffer, NULL, address_content);
+        Address(&buffer, NO_ATTRIBUTES, address_content);
         Img(&buffer, 
-            MakeAttribute(ATTR_SRC, "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"),
-            MakeAttribute(ATTR_ALT, "chameleon"),
-            MakeAttribute(ATTR_WIDTH, "500"),
-            MakeAttribute(ATTR_HEIGHT, "300"),
-            NULL
+            MakeAttributeList(
+                MakeAttribute(ATTR_SRC, "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"),
+                MakeAttribute(ATTR_ALT, "chameleon"),
+                MakeAttribute(ATTR_WIDTH, "500"),
+                MakeAttribute(ATTR_HEIGHT, "300"),
+                NULL
+            )
         );
 
-        Ul(&buffer, NULL, list_fruits);
+        Ul(&buffer, NO_ATTRIBUTES, list_fruits);
         text_demo(&buffer);
 
     BodyEnd(&buffer);
@@ -109,26 +116,32 @@ char* About()
     HtmlStart(&buffer, "en");
     Head(&buffer, "About",
         MakeTag(META, 
-            MakeAttribute(ATTR_NAME, "author"),
-            MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
-            NULL
+            MakeAttributeList(
+                MakeAttribute(ATTR_NAME, "author"),
+                MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
+                NULL
+            )
         ),
         MakeTag(LINK,
-            MakeAttribute(ATTR_REL, "stylesheet"),
-            MakeAttribute(ATTR_HREF, "../style.css"),
-            NULL
+            MakeAttributeList(
+                MakeAttribute(ATTR_REL, "stylesheet"),
+                MakeAttribute(ATTR_HREF, "../style.css"),
+                NULL
+            )
         ),
         MakeTag(BASE, 
-            MakeAttribute(ATTR_HREF, "https://www.github.com"),
-            MakeAttribute(ATTR_TARGET, "_blank"),
-            NULL
+            MakeAttributeList(
+                MakeAttribute(ATTR_HREF, "https://www.github.com"),
+                MakeAttribute(ATTR_TARGET, "_blank"),
+                NULL
+            )
         ),
         NULL
     );
 
     BodyStart(&buffer);
     
-        Heading(&buffer, NULL, 1, "About");
+        Heading(&buffer, NO_ATTRIBUTES, 1, "About");
         Anchor(&buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "KDesp73"), NULL), "Github");
 
     BodyEnd(&buffer);
@@ -138,14 +151,14 @@ char* About()
 
 int main(int argc, char** argv)
 {
-    Cstr root = "site";
+    Cstr root = "site/";
     Route index = {
-        .path = CONCAT(root, "/"),
+        .path = root,
         .buffer = Index()
     };
     
     Route about = {
-        .path = CONCAT(root, "/about/"),
+        .path = CONCAT(root, "about/"),
         .buffer = About()
     };
 
