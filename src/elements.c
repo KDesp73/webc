@@ -43,7 +43,7 @@ WEBCAPI void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr 
         while(attributes[tag->attr_count] != NULL) tag->attr_count++;
 
     if(tag->attr_count > 5) tag->attr_count = 0;
-    DEBU("tag: %s, count: %zu", tag->name, tag->attr_count);
+    // DEBU("tag: %s, count: %zu", tag->name, tag->attr_count);
 
     tag->attr_capacity = tag->attr_count;
 
@@ -165,7 +165,7 @@ WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text)
     InlineBlock(buffer, "p", attributes, text);
 }
 
-WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, BlockContents contents)
+WEBCAPI void ParagraphBlock(char** buffer, Attribute** attributes, BlockContents contents)
 {
     BlockAttr(buffer, "p", attributes, contents);
 }
@@ -175,7 +175,7 @@ WEBCAPI void Anchor(char** buffer, Attribute** attributes, Cstr text)
     InlineBlock(buffer, "a", attributes, text);
 }
 
-WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, BlockContents contents)
+WEBCAPI void AnchorBlock(char** buffer, Attribute** attributes, BlockContents contents)
 {
     BlockAttr(buffer, "a", attributes, contents);
 }

@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define CLIB_IMPLEMENTATION
-#include "clib.h"
+
+// #define HTTPSERVER_IMPL
+// #include "extern/httpserver.h"
 
 void address_content(char** buffer){
     PlainText(buffer, "Written by ");
@@ -64,8 +65,6 @@ char* Index(){
     );
 
     ScriptStart(&buffer);
-        Javascript(&buffer, "console.log('Hello World!');");
-        Javascript(&buffer, "console.log('Hello World!');");
         Javascript(&buffer, "console.log('Hello World!');");
     ScriptEnd(&buffer);
 

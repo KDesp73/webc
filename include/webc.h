@@ -39,7 +39,7 @@
 // ############ Includes  ############ //
 
 #define CLIB_IMPLEMENTATION
-#include "clib.h"
+#include "extern/clib.h"
 
 // ############ Constants ############ //
 
@@ -147,7 +147,9 @@ WEBCAPI void Clean(char** buffer);
 WEBCAPI void Export(char* buffer, Cstr path);
 
 /**
- * TODO
+ * Exports the Route struct containing a buffer and a path
+ *
+ * @param route The Route struct
  */
 WEBCAPI void ExportRoute(Route route);
 
@@ -186,13 +188,27 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr);
 // ############ Elements ############ //
 
 /**
- * TODO
+ * Appends the <head> block to the buffer with the default meta tags included
+ *
+ * @param buffer The buffer to append to
+ * @param title The title of the web page
+ * @param first The first tag to be contained in the head block
+ * @param ... The rest of the tags
  */
 WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...);
 
-/* TODO */
+/* 
+The following methods define the major blocks of an HTML document by appending them to the buffer.
+Start and End reference the opening and closing tags.
+*/
 
-WEBCAPI void HtmlStart(char** buffer, Cstr lang);
+/**
+ * Appends the html opening tag to the buffer (<html lang="lang">)
+ *
+ * @param buffer The buffer to append to
+ * @param lang The webpage's language
+ */
+WEBCAPI void HtmlStart(char** buffer, Cstr lang); 
 WEBCAPI void HtmlEnd(char** buffer);
 WEBCAPI void BodyEnd(char** buffer);
 WEBCAPI void BodyStart(char** buffer);
@@ -201,19 +217,21 @@ WEBCAPI void ScriptEnd(char** buffer);
 WEBCAPI void StyleStart(char** buffer);
 WEBCAPI void StyleEnd(char** buffer);
 
-/* TODO */
 
 // Helpers
 WEBCAPI void Block(char** buffer, Tag* tag, BlockContents contents);
 WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, BlockContents contents);
 WEBCAPI void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text);
 
-/* TODO */
+/*
+The following methods are used to append all the available (but not deprecated) html tags to the buffer
+*/
 
-WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr);
+/**/
+WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Address(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Anchor(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void AnchorBlock(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Area(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Article(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Aside(char** buffer, Attribute** attributes, BlockContents contents);
@@ -224,7 +242,7 @@ WEBCAPI void Bdo(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Blockquote(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Bold(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Button(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void ButtonEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void ButtonBlock(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Canvas(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Caption(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Cite(char** buffer, Attribute** attributes, Cstr text);
@@ -258,7 +276,7 @@ WEBCAPI void Kbd(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Label(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Legend(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Li(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void LiEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void LiBlock(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Main(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Map(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Mark(char** buffer, Attribute** attributes, Cstr text);
@@ -272,7 +290,7 @@ WEBCAPI void Optgroup(char** buffer, Attribute** attributes, BlockContents conte
 WEBCAPI void Option(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Output(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void ParagraphBlock(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Param(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Picture(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Pre(char** buffer, Attribute** attributes, Cstr text);
@@ -309,7 +327,9 @@ WEBCAPI void Var(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Video(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Wbr(char** buffer, Attribute** attributes, Cstr text);
 
-/* TODO */
+/* 
+The following macros are used to append the html tags that don't require closing to the buffer
+*/
 
 #define PlainText(buffer, text) \
     Append(buffer, text)
