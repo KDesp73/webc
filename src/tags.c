@@ -40,8 +40,7 @@ WEBCAPI Cstr TagToString(Tag* tag)
         Cstr name = AttributeNameToString(tag->attributes.items[i]->name);
         Cstr value = tag->attributes.items[i]->value;
         if(name == NULL) {
-            ERRO("Null name for name=%d", tag->attributes.items[i]->name);
-            continue;
+            PANIC("Null name for name: %d, Ensure that you terminated the AttributeList", tag->attributes.items[i]->name);
         }
 
         char* attr_str = NULL;

@@ -106,6 +106,8 @@ WEBCAPI Tag* MakeTag(Cstr name, AttributeList attributes);
 /**
  * Creates a Tag struct pointer
  *
+ * WARNING: NULL terminate the arguments list
+ *
  * @param name The tage name
  * @param first The first Attribute struct pointer for the tag
  * @param ... The rest of the Attribute struct pointers
@@ -184,6 +186,8 @@ WEBCAPI Attribute* MakeAttribute(AttributeName name, Cstr value);
 /**
  * Creates an Attribute struct pointer array
  *
+ * WARNING: NULL terminate the arguments list
+ *
  * @param first The first attribute
  * @param ... The rest of the attributes
  *
@@ -209,6 +213,8 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr);
 
 /**
  * Appends the <head> block to the buffer with the default meta tags included
+ *
+ * WARNING: NULL terminate the arguments list
  *
  * @param buffer The buffer to append to
  * @param title The title of the web page

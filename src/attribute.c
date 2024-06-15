@@ -59,7 +59,6 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr)
         case ATTR_HEIGHT:
             return "height";
         default:
-            WARN("attr: %d not implemented", attr);
             return NULL;
     }
 }

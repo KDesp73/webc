@@ -33,7 +33,8 @@ void list_fruits(char** buffer)
         Li(buffer, 
             MakeAttributeList(
                 MakeAttribute(ATTR_STYLE, clib_format_text("color: %s;", colors.items[i])), 
-                MakeAttribute(ATTR_CLASS, "item"), NULL
+                MakeAttribute(ATTR_CLASS, "item"), 
+                NULL
             ), 
             fruits.items[i]
         );
@@ -71,10 +72,11 @@ char* Index()
     );
 
     ScriptStart(&buffer);
+        Javascript(&buffer, "INFO = (str) => { console.log('[INFO] ' + str); }");
         Javascript(&buffer, "console.log('Hello World!');");
-        Javascript(&buffer, "console.log('Hello World!');");
-        Javascript(&buffer, "console.log('Hello World!');");
-        Javascript(&buffer, "console.log('Hello World!');");
+        Javascript(&buffer, "INFO('Website made by KDesp73')");
+        Javascript(&buffer, "INFO('Using webc')");
+        Javascript(&buffer, "a = () => {console.log('hi');}");
     ScriptEnd(&buffer);
 
 
@@ -101,7 +103,7 @@ char* Index()
             )
         );
 
-        Ul(&buffer, NO_ATTRIBUTES, list_fruits);
+        Ul(&buffer, MakeAttributeList(MakeAttribute(ATTR_STYLE, "background-color: #181818;"), NULL), list_fruits);
         text_demo(&buffer);
 
     BodyEnd(&buffer);
@@ -140,10 +142,8 @@ char* About()
     );
 
     BodyStart(&buffer);
-    
         Heading(&buffer, NO_ATTRIBUTES, 1, "About");
         Anchor(&buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "KDesp73"), NULL), "Github");
-
     BodyEnd(&buffer);
 
     return buffer;

@@ -46,13 +46,13 @@ WEBCAPI void Export(char* buffer, Cstr path)
     Cstr n_path = CONCAT(path, "index.html");
 
     clib_write_file(n_path, buffer, "w");
+    Clean(&buffer);
     INFO("%sindex.html created", path);
 }
 
 WEBCAPI void ExportRoute(Route route)
 {
     Export(route.buffer, route.path);
-    Clean(&route.buffer);
 }
 
 WEBCAPI void Clean(char** buffer)
