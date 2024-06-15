@@ -6,6 +6,17 @@
 
 ### BlockAttr
 
+```c
+// Declaration
+WEBCAPI void Address(char** buffer, Attribute** attributes, BlockContents contents);
+
+// Definition
+WEBCAPI void Address(char** buffer, Attribute** attributes, BlockContents contents)
+{
+    BlockAttr(buffer, "address", attributes, contents);
+}
+```
+
 - `<area>`
 - `<article>`
 - `<aside>`
@@ -46,7 +57,20 @@
 - `<video>`
 - `<template>`
 - `<textarea>`
+
 ### InlineBlock
+
+```c
+// Declaration
+WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr);
+
+// Definition
+WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr)
+{
+    InlineBlock(buffer, "abbr", attributes, abbr);
+}
+```
+
 - `<b>`
 - `<bdo>`
 - `<bdi>`
@@ -89,9 +113,22 @@
 
 ### Both
 
+```c
+// Declaration
+WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, BlockContents contents);
+
+// Definition as above
+```
+
 - `<button>`
 
 ### Single Tag
+
+```c
+#define Input(buffer, attr, ...) \
+    Append(buffer, TagToString(MakeTag("input", attr, ##__VA_ARGS__)))
+```
 
 - `<source>`
 - `<track>`
