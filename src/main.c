@@ -29,7 +29,14 @@ void list_fruits(char** buffer){
     );
 
     for(size_t i = 0; i < fruits.count; ++i){
-        Li(buffer, MakeAttributeList(MakeAttribute(ATTR_STYLE, clib_format_text("color: %s;", colors.items[i])), NULL), fruits.items[i]);
+        Li(buffer, 
+            MakeAttributeList(
+                MakeAttribute(ATTR_STYLE, clib_format_text("color: %s;", colors.items[i])), 
+                MakeAttribute(ATTR_CLASS, "item"),
+                NULL
+            ), 
+            fruits.items[i]
+        );
     }
 }
 
@@ -48,12 +55,20 @@ char* Index(){
             MakeAttribute(ATTR_HREF, "./style.css"),
             NULL
         ),
+        MakeTag("base", 
+            MakeAttribute(ATTR_HREF, "https://www.github.com"),
+            MakeAttribute(ATTR_TARGET, "_blank"),
+            NULL
+        ),
         NULL
     );
 
     ScriptStart(&buffer);
-        Javascript(&buffer, "console.log('Hello World!')");
+        Javascript(&buffer, "console.log('Hello World!');");
+        Javascript(&buffer, "console.log('Hello World!');");
+        Javascript(&buffer, "console.log('Hello World!');");
     ScriptEnd(&buffer);
+
 
     BodyStart(&buffer);
         Div(
@@ -89,7 +104,7 @@ char* About(){
     char* buffer = NULL;
     HtmlStart(&buffer, "en");
     Head(&buffer, "About",
-        MakeTag("meta",
+        MakeTag("meta", 
             MakeAttribute(ATTR_NAME, "author"),
             MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
             NULL
@@ -111,7 +126,7 @@ char* About(){
     return buffer;
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
     Route index = {
         .path = "site/index.html",

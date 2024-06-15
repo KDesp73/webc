@@ -24,6 +24,10 @@ WEBCAPI Attribute* MakeAttribute(AttributeName name, const char* value)
 WEBCAPI Cstr AttributeNameToString(AttributeName attr)
 {
     switch (attr) {
+        case ATTR_ID:
+            return "id";
+        case ATTR_CLASS:
+            return "class";
         case ATTR_CHARSET:
             return "charset";
         case ATTR_NAME:

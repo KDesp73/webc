@@ -1,4 +1,6 @@
 #include "webc.h"
+#include <assert.h>
+#include <stdlib.h>
 
 WEBCAPI void BlockAttr(char** buffer, Cstr name, Attribute** attributes, BlockContents contents)
 {
@@ -21,22 +23,32 @@ WEBCAPI void Block(char** buffer, Tag* tag, BlockContents contents)
     Append(buffer, TagToString(tag));
     contents(buffer);
     Append(buffer, ClosingTag(tag));
-    free(tag);
+    CleanTag(tag);
 }
 
 WEBCAPI void InlineBlock(char** buffer, Cstr name, Attribute** attributes, Cstr text)
 {
+
     Tag* tag = (Tag*) malloc(sizeof(Tag));
+
+    if(tag == NULL) {
+        PANIC("Couldn't allocate tag");
+    }    
+
     tag->name = name;
     tag->attributes = attributes;
 
     tag->attr_count = 0;
     if(attributes != NULL)
         while(attributes[tag->attr_count] != NULL) tag->attr_count++;
+
+    if(tag->attr_count > 5) tag->attr_count = 0;
+    DEBU("tag: %s, count: %zu", tag->name, tag->attr_count);
+
     tag->attr_capacity = tag->attr_count;
 
     Append(buffer, clib_format_text("%s%s%s", TagToString(tag), text, ClosingTag(tag)));
-    free(tag);
+    CleanTag(tag);
 }
 
 /* ######################### Elements Below ######################### */

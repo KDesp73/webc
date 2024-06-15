@@ -1,6 +1,15 @@
 #include "webc.h"
 #include <stdlib.h>
 
+WEBCAPI void CleanTag(Tag *tag)
+{
+    for(size_t i = 0; i < tag->attr_count; ++i){
+        free(tag->attributes[i]);
+    }
+    free(tag->attributes);
+    free(tag);
+}
+
 WEBCAPI Cstr ClosingTag(Tag* tag)
 {
     return clib_format_text("</%s>", tag->name);

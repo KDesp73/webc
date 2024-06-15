@@ -62,7 +62,9 @@ typedef enum {
     ATTR_ALT,
     ATTR_WIDTH,
     ATTR_HEIGHT,
-    ATTR_ATTRIBUTE_NAME_COUNT
+    ATTR_ATTRIBUTE_NAME_COUNT,
+    ATTR_ID,
+    ATTR_CLASS
 } AttributeName;
 
 typedef struct {
@@ -113,6 +115,8 @@ WEBCAPI Cstr ClosingTag(Tag* tag);
  * @return Cstr
  */
 WEBCAPI Cstr TagToString(Tag* tag);
+
+WEBCAPI void CleanTag(Tag* tag);
 
 #define OPENING_TAG(name) CONCAT("<", name, ">")
 #define CLOSING_TAG(name) CONCAT("</", name, ">")
@@ -234,8 +238,6 @@ WEBCAPI void Ol(char** buffer, Attribute** attributes, BlockContents contents);
     Append(buffer, TagToString(MakeTag("input", attr, ##__VA_ARGS__)))
 #define Img(buffer, attr, ...) \
     Append(buffer, TagToString(MakeTag("img", attr, ##__VA_ARGS__)))
-#define Meta(buffer, attr, ...) \
-    Append(buffer, TagToString(MakeTag("meta", attr, ##__VA_ARGS__)))
 #define Link(buffer, attr, ...) \
     Append(buffer, TagToString(MakeTag("link", attr, ##__VA_ARGS__)))
 #define Br(buffer) \

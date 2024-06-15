@@ -1,12 +1,14 @@
 #include "webc.h"
+#include <stdlib.h>
 
 WEBCAPI void Append(char** buffer, Cstr text)
 {
     if(text == NULL) return;
 
-    size_t new_size = strlen(*buffer) + strlen(CONCAT(text, "\n")) + 1;
+    Cstr new_text = CONCAT(text, "\n");
+    size_t new_size = strlen(*buffer) + strlen(new_text) + 1;
     *buffer = (char*) realloc(*buffer, new_size);
-    strcat(*buffer, CONCAT(text, "\n"));
+    strcat(*buffer, new_text);
 }
 
 WEBCAPI void Export(char* buffer, Cstr path)
