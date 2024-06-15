@@ -37,12 +37,11 @@ WEBCAPI Cstr TagToString(Tag* tag)
             continue;
         }
 
-        if(value == NULL) {
-            ERRO("Null value for name=%d", tag->attributes[i]->name);
-            continue;
-        }
-
-        char* attr_str = clib_format_text(" %s=\"%s\"", name, value);
+        char* attr_str = NULL;
+        if(value == NULL)
+            attr_str = clib_format_text(" %s", name);
+        else 
+            attr_str = clib_format_text(" %s=\"%s\"", name, value);
         size_t attr_len = strlen(attr_str);
 
         if ((int) (current_size + attr_len) >= initial_size) {

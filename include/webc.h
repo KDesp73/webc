@@ -214,19 +214,100 @@ WEBCAPI void Abbr(char** buffer, Attribute** attributes, Cstr abbr);
 WEBCAPI void Address(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Anchor(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void AnchorEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Area(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Article(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Aside(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Audio(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void B(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Bdi(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Bdo(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Blockquote(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Bold(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Button(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void ButtonEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Canvas(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Caption(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Cite(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Code(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Col(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Colgroup(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Data(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Datalist(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Dd(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Del(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Del(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Details(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Dfn(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Dialog(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Div(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Dl(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Dt(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Em(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Embed(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Fieldset(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Figcaption(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Figure(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Footer(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Form (char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Heading(char** buffer, Attribute** attributes, size_t size, Cstr text);
-WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text);
-WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Hgroup(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void I(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Iframe(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Ins(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Kbd(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Label(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Legend(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void Li(char** buffer, Attribute** attributes, Cstr text);
 WEBCAPI void LiEx(char** buffer, Attribute** attributes, BlockContents contents);
-WEBCAPI void Ul(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Main(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Map(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Mark(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Menu(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Meter(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Nav(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Noscript(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Object(char** buffer, Attribute** attributes, BlockContents contents);
 WEBCAPI void Ol(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Optgroup(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Option(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Output(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Paragraph(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void ParagraphEx(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Param(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Picture(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Pre(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Progress(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Q(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Rp(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Rt(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Ruby(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void S(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Samp(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Search(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Section(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Select(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Small(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Span(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Strong(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Sub(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Summary(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Sup(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Svg(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Table(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Tbody(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Td(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Template(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Textarea(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Tfoot(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Th(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Thead(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Time(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Tr(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void U(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Ul(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Var(char** buffer, Attribute** attributes, Cstr text);
+WEBCAPI void Video(char** buffer, Attribute** attributes, BlockContents contents);
+WEBCAPI void Wbr(char** buffer, Attribute** attributes, Cstr text);
 
 /* TODO */
 
@@ -244,6 +325,10 @@ WEBCAPI void Ol(char** buffer, Attribute** attributes, BlockContents contents);
     Append(buffer, TagToString(MakeTag("br", NULL)))
 #define Hr(buffer) \
     Append(buffer, TagToString(MakeTag("hr", NULL)))
+#define Source(buffer, attr, ...) \
+    Append(buffer, TagToString(MakeTag("source", attr, ##__VA_ARGS__)))
+#define Track(buffer, attr, ...) \
+    Append(buffer, TagToString(MakeTag("track", attr, ##__VA_ARGS__)))
 
 
 #endif // WEBC_H
