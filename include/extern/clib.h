@@ -64,7 +64,7 @@
 
 // START [TYPES] START //
 typedef const char * Cstr;
-typedef int8_t Bool;
+typedef uint8_t Bool;
 
 typedef struct {
     Cstr* items;
