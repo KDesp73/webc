@@ -1,121 +1,100 @@
 # HTML Elements
 
-## Types
-
-- Single tag ()
-- InlineBlock (-)
-- BlockAttr (|)
-
 ## TODO
 
-- `<area>` |
-- `<article>` |
-- `<aside>` |
-- `<audio>` |
-- `<b>` -
-- `<bdi>` -
-- `<bdo>` -
-- `<button>` - |
-- `<canvas>` |
-- `<caption>` -
-- `<col>` |
-- `<colgroup>` |
-- `<data>` |
-- `<datalist>` |
-- `<dd>` -
-- `<del>` -
-- `<details>` |
-- `<dfn>` -
-- `<dialog>` |
-- `<dl>` |
-- `<dt>` -
-- `<em>` -
-- `<embed>` |
-- `<fieldset>` |
-- `<figcaption>` -
-- `<figure>` |
-- `<footer>` |
-- `<form>` | 
-- `<hgroup>` |
-- `<i>` -
-- `<iframe>` |
-- `<ins>` -
-- `<kbd>` -
-- `<label>` -
-- `<legend>` -
-- `<main>` |
-- `<map>` |
-- `<mark>` -
-- `<menu>` |
-- `<meter>` -
-- `<nav>` |
-- `<noscript>` |
-- `<object>` |
-- `<optgroup>` |
-- `<option>` -
-- `<output>` -
-- `<param>` -
-- `<picture>` |
-- `<pre>` -
-- `<progress>` -
-- `<q>` -
-- `<rp>` -
-- `<rt>` -
-- `<ruby>` |
-- `<s>` -
-- `<samp>` -
-- `<search>` |
-- `<section>` |
-- `<select>` |
-- `<small>` -
-- `<source>`
-- `<span>` -
-- `<strong>` -
-- `<sub>` -
-- `<summary>` -
-- `<sup>` -
-- `<svg>` |
-- `<table>` |
-- `<tbody>` |
-- `<td>` -
+> Delete after implementation
+
+### BlockAttr
+
+- `<area>`
+- `<article>`
+- `<aside>`
+- `<audio>`
+- `<canvas>`
+- `<col>`
+- `<colgroup>`
+- `<data>`
+- `<datalist>`
+- `<details>`
+- `<embed>`
+- `<fieldset>`
+- `<dialog>`
+- `<dl>`
+- `<figure>`
+- `<footer>`
+- `<form>` 
+- `<iframe>`
+- `<hgroup>`
+- `<main>`
+- `<map>`
+- `<menu>`
+- `<nav>`
+- `<noscript>`
+- `<object>`
+- `<optgroup>`
+- `<picture>`
+- `<ruby>`
+- `<search>`
+- `<section>`
+- `<select>`
+- `<svg>`
+- `<table>`
+- `<tbody>`
+- `<tfoot>`
+- `<thead>`
+- `<tr>`
+- `<video>`
 - `<template>`
-- `<textarea>` |
-- `<tfoot>` |
-- `<th>` -
-- `<thead>` |
-- `<time>` -
-- `<tr>` |
+- `<textarea>`
+### InlineBlock
+- `<b>`
+- `<bdo>`
+- `<bdi>`
+- `<caption>`
+- `<dd>`
+- `<del>`
+- `<dfn>`
+- `<figcaption>`
+- `<i>`
+- `<dt>`
+- `<em>`
+- `<ins>`
+- `<kbd>`
+- `<label>`
+- `<legend>`
+- `<meter>`
+- `<mark>`
+- `<option>`
+- `<output>`
+- `<param>`
+- `<pre>`
+- `<progress>`
+- `<q>`
+- `<rp>`
+- `<rt>`
+- `<s>`
+- `<samp>`
+- `<small>`
+- `<span>`
+- `<strong>`
+- `<sub>`
+- `<summary>`
+- `<time>`
+- `<th>`
+- `<u>`
+- `<var>`
+- `<wbr>`
+- `<sup>`
+- `<td>`
+
+### Both
+
+- `<button>`
+
+### Single Tag
+
+- `<source>`
 - `<track>`
-- `<u>` -
-- `<var>` -
-- `<video>` |
-- `<wbr>` -
 
-## DONE
 
-- `<!DOCTYPE>`
-- `<a>`
-- `<abbr>`
-- `<address>`
-- `<style>`
-- `<title>`
-- `<blockquote>`
-- `<body>`
-- `<br>`
-- `<cite>`
-- `<script>`
-- `<code>`
-- `<div>`
-- `<h1> - <h6>`
-- `<head>`
-- `<header>`
-- `<hr>`
-- `<html>`
-- `<img>`
-- `<li>`
-- `<link>`
-- `<meta>`
-- `<ol>`
-- `<p>`
-- `<ul>`
-- `<input>`
+
