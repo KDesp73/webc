@@ -85,6 +85,7 @@ typedef struct {
 }Route;
 
 typedef void (*BlockContents)(char** buffer);
+
 // ############ Tags ############ //
 
 /**
@@ -139,7 +140,7 @@ WEBCAPI void Append(char** buffer, Cstr text);
 WEBCAPI void Clean(char** buffer);
 
 /**
- * Exports the contents of the buffer to an html file 
+ * Exports the contents of the buffer to an html file, while also creating the path that is being passed
  *
  * @param buffer The contents of the buffer
  * @param path The path to export the html file to
@@ -186,6 +187,10 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr);
 
 
 // ############ Elements ############ //
+
+#define META "meta"
+#define LINK "link"
+#define BASE "base"
 
 /**
  * Appends the <head> block to the buffer with the default meta tags included

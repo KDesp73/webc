@@ -3,10 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-// #define HTTPSERVER_IMPL
-// #include "extern/httpserver.h"
 
-void address_content(char** buffer){
+void address_content(char** buffer)
+{
     PlainText(buffer, "Written by ");
     Anchor(buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "https://github.com/KDesp73"), MakeAttribute(ATTR_TARGET, "_blank"), NULL), "KDesp73");
     Br(buffer);
@@ -21,7 +20,8 @@ void text_demo(char** buffer){
     Paragraph(buffer, NULL, "Hello from C");
 }
 
-void list_fruits(char** buffer){
+void list_fruits(char** buffer)
+{
     CstrArray fruits = clib_cstr_array_make(
         "apple", "banana", "cherry", "watermelon", "pear", NULL
     );
@@ -41,22 +41,23 @@ void list_fruits(char** buffer){
     }
 }
 
-char* Index(){
+char* Index()
+{
     char* buffer = NULL;
 
     HtmlStart(&buffer, "en");
     Head(&buffer, "WebC Example",
-        MakeTag("meta",
+        MakeTag(META,
             MakeAttribute(ATTR_NAME, "author"),
             MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
             NULL
         ),
-        MakeTag("link",
+        MakeTag(LINK,
             MakeAttribute(ATTR_REL, "stylesheet"),
             MakeAttribute(ATTR_HREF, "./style.css"),
             NULL
         ),
-        MakeTag("base", 
+        MakeTag(BASE, 
             MakeAttribute(ATTR_HREF, "https://www.github.com"),
             MakeAttribute(ATTR_TARGET, "_blank"),
             NULL
@@ -65,6 +66,9 @@ char* Index(){
     );
 
     ScriptStart(&buffer);
+        Javascript(&buffer, "console.log('Hello World!');");
+        Javascript(&buffer, "console.log('Hello World!');");
+        Javascript(&buffer, "console.log('Hello World!');");
         Javascript(&buffer, "console.log('Hello World!');");
     ScriptEnd(&buffer);
 
@@ -99,18 +103,24 @@ char* Index(){
     return buffer;
 }
 
-char* About(){
+char* About()
+{
     char* buffer = NULL;
     HtmlStart(&buffer, "en");
     Head(&buffer, "About",
-        MakeTag("meta", 
+        MakeTag(META, 
             MakeAttribute(ATTR_NAME, "author"),
             MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
             NULL
         ),
-        MakeTag("link",
+        MakeTag(LINK,
             MakeAttribute(ATTR_REL, "stylesheet"),
-            MakeAttribute(ATTR_HREF, "./style.css"),
+            MakeAttribute(ATTR_HREF, "../style.css"),
+            NULL
+        ),
+        MakeTag(BASE, 
+            MakeAttribute(ATTR_HREF, "https://www.github.com"),
+            MakeAttribute(ATTR_TARGET, "_blank"),
             NULL
         ),
         NULL
@@ -119,6 +129,7 @@ char* About(){
     BodyStart(&buffer);
     
         Heading(&buffer, NULL, 1, "About");
+        Anchor(&buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "KDesp73"), NULL), "Github");
 
     BodyEnd(&buffer);
 
@@ -127,13 +138,14 @@ char* About(){
 
 int main(int argc, char** argv)
 {
+    Cstr root = "site";
     Route index = {
-        .path = "site/index.html",
+        .path = CONCAT(root, "/"),
         .buffer = Index()
     };
     
     Route about = {
-        .path = "site/about.html",
+        .path = CONCAT(root, "/about/"),
         .buffer = About()
     };
 
