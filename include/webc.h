@@ -268,6 +268,9 @@ WEBCAPI void ScriptStart(char** buffer);
 WEBCAPI void ScriptEnd(char** buffer);
 WEBCAPI void StyleStart(char** buffer);
 WEBCAPI void StyleEnd(char** buffer);
+WEBCAPI void DivStart(char** buffer);
+WEBCAPI void DivEnd(char** buffer);
+// TODO: maybe add more Start-End pair for easier use
 
 
 // Helpers
