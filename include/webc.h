@@ -62,9 +62,10 @@ typedef enum {
     ATTR_ALT,
     ATTR_WIDTH,
     ATTR_HEIGHT,
-    ATTR_ATTRIBUTE_NAME_COUNT,
     ATTR_ID,
-    ATTR_CLASS
+    ATTR_CLASS,
+    
+    ATTRIBUTE_NAME_COUNT
 } AttributeName;
 
 typedef struct {
@@ -87,7 +88,19 @@ typedef struct {
 typedef struct {
     Cstr path;
     char* buffer;
-}Route;
+} Route;
+
+typedef struct {
+    Cstr style;
+    Cstr src;
+    Cstr alt;
+    Cstr href;
+    Cstr target;
+    size_t width;
+    size_t height;
+    Cstr class;
+    Cstr id;
+} Modifier;
 
 typedef void (*BlockContents)(char** buffer);
 
@@ -134,6 +147,11 @@ WEBCAPI Cstr ClosingTag(Tag* tag);
  */
 WEBCAPI Cstr TagToString(Tag* tag);
 
+/**
+ * Frees all the allocated memory of the Tag struct pointer
+ *
+ * @param tag The tag pointer's pointer
+ */
 WEBCAPI void CleanTag(Tag** tag);
 
 #define OPENING_TAG(name) CONCAT("<", name, ">")
@@ -204,6 +222,14 @@ WEBCAPI AttributeList MakeAttributeList(Attribute* first, ...);
  */
 WEBCAPI Cstr AttributeNameToString(AttributeName attr);
 
+/**
+ * Converts the Modifier struct to an AttributeList to be used on any element
+ *
+ * @param modifier The Modifier struct
+ *
+ * @return AttrubuteList
+ */
+WEBCAPI AttributeList ModifierToAttributeList(Modifier modifier);
 
 // ############ Elements ############ //
 

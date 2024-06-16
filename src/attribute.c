@@ -92,3 +92,52 @@ WEBCAPI AttributeList MakeAttributeList(Attribute* first, ...)
 
     return result; 
 }
+
+
+WEBCAPI AttributeList ModifierToAttributeList(Modifier modifier)
+{
+    AttributeList list = {0};
+
+    // Count the number of set attributes
+    if (modifier.style != NULL) list.count++;
+    if (modifier.href != NULL) list.count++;
+    if (modifier.id != NULL) list.count++;
+    if (modifier.class != NULL) list.count++;
+    if (modifier.target != NULL) list.count++;
+    if (modifier.src != NULL) list.count++;
+    if (modifier.alt != NULL) list.count++;
+    if (modifier.width > 0) list.count++;
+    if (modifier.height > 0) list.count++;
+
+    list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
+    list.count = 0;
+
+    if(modifier.style != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_STYLE, modifier.style);
+
+    if(modifier.href != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_HREF, modifier.href);
+    
+    if(modifier.id != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_ID, modifier.id);
+    
+    if(modifier.class != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_CLASS, modifier.class);
+    
+    if(modifier.target != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_TARGET, modifier.target);
+
+    if(modifier.src != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_SRC, modifier.src);
+
+    if(modifier.alt != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_ALT, modifier.alt);
+
+    if(modifier.width > 0)
+        list.items[list.count++] = MakeAttribute(ATTR_WIDTH, clib_format_text("%zu", modifier.width));
+
+    if(modifier.height > 0)
+        list.items[list.count++] = MakeAttribute(ATTR_HEIGHT, clib_format_text("%zu", modifier.height));
+
+    return list;
+}

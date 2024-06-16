@@ -93,14 +93,15 @@ char* Index()
         Abbr(&buffer, MakeAttributeList(MakeAttribute(ATTR_TITLE, "World Health Organization"), NULL), "WHO");
 
         Address(&buffer, NO_ATTRIBUTES, address_content);
+
+        Modifier image_modifier = {
+            .src = "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
+            .alt = "chameleon",
+            .width = 500,
+            .height = 300
+        };
         Img(&buffer, 
-            MakeAttributeList(
-                MakeAttribute(ATTR_SRC, "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"),
-                MakeAttribute(ATTR_ALT, "chameleon"),
-                MakeAttribute(ATTR_WIDTH, "500"),
-                MakeAttribute(ATTR_HEIGHT, "300"),
-                NULL
-            )
+            ModifierToAttributeList(image_modifier)
         );
 
         Ul(&buffer, MakeAttributeList(MakeAttribute(ATTR_STYLE, "background-color: #181818;"), NULL), list_fruits);
