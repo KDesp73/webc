@@ -136,6 +136,11 @@ WEBCAPI void DivEnd(char** buffer)
     Append(buffer, CLOSING_TAG("div"));
 }
 
+WEBCAPI void Header(char **buffer, AttributeList attributes, BlockContents contents)
+{
+    BlockAttr(buffer, "header", attributes, contents);
+}
+
 WEBCAPI void Heading(char** buffer, AttributeList attributes, size_t size, Cstr text){
     if(size == 0 || size > 6) {
         PANIC("Heading size should be between 1 and 6");

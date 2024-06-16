@@ -321,6 +321,7 @@ WEBCAPI void Figcaption(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Figure(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Footer(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Form (char** buffer, AttributeList attributes, BlockContents contents);
+WEBCAPI void Header(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Heading(char** buffer, AttributeList attributes, size_t size, Cstr text);
 WEBCAPI void Hgroup(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void I(char** buffer, AttributeList attributes, Cstr text);

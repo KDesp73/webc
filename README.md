@@ -16,11 +16,10 @@ Write websites using the far superior (and actual programming language) C.
 
 int main(void)
 {
-    Cstr output = "index.html";
-    char* file = NULL;
+    char* buffer = NULL;
 
-    HtmlInit(&file, "en");
-    Header(&file, "WebC-Example",
+    HtmlInit(&buffer, "en");
+    Header(&buffer, "WebC-Example",
         MakeTag("meta",
             MakeAttribute(ATTR_NAME, "author"),
             MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
@@ -33,15 +32,21 @@ int main(void)
         NULL
     );
 
-    BodyStart(&file);
+    BodyStart(&buffer);
         for(size_t i = 1; i <= 6; ++i){
-            Heading(&file, i, clib_format_text("Heading %zu", i));
+            Heading(&buffer, i, clib_format_text("Heading %zu", i));
         }
-        Paragraph(&file, "Hello from C");
-    BodyEnd(&file);
+        Paragraph(&buffer, "Hello from C");
+    BodyEnd(&buffer);
 
-    Export(file, output);
-    Clean(&file);
+    Cstr root = "site/"
+    Route index = {
+        .path = root,
+        .buffer = buffer
+    };
+
+    ExportRoute(index);
+    Clean(&buffer);
     return 0;
 }
 ```
