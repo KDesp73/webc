@@ -229,7 +229,7 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr);
  *
  * @return AttrubuteList
  */
-WEBCAPI AttributeList ModifierToAttributeList(Modifier modifier);
+WEBCAPI AttributeList UseModifier(Modifier modifier);
 
 // ############ Elements ############ //
 

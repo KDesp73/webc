@@ -7,10 +7,10 @@
 void address_content(char** buffer)
 {
     PlainText(buffer, "Written by ");
-    Anchor(buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "https://github.com/KDesp73"), MakeAttribute(ATTR_TARGET, "_blank"), NULL), "KDesp73");
+    Anchor(buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "KDesp73"), MakeAttribute(ATTR_TARGET, "_blank"), NULL), "KDesp73");
     Br(buffer);
     PlainText(buffer, "Source code at: ");
-    Anchor(buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "https://github.com/KDesp73/webc"), MakeAttribute(ATTR_TARGET, "_blank"), NULL), "webc");
+    Anchor(buffer, MakeAttributeList(MakeAttribute(ATTR_HREF, "KDesp73/webc"), MakeAttribute(ATTR_TARGET, "_blank"), NULL), "webc");
 }
 
 void text_demo(char** buffer){
@@ -96,11 +96,10 @@ char* Index()
             .src = "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
             .alt = "chameleon",
             .width = 500,
-            .height = 300
+            .height = 300,
         };
-        Img(&buffer, 
-            ModifierToAttributeList(image_modifier)
-        );
+
+        Img(&buffer, UseModifier(image_modifier));
 
         Ul(&buffer, MakeAttributeList(MakeAttribute(ATTR_STYLE, "background-color: #181818;"), NULL), list_fruits);
         text_demo(&buffer);

@@ -94,7 +94,7 @@ WEBCAPI AttributeList MakeAttributeList(Attribute* first, ...)
 }
 
 
-WEBCAPI AttributeList ModifierToAttributeList(Modifier modifier)
+WEBCAPI AttributeList UseModifier(Modifier modifier)
 {
     AttributeList list = {0};
 
