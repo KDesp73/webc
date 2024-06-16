@@ -43,7 +43,7 @@
 
 // ############ Constants ############ //
 
-#define MAX_BUFFER_SIZE 1024
+// #define MAX_BUFFER_SIZE 1024
 
 // ############ Types ############ //
 
@@ -402,5 +402,21 @@ The following macros are used to append the html tags that don't require closing
 #define Track(buffer, attr) \
     Append(buffer, TagToString(MakeTag("track", attr)))
 
+/*
+Specific Heading elements
+*/
+
+#define H1(buffer, attr, text) \
+    Heading(buffer, attr, 1, text);
+#define H2(buffer, attr, text) \
+    Heading(buffer, attr, 2, text);
+#define H3(buffer, attr, text) \
+    Heading(buffer, attr, 3, text);
+#define H4(buffer, attr, text) \
+    Heading(buffer, attr, 4, text);
+#define H5(buffer, attr, text) \
+    Heading(buffer, attr, 5, text);
+#define H6(buffer, attr, text) \
+    Heading(buffer, attr, 6, text);
 
 #endif // WEBC_H

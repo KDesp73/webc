@@ -73,10 +73,8 @@ char* Index()
 
     ScriptStart(&buffer);
         Javascript(&buffer, "INFO = (str) => { console.log('[INFO] ' + str); }");
-        Javascript(&buffer, "console.log('Hello World!');");
         Javascript(&buffer, "INFO('Website made by KDesp73')");
         Javascript(&buffer, "INFO('Using webc')");
-        Javascript(&buffer, "a = () => {console.log('hi');}");
     ScriptEnd(&buffer);
 
 

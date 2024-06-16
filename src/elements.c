@@ -70,7 +70,7 @@ WEBCAPI void HtmlStart(char**buffer, Cstr lang)
         PANIC("Language is NULL");
     }
 
-    *buffer = (char*) malloc(MAX_BUFFER_SIZE);
+    *buffer = (char*) malloc(0);
     if(*buffer == NULL){
         PANIC("Couldnt initialize buffer");
     }
