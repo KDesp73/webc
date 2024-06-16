@@ -20,8 +20,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- * Written by: KDesp73 (despoinidisk@gmail.com)
+ */
+
+/**
+ * @file webc.h
+ * @author KDesp73 (Konstantinos Despoinidis)
  */
 
 #ifndef WEBC_H
@@ -40,10 +43,7 @@
 
 #define CLIB_IMPLEMENTATION
 #include "extern/clib.h"
-
-// ############ Constants ############ //
-
-// #define MAX_BUFFER_SIZE 1024
+#include "extern/microhttpd.h"
 
 // ############ Types ############ //
 
@@ -175,7 +175,7 @@ WEBCAPI void Append(char** buffer, Cstr text);
 WEBCAPI void Clean(char** buffer);
 
 /**
- * Exports the contents of the buffer to an html file, while also creating the path that is being passed
+ * Exports the contents of the buffer to an html file, while also creating the path that is being passed. Finally the buffer is freed
  *
  * @param buffer The contents of the buffer
  * @param path The path to export the html file to

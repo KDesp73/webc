@@ -1,9 +1,10 @@
 build
 compile_commands.json
 .cache
-webc.so
+libwebc.so
 webc
 site/
 src/main.c
+sync.sh
 
 *.o

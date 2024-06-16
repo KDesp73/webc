@@ -12,6 +12,8 @@ Write websites using the far superior (and actual programming language) C.
 ## Example
 
 ```c
+#include "webc.h"
+
 int main(void)
 {
     Cstr output = "index.html";

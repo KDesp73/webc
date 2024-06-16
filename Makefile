@@ -13,10 +13,7 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 
 # Target: the final executable (FOR TESTING)
 TARGET = webc 
-
-LIB_SOURCES = $(SRC_FILES)
-LIB_OBJECTS = $(OBJ_FILES)
-LIB_NAME = webc.so
+LIB_NAME = libwebc.so
 
 # Default target, build the executable
 all: $(BUILD_DIR) library
@@ -33,8 +30,8 @@ $(TARGET): $(OBJ_FILES)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-library: $(LIB_OBJECTS)
-	$(CC) -shared -o $(LIB_NAME) $(LIB_OBJECTS)
+library: $(OBJ_FILES)
+	$(CC) -shared -o $(LIB_NAME) $(OBJ_FILES)
 
 # Clean rule to remove generated files
 clean:
