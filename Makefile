@@ -6,7 +6,7 @@ INCLUDE_DIR = include
 BUILD_DIR = build
 
 # List all the source files
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+SRC_FILES = $(filter-out $(SRC_DIR)/main.c, $(wildcard $(SRC_DIR)/*.c))
 
 # Generate the corresponding object file names
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
@@ -23,8 +23,8 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 # Rule to build the executable
-$(TARGET): $(OBJ_FILES)
-	$(CC) -o $@ $^
+$(TARGET): $(OBJ_FILES) $(BUILD_DIR)/main.o	
+	$(CC) -o $@ $^ $(LFLAGS)
 
 # Rule to build object files from source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c

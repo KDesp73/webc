@@ -43,7 +43,6 @@
 
 #define CLIB_IMPLEMENTATION
 #include "extern/clib.h"
-#include "extern/microhttpd.h"
 
 // ############ Types ############ //
 

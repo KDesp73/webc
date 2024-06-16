@@ -1,5 +1,6 @@
 #include "webc.h"
 #include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 
 // Not in webc.h
@@ -43,11 +44,16 @@ WEBCAPI void Append(char** buffer, Cstr text)
 WEBCAPI void Export(char* buffer, Cstr path)
 {
     CreatePath(path);
-    Cstr n_path = CONCAT(path, "index.html");
+    Cstr n_path = NULL;
+    
+    if (path[strlen(path) - 1] == PATH_SEP[0]) 
+        n_path = CONCAT(path, "index.html");
+    else
+        n_path = CONCAT(path, "/index.html");
 
     clib_write_file(n_path, buffer, "w");
     Clean(&buffer);
-    INFO("%sindex.html created", path);
+    INFO("%s created", n_path);
 }
 
 WEBCAPI void ExportRoute(Route route)
