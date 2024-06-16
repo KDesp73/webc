@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -fPIC -Iinclude
+CFLAGS = -Wall -ggdb -fPIC -Iinclude
 
 SRC_DIR = src
 INCLUDE_DIR = include
@@ -10,6 +10,9 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 
 # Generate the corresponding object file names
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
+
+# Target: the final executable (FOR TESTING)
+TARGET = webc 
 
 LIB_SOURCES = $(SRC_FILES)
 LIB_OBJECTS = $(OBJ_FILES)
@@ -22,6 +25,10 @@ all: $(BUILD_DIR) library
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
+# Rule to build the executable
+$(TARGET): $(OBJ_FILES)
+	$(CC) -o $@ $^
+
 # Rule to build object files from source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -31,7 +38,7 @@ library: $(LIB_OBJECTS)
 
 # Clean rule to remove generated files
 clean:
-	rm -rf $(BUILD_DIR) $(LIB_NAME)
+	rm -rf $(BUILD_DIR) $(TARGET) $(LIB_NAME)
 
 compile_commands.json: $(SRC_FILES)
 	bear -- make

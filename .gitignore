@@ -2,5 +2,8 @@ build
 compile_commands.json
 .cache
 webc.so
+webc
+site/
+src/main.c
 
 *.o
