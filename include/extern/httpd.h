@@ -71,6 +71,8 @@ struct client_t {
 
 /* ########## Declarations ########## */
 
+HTTPDAPI int has_file_extension(const char *path);
+HTTPDAPI int is_index_html_needed(const char *url);
 HTTPDAPI int str_append(char * s, size_t len, char c);
 HTTPDAPI int method_append(struct request_t * r, char c);
 HTTPDAPI int protocol_append(struct request_t * r, char c);
@@ -98,7 +100,7 @@ HTTPDAPI void print_req(int rc, struct request_t * r);
 HTTPDAPI int run_server(struct server_t * server, const char* root);
 
 
-#ifndef HTTPD_IMPLEMENTATION
+#ifdef HTTPD_IMPLEMENTATION
 
 HTTPDAPI int str_append(char * s, size_t len, char c)
 {
@@ -513,9 +515,31 @@ HTTPDAPI int request_send_file(int sock, const struct request_t * req, const cha
 	return 0;
 }
 
+HTTPDAPI int has_file_extension(const char *path) 
+{
+    const char *extension = strrchr(path, '.');
+    
+    if (extension != NULL) {
+        if (*(extension + 1) != '\0') {
+            return true;
+        }
+    }
+    
+    return false;
+} 
+HTTPDAPI int is_index_html_needed(const char *url) 
+{
+    size_t url_len = strlen(url);
+    if (url_len == 0 || url[url_len - 1] == '/' || !has_file_extension(url)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 HTTPDAPI int request_response(int sock, const struct request_t * req, const char* root)
 {
-	static const char * RESPONSE =
+	static const char * NOT_FOUND_RESPONSE =
 		"HTTP/1.1 404 Not Found\r\n"
 		"Content-Type: text/html\r\n"
 		"Connection: keep-alive\r\n"
@@ -527,13 +551,20 @@ HTTPDAPI int request_response(int sock, const struct request_t * req, const char
 	UNUSED(req);
     Cstr file = CONCAT(root, req->url);
 
-    if(clib_file_exists(file)){
-        return request_send_file(sock, req, CONCAT(root, req->url));
-    } else {
-		length = strlen(RESPONSE);
-		return (write(sock, RESPONSE, length) == length) ? 0 : -1;
+    if(!clib_file_exists(file)){
+        length = strlen(NOT_FOUND_RESPONSE);
+        return (write(sock, NOT_FOUND_RESPONSE, length) == length) ? 0 : -1;
     }
-
+    
+	if (is_index_html_needed(req->url)){
+        size_t url_len = strlen(req->url);
+        if(req->url[url_len] == '/'){
+            return request_send_file(sock, req, CONCAT(file, "index.html"));
+        } else {
+            return request_send_file(sock, req, CONCAT(file, "/", "index.html"));
+        }
+    }
+    return request_send_file(sock, req, CONCAT(root, req->url));
 }
 
 #endif // HTTPD_IMPLEMENTATION

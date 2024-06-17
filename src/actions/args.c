@@ -74,6 +74,7 @@ WEBCAPI void HandleAction(WebcAction action, Tree tree)
             }
 
             Serve(atoi(port_env), tree.root);
+            break;
         }
         case ACTION_PRINT_DOCUMENTS:
             for (size_t i = 0; i < tree.count; ++i) {
@@ -89,9 +90,9 @@ WEBCAPI void HandleAction(WebcAction action, Tree tree)
 WEBCAPI Route* MakeRoute(Cstr path, char* buffer)
 {
     Route* route = (Route*) malloc(sizeof(Route));
-    route->path = (char*) malloc(sizeof(char) * strlen(path));
+    route->path = (char*) malloc(sizeof(char) * (strlen(path) + 1));
     strcpy(route->path, path);
-    route->buffer = (char*) malloc(sizeof(char) * strlen(buffer));
+    route->buffer = (char*) malloc(sizeof(char) * (strlen(buffer) + 1));
     strcpy(route->buffer, buffer);
 
     return route;
@@ -107,7 +108,7 @@ WEBCAPI Tree MakeTree(Cstr root, Route* first, ...)
     va_list args;
     va_start(args, first);
     result.count++;
-    for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
+    for (Route* next = va_arg(args, Route*); next != NULL; next = va_arg(args, Route*)) {
         result.count++;
     }
     va_end(args);

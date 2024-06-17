@@ -63,6 +63,10 @@ typedef enum {
     ATTR_HEIGHT,
     ATTR_ID,
     ATTR_CLASS,
+    ATTR_METHOD,
+    ATTR_TYPE,
+    ATTR_ACTION,
+    ATTR_VALUE,
     
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
@@ -94,6 +98,10 @@ typedef struct {
     size_t height;
     Cstr class;
     Cstr id;
+    Cstr method;
+    Cstr action;
+    Cstr type;
+    Cstr value;
 } Modifier;
 
 typedef void (*BlockContents)(char** buffer);
