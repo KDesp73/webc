@@ -85,11 +85,6 @@ typedef struct {
 } Tag;
 
 typedef struct {
-    Cstr path;
-    char* buffer;
-} Route;
-
-typedef struct {
     Cstr style;
     Cstr src;
     Cstr alt;
@@ -172,21 +167,6 @@ WEBCAPI void Append(char** buffer, Cstr text);
  * @param buffer The buffer to free
  */
 WEBCAPI void Clean(char** buffer);
-
-/**
- * Exports the contents of the buffer to an html file, while also creating the path that is being passed. Finally the buffer is freed
- *
- * @param buffer The contents of the buffer
- * @param path The path to export the html file to
- */
-WEBCAPI void Export(char* buffer, Cstr path);
-
-/**
- * Exports the Route struct containing a buffer and a path
- *
- * @param route The Route struct
- */
-WEBCAPI void ExportRoute(Route route);
 
 // ############ Attributes ############ //
 
