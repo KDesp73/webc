@@ -168,6 +168,11 @@ WEBCAPI void Append(char** buffer, Cstr text);
  */
 WEBCAPI void Clean(char** buffer);
 
+/**
+ * TODO
+ */
+WEBCAPI void IntegrateFile(char** buffer, Cstr path);
+
 // ############ Attributes ############ //
 
 /**
@@ -262,6 +267,7 @@ The following methods are used to append all the available (but not deprecated) 
 */
 
 /**/
+
 WEBCAPI void Abbr(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Address(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Anchor(char** buffer, AttributeList attributes, Cstr text);
@@ -336,12 +342,14 @@ WEBCAPI void Rt(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Ruby(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void S(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Samp(char** buffer, AttributeList attributes, Cstr text);
+WEBCAPI void Script(char**buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Search(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Section(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Select(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Small(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Span(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Strong(char** buffer, AttributeList attributes, Cstr text);
+WEBCAPI void Style(char**buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Sub(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Summary(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Sup(char** buffer, AttributeList attributes, Cstr text);
@@ -361,7 +369,6 @@ WEBCAPI void Ul(char** buffer, AttributeList attributes, BlockContents contents)
 WEBCAPI void Var(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Video(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Wbr(char** buffer, AttributeList attributes, Cstr text);
-
 /* 
 The following macros are used to append the html tags that don't require closing to the buffer
 */

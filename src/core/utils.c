@@ -15,3 +15,14 @@ WEBCAPI void Clean(char** buffer)
     free(*buffer);
     *buffer = NULL;
 }
+
+WEBCAPI void IntegrateFile(char** buffer, Cstr path)
+{
+    Cstr contents = clib_read_file(path);
+    
+    if(contents == NULL){
+        PANIC("Couldn't read file: %s", path);
+    }
+
+    Append(buffer, contents);
+}

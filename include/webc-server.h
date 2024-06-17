@@ -25,6 +25,7 @@
 /**
  * @file webc-server.h
  * @author KDesp73 (Konstantinos Despoinidis)
+ * @version 0.0.0
  */
 
 #ifndef WEBCSERVER_H

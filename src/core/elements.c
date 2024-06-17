@@ -184,6 +184,16 @@ WEBCAPI void Div(char** buffer, AttributeList attributes, BlockContents contents
     BlockAttr(buffer, "div", attributes, contents);
 }
 
+WEBCAPI void Style(char**buffer, AttributeList attributes, BlockContents contents)
+{
+    BlockAttr(buffer, "style", attributes, contents);
+}
+
+WEBCAPI void Script(char**buffer, AttributeList attributes, BlockContents contents)
+{
+    BlockAttr(buffer, "script", attributes, contents);
+}
+
 WEBCAPI void Cite(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "cite", attributes, text);
