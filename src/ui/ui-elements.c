@@ -2,5 +2,5 @@
 
 WEBCAPI void UIButton(char **buffer, Modifier modifier, Cstr text)
 {
-    PANIC("Not implemented yet.");
+    PANIC("'UIButton' Not implemented yet.");
 }
