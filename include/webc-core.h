@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2024 Konstantinos Despoinidis
+ * Copyright (c) 2024 Konstantinos Despoinidis 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 /**
- * @file webc.h
+ * @file webc-core.h
  * @author KDesp73 (Konstantinos Despoinidis)
  */
 

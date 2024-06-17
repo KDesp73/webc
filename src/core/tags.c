@@ -1,4 +1,4 @@
-#include "webc.h"
+#include "webc-core.h"
 #include <stdlib.h>
 
 WEBCAPI void CleanTag(Tag** tag)
