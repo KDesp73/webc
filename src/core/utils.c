@@ -1,10 +1,10 @@
-#include "webc.h"
+#include "webc-core.h"
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 
-// Not in webc.h
-WEBCAPI void CreatePath(const char *path) {
+// Not in webc-core.h
+void CreatePath(const char *path) {
     char *token;
     char *path_copy = strdup(path);
     char *current_dir = NULL;

@@ -1,4 +1,4 @@
-#include "webc.h"
+#include "webc-core.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
