@@ -37,7 +37,8 @@ typedef enum {
     ACTION_EXPORT = 0,
     ACTION_SERVE_STATIC,
     ACTION_SERVE_DYNAMIC,
-    ACTION_SERVE_EXPORTED_STATIC
+    ACTION_SERVE_EXPORTED_STATIC,
+    ACTION_PRINT_DOCUMENTS
 } WebcAction;
 
 typedef struct {
@@ -46,6 +47,7 @@ typedef struct {
 } Route;
 
 typedef struct {
+    Cstr root;
     Route** routes;
     size_t count;
 } Tree;
@@ -58,7 +60,7 @@ WEBCAPI Route* MakeRoute(Cstr path, char* buffer);
 /**
  * TODO
  */
-WEBCAPI Tree MakeTree(Route* first, ...);
+WEBCAPI Tree MakeTree(Cstr root, Route* first, ...);
 
 /**
  * TODO

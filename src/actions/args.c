@@ -1,4 +1,5 @@
 #include "webc-actions.h"
+#include "webc-server.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -11,13 +12,15 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
         exit(1);
     }
 
-    CliArguments args = clib_make_cli_arguments(6,
+    CliArguments args = clib_make_cli_arguments(8,
         clib_create_argument('h', "help", "Prints this message", no_argument),
         clib_create_argument('v', "version", "Prints the version of the library", no_argument),
         clib_create_argument('e', "export", "Set action as EXPORT", no_argument),
         clib_create_argument('s', "serve-static", "Set action as SERVE_STATIC", no_argument),
         clib_create_argument('d', "serve-dynamic", "Set action as SERVE_DYNAMIC", no_argument),
-        clib_create_argument('S', "serve-exported-static", "Set action as SERVE_EXPORTED_STATIC", no_argument)
+        clib_create_argument('S', "serve-exported-static", "Set action as SERVE_EXPORTED_STATIC", no_argument),
+        clib_create_argument('p', "port", "Set port", required_argument),
+        clib_create_argument('P', "print-documents", "Set action as PRINT_DOCUMENTS", no_argument)
     );
 
     struct option* opts = clib_get_options(args);
@@ -29,7 +32,7 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
                 clib_cli_help(args, CONCAT(argv[0], " [-h | -v | -s | -d | -S]"), "Made by KDesp73");
                 exit(0);
             case 'v':
-                printf("webc v%s", VERSION);
+                printf("webc v%s\n", VERSION);
                 exit(0);
             case 'e':
                 return ACTION_EXPORT;
@@ -39,6 +42,11 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
                 return ACTION_SERVE_DYNAMIC;
             case 'S':
                 return ACTION_SERVE_EXPORTED_STATIC;
+            case 'p':
+                clib_set_env("WEBC_PORT", optarg, 1);
+                break;
+            case 'P':
+                return ACTION_PRINT_DOCUMENTS;
             default:
                 exit(1);
         }
@@ -59,8 +67,20 @@ WEBCAPI void HandleAction(WebcAction action, Tree tree)
             PANIC("ACTION_SERVE_STATIC not implemented yet");
         case ACTION_SERVE_DYNAMIC:
             PANIC("ACTION_SERVE_DYNAMIC not implemented yet");
-        case ACTION_SERVE_EXPORTED_STATIC:
-            PANIC("ACTION_SERVE_EXPORTED_STATIC not implemented yet");
+        case ACTION_SERVE_EXPORTED_STATIC: {
+            Cstr port_env = clib_get_env("WEBC_PORT");
+            if(port_env == NULL){
+                PANIC("WEBC_PORT environment variable is not set");
+            }
+
+            Serve(atoi(port_env), tree.root);
+        }
+        case ACTION_PRINT_DOCUMENTS:
+            for (size_t i = 0; i < tree.count; ++i) {
+                printf("%s%s%s\n", COLOR_FG(i+1), tree.routes[i]->path, RESET);
+                printf("%s\n\n", tree.routes[i]->buffer);
+            }
+            break;
         default:
             PANIC("Unknown Action");
     }
@@ -77,9 +97,10 @@ WEBCAPI Route* MakeRoute(Cstr path, char* buffer)
     return route;
 }
 
-WEBCAPI Tree MakeTree(Route* first, ...)
+WEBCAPI Tree MakeTree(Cstr root, Route* first, ...)
 {
     Tree result = {0};
+    result.root = root;
     result.count = 0;
     if(first == NULL) return result;
 

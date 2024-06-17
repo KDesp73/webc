@@ -31,8 +31,12 @@
 #ifndef WEBCSERVER_H
 #define WEBCSERVER_H
 
-#define HTTPD_IMPLEMENTATION
+#include "webc-actions.h"
+#include "webc-core.h"
+// #define HTTPD_IMPLEMENTATION
 #include "extern/httpd.h"
+
+WEBCAPI int Serve(int port, Cstr root);
 
 #endif // WEBCSERVER_H
 

@@ -24,6 +24,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)/core
 	mkdir -p $(BUILD_DIR)/ui
 	mkdir -p $(BUILD_DIR)/actions
+	mkdir -p $(BUILD_DIR)/server
 
 # Rule to build the executable
 $(TARGET): $(OBJ_FILES) $(BUILD_DIR)/main.o	

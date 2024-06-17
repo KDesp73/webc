@@ -1105,7 +1105,7 @@ CLIBAPI char* clib_get_env(const char* varname) {
     return getenv(varname);
 }
 
-CLIBAPI int set_envclib_(const char* varname, const char* value, int overwrite) {
+CLIBAPI int clib_set_env(const char* varname, const char* value, int overwrite) {
     return setenv(varname, value, overwrite);
 }
 
