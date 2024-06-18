@@ -5,6 +5,7 @@ libwebc.so
 webc
 site/
 src/main.c
-sync.sh
+sync-docs.sh
+docs/documentation/
 
 *.o
