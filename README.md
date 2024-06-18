@@ -1,55 +1,38 @@
 # webc
 
-Write websites using the far superior (and actual programming language) C. 
-
 <!--toc:start-->
 - [webc](#webc)
+  - [Usage](#usage)
+    - [Build the library for Linux](#build-the-library-for-linux)
+    - [Link the library to your project](#link-the-library-to-your-project)
   - [Example](#example)
   - [Documentation](#documentation)
   - [LICENSE](#license)
 <!--toc:end-->
 
+Write websites using the far superior (and actual programming language) C. 
+
+
+## Usage
+
+### Build the library for Linux
+
+```console
+git clone https://github.com/KDesp73/webc
+cd webc
+make
+```
+
+### Link the library to your project
+
+Add `-Lpath/to/library -lwebc` to your LDFLAGS
+
+Make sure run `export LD_LIBRARY_PATH=D_LIBRARY_PATH:/lib/webc` before compiling
+
+
 ## Example
 
-```c
-#include "webc.h"
-
-int main(void)
-{
-    char* buffer = NULL;
-
-    HtmlInit(&buffer, "en");
-    Header(&buffer, "WebC-Example",
-        MakeTag("meta",
-            MakeAttribute(ATTR_NAME, "author"),
-            MakeAttribute(ATTR_CONTENT, "Konstantinos Despoinidis"),
-            NULL
-        ),
-        MakeTag("link",
-            MakeAttribute(ATTR_HREF, "./style.css"),
-            NULL
-        ),
-        NULL
-    );
-
-    BodyStart(&buffer);
-        for(size_t i = 1; i <= 6; ++i){
-            Heading(&buffer, i, clib_format_text("Heading %zu", i));
-        }
-        Paragraph(&buffer, "Hello from C");
-    BodyEnd(&buffer);
-
-    Cstr root = "site/"
-    Route index = {
-        .path = root,
-        .buffer = buffer
-    };
-
-    ExportRoute(index);
-    Clean(&buffer);
-    return 0;
-}
-```
+See [Examples.md](./docs/Examples.md)
 
 ## Documentation
 

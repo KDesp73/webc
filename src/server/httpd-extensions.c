@@ -1,3 +1,4 @@
+#include "webc-actions.h"
 #include "webc-server.h"
 #include <assert.h>
 #include <string.h>
@@ -24,6 +25,7 @@ WEBCAPI int run_server_tree(struct server_t * server, Tree tree)
 			if (server->func_bad_request)
 				server->func_bad_request(client.sock, &r);
 		}
+        CleanTree(tree);
 		shutdown(client.sock, SHUT_WR);
 		close(client.sock);
 	}

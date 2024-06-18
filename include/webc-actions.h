@@ -25,7 +25,7 @@
 /**
  * @file webc-actions.h
  * @author KDesp73 (Konstantinos Despoinidis)
- * @version 0.0.1
+ * @version 0.0.2
  */
 
 #ifndef WEBCACTIONS_H
@@ -75,6 +75,13 @@ WEBCAPI Route* MakeRoute(Cstr path, char* buffer);
  * @return Tree
  */
 WEBCAPI Tree MakeTree(Cstr root, Route* first, ...);
+#define CleanRoute(route) free(route->buffer);
+#define CleanTree(tree) \
+    do {\
+        for(size_t i = 0; i < tree.count; ++i){ \
+            CleanRoute(tree.routes[i]); \
+        } \
+    } while(0);
 
 /**
  * Parses the cli arguments

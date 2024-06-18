@@ -1,5 +1,6 @@
 #include "webc-actions.h"
 #include "webc-server.h"
+#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -62,6 +63,11 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
     return action;
 }
 
+void siginthandler(int params){
+    INFO("Server closed");
+    exit(0);
+}
+
 WEBCAPI void HandleAction(WebcAction action, Tree tree)
 {
     if(action.export){
@@ -72,6 +78,7 @@ WEBCAPI void HandleAction(WebcAction action, Tree tree)
         if(action.port == 0){
             PANIC("port argument not set");
         }
+        signal(SIGINT, siginthandler);
         INFO("Server started at port %d...", action.port);
         INFO("Press Ctrl+C to stop");
     }
