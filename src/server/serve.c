@@ -1,3 +1,4 @@
+#include "webc-actions.h"
 #include "webc-server.h"
 
 struct server_t setup(int port)
@@ -38,12 +39,20 @@ struct server_t setup(int port)
     return server;
 }
 
-WEBCAPI int ServeExported(int port, Cstr root)
+WEBCAPI int ServeExportedRoot(int port, Cstr root)
 {
     struct server_t server = setup(port);
 	server.func_request.func_request_root= request_response;
 
 	return run_server(&server, root);
+}
+
+WEBCAPI int ServeExported(int port, Tree tree)
+{
+    struct server_t server = setup(port);
+	server.func_request.func_request_root= request_response;
+
+	return run_server(&server, tree.root);
 }
 
 

@@ -31,14 +31,17 @@
 #ifndef WEBCACTIONS_H
 #define WEBCACTIONS_H
 
+#define CLIB_IMPLEMENTATION
+#include "extern/clib.h"
 #include "webc-core.h"
 
-typedef enum {
-    ACTION_EXPORT = 0,
-    ACTION_SERVE_STATIC,
-    ACTION_SERVE_DYNAMIC,
-    ACTION_SERVE_EXPORTED_STATIC,
-    ACTION_PRINT_DOCUMENTS
+typedef struct {
+    Bool export;
+    Bool serve_static;
+    Bool serve_dynamic;
+    Bool serve_exported_static;
+    int port;
+    char* root;
 } WebcAction;
 
 typedef struct {
@@ -53,22 +56,41 @@ typedef struct {
 } Tree;
 
 /**
- * TODO
+ * Creates a Route struct pointer
+ *
+ * @param path The path of the route (physical or virtual)
+ * @param buffer The html to serve or export
+ *
+ * @return Route*
  */
 WEBCAPI Route* MakeRoute(Cstr path, char* buffer);
 
 /**
- * TODO
+ * Creates a Tree struct contatining multiple Route struct pointers
+ *
+ * @param root The root of the tree (in case of serving without exporting it doesn't really matter)
+ * @param first The first Route struct pointer to add 
+ * @param ... The rest of the Route pointers to add
+ *
+ * @return Tree
  */
 WEBCAPI Tree MakeTree(Cstr root, Route* first, ...);
 
 /**
- * TODO
+ * Parses the cli arguments
+ *
+ * @param argc
+ * @param argv
+ *
+ * @return WebcAction struct
  */
 WEBCAPI WebcAction ParseCliArgs(int argc, char** argv);
 
 /**
- * TODO
+ * Depending on the action the method exports / serves the tree (physical or virtual)
+ *
+ * @param action the WebcAction returned from the ParseCliArgs method
+ * @param tree The virtual tree created by the user
  */
 WEBCAPI void HandleAction(WebcAction action, Tree tree);
 
@@ -88,7 +110,9 @@ WEBCAPI void Export(char* buffer, Cstr path);
 WEBCAPI void ExportRoute(Route route);
 
 /**
- * TODO
+ * Exports every Route in the tree
+ *
+ * @param tree The virtual tree created by the user
  */
 WEBCAPI void ExportTree(Tree tree);
 

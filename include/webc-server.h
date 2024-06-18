@@ -36,7 +36,25 @@
 #define HTTPD_IMPLEMENTATION
 #include "extern/httpd.h"
 
-WEBCAPI int ServeExported(int port, Cstr root);
+/**
+ * Serves a physical file tree starting from the root
+ *
+ * @param port The port to start the server from
+ * @param root The root directory
+ *
+ * @return int Success code
+ */
+WEBCAPI int ServeExported(int port, Tree tree);
+WEBCAPI int ServeExportedRoot(int port, Cstr root);
+
+/**
+ * Serves a the virtual tree created by the user without exporting it
+ *
+ * @param port The port to start the server from
+ * @param root The root directory
+ *
+ * @return int Success code
+ */
 WEBCAPI int ServeTree(int port, Tree tree);
 
 // HTTPD Extensions
