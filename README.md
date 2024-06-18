@@ -1,16 +1,17 @@
 # webc
 
+Write websites using the far superior (and actual programming language) C. 
+
 <!--toc:start-->
 - [webc](#webc)
   - [Usage](#usage)
     - [Build the library for Linux](#build-the-library-for-linux)
     - [Link the library to your project](#link-the-library-to-your-project)
-  - [Example](#example)
+  - [Examples](#examples)
   - [Documentation](#documentation)
   - [LICENSE](#license)
 <!--toc:end-->
 
-Write websites using the far superior (and actual programming language) C. 
 
 
 ## Usage
@@ -27,16 +28,18 @@ make
 
 Add `-Lpath/to/library -lwebc` to your LDFLAGS
 
-Make sure run `export LD_LIBRARY_PATH=D_LIBRARY_PATH:/lib/webc` before compiling
+Make sure run `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/lib/webc` before compiling
 
 
-## Example
+## Examples
 
 See [Examples.md](./docs/Examples.md)
 
 ## Documentation
 
-See [webc.h](./include/webc.h)
+The documentation for this library is written in the header files
+
+See [webc-core.h](./include/webc-core.h)
 
 ## LICENSE
 

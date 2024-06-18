@@ -445,9 +445,48 @@ CLIBAPI struct option* clib_get_options(CliArguments args) {
     return options;
 }
 
+static size_t get_max_length(CliArguments args){
+    size_t max_len = 0;
+
+    for(size_t i = 0; i < args.count; ++i){
+        if(args.args[i] == NULL) continue;
+
+        size_t current_len = 0;
+        if(args.args[i]->full == NULL)
+            current_len = strlen(clib_format_text("-%c", args.args[i]->abr));
+        else
+            current_len = strlen(clib_format_text("-%c --%s", args.args[i]->abr, args.args[i]->full));
+        if(current_len > max_len) max_len = current_len;
+    }
+
+    return max_len;
+}
+
+static char* add_spaces(size_t max_len, CliArg* arg){
+    size_t arg_len = 0;
+    if(arg->full == NULL)
+         arg_len = strlen(clib_format_text("-%c", arg->abr));
+    else 
+         arg_len = strlen(clib_format_text("-%c --%s", arg->abr, arg->full));
+
+    size_t GAP = 4;
+
+    char* spaces = (char*) calloc((max_len - arg_len + GAP), sizeof(char));
+    if(spaces == NULL){
+        return NULL;
+    }
+
+    for(size_t i = 0; i < max_len - arg_len + GAP; ++i){
+        strcat(spaces, " ");
+    }
+
+    return spaces;
+}
+
 CLIBAPI void clib_cli_help(CliArguments args, Cstr usage, Cstr footer){
     if(usage) printf("Usage: %s\n\n", usage);
 
+    size_t max_len = get_max_length(args);
     for(size_t i = 0; i < args.count; ++i){
         Cstr has_arg = NULL;
         switch(args.args[i]->argument_required){
@@ -462,11 +501,28 @@ CLIBAPI void clib_cli_help(CliArguments args, Cstr usage, Cstr footer){
                 break;
         }
 
+        char* spaces = add_spaces(max_len, args.args[i]);
         if(args.args[i]->full){
-            printf("-%c --%s\t\t%s %s[%s]%s\n", args.args[i]->abr, args.args[i]->full, args.args[i]->help, COLOR_FG(args.args[i]->argument_required + 1), has_arg, RESET);
+            printf("-%c --%s%s%s %s[%s]%s\n", 
+                args.args[i]->abr, 
+                args.args[i]->full,
+                spaces,
+                args.args[i]->help,
+                COLOR_FG(args.args[i]->argument_required + 1),
+                has_arg,
+                RESET
+            );
         } else {
-            printf("-%c\t\t\t%s %s[%s]%s\n", args.args[i]->abr, args.args[i]->help, COLOR_FG(args.args[i]->argument_required + 1), has_arg, RESET);
+            printf("-%c%s%s %s[%s]%s\n", 
+                args.args[i]->abr, 
+                spaces,
+                args.args[i]->help,
+                COLOR_FG(args.args[i]->argument_required + 1),
+                has_arg,
+                RESET
+            );
         }
+        free(spaces);
     }
     printf("\n");
 
@@ -821,7 +877,7 @@ CLIBAPI CstrArray clib_cstr_array_make(Cstr first, ...) {
 
 CLIBAPI Cstr clib_cstr_array_join(Cstr sep, CstrArray cstrs) {
     if (cstrs.count == 0) {
-        char *empty_str = malloc(1);
+        char *empty_str = (char*) malloc(1);
         if (empty_str == NULL) {
             PANIC("could not allocate memory: %s", strerror(errno));
         }
@@ -841,7 +897,7 @@ CLIBAPI Cstr clib_cstr_array_join(Cstr sep, CstrArray cstrs) {
         PANIC("size overflow in clib_cstr_array_join\n");
     }
 
-    char *result = malloc(result_len);
+    char *result = (char*) malloc(result_len);
     if (result == NULL) {
         PANIC("could not allocate memory: %s", strerror(errno));
     }
@@ -1105,7 +1161,7 @@ CLIBAPI char* clib_get_env(const char* varname) {
     return getenv(varname);
 }
 
-CLIBAPI int clib_set_env(const char* varname, const char* value, int overwrite) {
+CLIBAPI int set_envclib_(const char* varname, const char* value, int overwrite) {
     return setenv(varname, value, overwrite);
 }
 
