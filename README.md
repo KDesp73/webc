@@ -5,7 +5,7 @@
   - [Usage](#usage)
     - [Build the library for Linux](#build-the-library-for-linux)
     - [Link the library to your project](#link-the-library-to-your-project)
-  - [Example](#example)
+  - [Examples](#examples)
   - [Documentation](#documentation)
   - [LICENSE](#license)
 <!--toc:end-->
@@ -30,7 +30,7 @@ Add `-Lpath/to/library -lwebc` to your LDFLAGS
 Make sure run `export LD_LIBRARY_PATH=D_LIBRARY_PATH:/lib/webc` before compiling
 
 
-## Example
+## Examples
 
 See [Examples.md](./docs/Examples.md)
 
