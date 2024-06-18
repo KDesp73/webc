@@ -32,8 +32,8 @@
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 0
-#define VERSION_PATCH 2
-#define VERSION "0.0.2"
+#define VERSION_PATCH 4
+#define VERSION "0.0.4"
 
 #ifndef WEBCAPI
     #define WEBCAPI extern // Functions defined as 'extern' by default (implicit specifiers)
@@ -63,6 +63,10 @@ typedef enum {
     ATTR_HEIGHT,
     ATTR_ID,
     ATTR_CLASS,
+    ATTR_METHOD,
+    ATTR_TYPE,
+    ATTR_ACTION,
+    ATTR_VALUE,
     
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
@@ -94,6 +98,10 @@ typedef struct {
     size_t height;
     Cstr class;
     Cstr id;
+    Cstr method;
+    Cstr action;
+    Cstr type;
+    Cstr value;
 } Modifier;
 
 typedef void (*BlockContents)(char** buffer);
@@ -167,6 +175,11 @@ WEBCAPI void Append(char** buffer, Cstr text);
  * @param buffer The buffer to free
  */
 WEBCAPI void Clean(char** buffer);
+
+/**
+ * TODO
+ */
+WEBCAPI void IntegrateFile(char** buffer, Cstr path);
 
 // ############ Attributes ############ //
 
@@ -262,6 +275,7 @@ The following methods are used to append all the available (but not deprecated) 
 */
 
 /**/
+
 WEBCAPI void Abbr(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Address(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Anchor(char** buffer, AttributeList attributes, Cstr text);
@@ -336,12 +350,14 @@ WEBCAPI void Rt(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Ruby(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void S(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Samp(char** buffer, AttributeList attributes, Cstr text);
+WEBCAPI void Script(char**buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Search(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Section(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Select(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Small(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Span(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Strong(char** buffer, AttributeList attributes, Cstr text);
+WEBCAPI void Style(char**buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Sub(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Summary(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Sup(char** buffer, AttributeList attributes, Cstr text);
@@ -361,7 +377,6 @@ WEBCAPI void Ul(char** buffer, AttributeList attributes, BlockContents contents)
 WEBCAPI void Var(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void Video(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void Wbr(char** buffer, AttributeList attributes, Cstr text);
-
 /* 
 The following macros are used to append the html tags that don't require closing to the buffer
 */

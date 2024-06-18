@@ -1,4 +1,4 @@
 # References
 
-- [Libmicrohttpd Site](https://www.gnu.org/software/libmicrohttpd/)
-- [Libmicrohttpd Tutorial](https://www.gnu.org/software/libmicrohttpd/tutorial.pdf)
+- [httpd](https://github.com/KDesp73/httpd)
+    Forked from [httpd](https://github.com/mariokonrad/httpd)

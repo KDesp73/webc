@@ -1,4 +1,6 @@
 #include "webc-actions.h"
+#include "webc-server.h"
+#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -11,13 +13,17 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
         exit(1);
     }
 
-    CliArguments args = clib_make_cli_arguments(6,
+    WebcAction action = {0};
+
+    CliArguments args = clib_make_cli_arguments(8,
         clib_create_argument('h', "help", "Prints this message", no_argument),
         clib_create_argument('v', "version", "Prints the version of the library", no_argument),
         clib_create_argument('e', "export", "Set action as EXPORT", no_argument),
         clib_create_argument('s', "serve-static", "Set action as SERVE_STATIC", no_argument),
         clib_create_argument('d', "serve-dynamic", "Set action as SERVE_DYNAMIC", no_argument),
-        clib_create_argument('S', "serve-exported-static", "Set action as SERVE_EXPORTED_STATIC", no_argument)
+        clib_create_argument('S', "serve-exported-static", "Set action as SERVE_EXPORTED_STATIC", no_argument),
+        clib_create_argument('p', "port", "Set port", required_argument),
+        clib_create_argument('r', "root", "Set root", required_argument)
     );
 
     struct option* opts = clib_get_options(args);
@@ -26,84 +32,67 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
     while((opt = getopt_long(argc, argv, clib_generate_cli_format_string(args), opts, NULL)) != -1){
         switch (opt) {
             case 'h':
-                clib_cli_help(args, CONCAT(argv[0], " [-h | -v | -s | -d | -S]"), "Made by KDesp73");
+                clib_cli_help(args, CONCAT(argv[0], " [-h | -v ] -e [-s | -S | -d] -p <port> -r <root>"), "Made by KDesp73");
                 exit(0);
             case 'v':
-                printf("webc v%s", VERSION);
+                printf("webc v%s\n", VERSION);
                 exit(0);
             case 'e':
-                return ACTION_EXPORT;
+                action.export = true;
+                break;
             case 's':
-                return ACTION_SERVE_STATIC;
+                action.serve_static = true;
+                break;
             case 'd':
-                return ACTION_SERVE_DYNAMIC;
+                action.serve_dynamic = true;
+                break;
             case 'S':
-                return ACTION_SERVE_EXPORTED_STATIC;
+                action.serve_exported_static = true;
+                break;
+            case 'p':
+                action.port = atoi(optarg);
+                break;
+            case 'r':
+                action.root = optarg;
+                break;
             default:
                 exit(1);
         }
 
     }
-    return -1;
+    return action;
+}
+
+void siginthandler(int params){
+    INFO("Server closed");
+    exit(0);
 }
 
 WEBCAPI void HandleAction(WebcAction action, Tree tree)
 {
-    switch (action) {
-        case ACTION_EXPORT:
-            for (size_t i = 0; i < tree.count; ++i) {
-                ExportRoute(*tree.routes[i]);
-            }
-            break;
-        case ACTION_SERVE_STATIC:
-            PANIC("ACTION_SERVE_STATIC not implemented yet");
-        case ACTION_SERVE_DYNAMIC:
-            PANIC("ACTION_SERVE_DYNAMIC not implemented yet");
-        case ACTION_SERVE_EXPORTED_STATIC:
-            PANIC("ACTION_SERVE_EXPORTED_STATIC not implemented yet");
-        default:
-            PANIC("Unknown Action");
+    if(action.export){
+        ExportTree(tree);
+    } 
+
+    if(action.serve_static || action.serve_dynamic || action.serve_exported_static){
+        if(action.port == 0){
+            PANIC("port argument not set");
+        }
+        signal(SIGINT, siginthandler);
+        INFO("Server started at port %d...", action.port);
+        INFO("Press Ctrl+C to stop");
+    }
+
+    if(action.serve_static){
+        ServeTree(action.port, tree);     
+    } else if(action.serve_dynamic){
+        PANIC("ACTION_SERVE_DYNAMIC is not implemented yet");
+    } else if(action.serve_exported_static){
+        if(action.root != NULL){
+            ServeExportedRoot(action.port, action.root);
+        } else {
+            ServeExported(action.port, tree);
+        }
     }
 }
 
-WEBCAPI Route* MakeRoute(Cstr path, char* buffer)
-{
-    Route* route = (Route*) malloc(sizeof(Route));
-    route->path = (char*) malloc(sizeof(char) * strlen(path));
-    strcpy(route->path, path);
-    route->buffer = (char*) malloc(sizeof(char) * strlen(buffer));
-    strcpy(route->buffer, buffer);
-
-    return route;
-}
-
-WEBCAPI Tree MakeTree(Route* first, ...)
-{
-    Tree result = {0};
-    result.count = 0;
-    if(first == NULL) return result;
-
-    va_list args;
-    va_start(args, first);
-    result.count++;
-    for (Attribute* next = va_arg(args, Attribute*); next != NULL; next = va_arg(args, Attribute*)) {
-        result.count++;
-    }
-    va_end(args);
-
-    result.routes = (Route**) malloc(sizeof(result.routes[0]) * result.count);
-    if (result.routes == NULL) {
-        PANIC("could not allocate memory: %s", strerror(errno));
-    }
-
-    va_start(args, first);
-    result.routes[0] = first;
-    for (size_t i = 1; i < result.count; ++i) {
-        Route* next = va_arg(args, Route*);
-        result.routes[i]= next;
-    }
-    va_end(args);
-
-    return result; 
-    
-}

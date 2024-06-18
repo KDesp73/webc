@@ -7,6 +7,7 @@
 #ifndef HTTPD_H
 #define HTTPD_H
 
+#include "webc-actions.h"
 #ifndef HTTPDAPI
     #define HTTPDAPI static
 #endif // HTTPDAPI
@@ -15,6 +16,8 @@
 
 /* ########## Includes ########## */
 
+#define CLIB_IMPLEMENTATION
+#include "clib.h"
 #include <sys/socket.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -49,15 +52,20 @@ struct request_t {
 };
 
 struct response_t {
-	char head[256];
+	char head[2048];
 };
+
+typedef union {
+	int (*func_request_root)(int, const struct request_t *, const char*);
+	int (*func_request_tree)(int, const struct request_t *, Tree);
+} request_functiont_t;
 
 struct server_t {
 	int sock;
 	struct sockaddr_in addr;
 
 	int (*func_bad_request)(int, const struct request_t *);
-	int (*func_request)(int, const struct request_t *);
+    request_functiont_t func_request;
 };
 
 struct client_t {
@@ -66,18 +74,12 @@ struct client_t {
 	socklen_t len;
 };
 
-static int str_append(char * s, size_t len, char c)
-{
-	size_t l = strlen(s);
-	if (l < len) {
-		s[l]= c;
-		return 0;
-	}
-	return -1;
-}
 
 /* ########## Declarations ########## */
 
+HTTPDAPI int has_file_extension(const char *path);
+HTTPDAPI int is_index_html_needed(const char *url);
+HTTPDAPI int str_append(char * s, size_t len, char c);
 HTTPDAPI int method_append(struct request_t * r, char c);
 HTTPDAPI int protocol_append(struct request_t * r, char c);
 HTTPDAPI void request_clear(struct request_t * r);
@@ -85,7 +87,6 @@ HTTPDAPI int url_append(struct request_t * r, char c);
 HTTPDAPI int query_append(struct request_t * r, char c);
 HTTPDAPI int query_next(struct request_t * r);
 HTTPDAPI void clear(char * s, size_t len);
-HTTPDAPI int append(char * s, size_t len, char c);
 HTTPDAPI void clear_header_property(struct header_property_t * prop);
 HTTPDAPI int append(char * s, size_t len, char c);
 HTTPDAPI int parse(int client_sock, struct request_t * r);
@@ -94,16 +95,33 @@ HTTPDAPI void response_init(struct response_t * res);
 HTTPDAPI int response_append_content_type(struct response_t * res, const char * mime);
 HTTPDAPI int response_append(struct response_t * res, const char * text, size_t len);
 HTTPDAPI int response_append_no_cache(struct response_t * res);
-HTTPDAPI int response_append_connection_close(struct response_t * res);
+HTTPDAPI int response_append_connection_keep_alive(struct response_t * res);
 HTTPDAPI int response_append_header_start(struct response_t * res);
 HTTPDAPI int response_append_header_end(struct response_t * res);
 HTTPDAPI int send_header_mime(int sock, const char * mime);
 HTTPDAPI int request_send_file(int sock, const struct request_t * req, const char * filename);
-HTTPDAPI int request_response(int sock, const struct request_t * req);
+HTTPDAPI int request_response(int sock, const struct request_t * req, const char* root);
 HTTPDAPI void print_req(int rc, struct request_t * r);
-HTTPDAPI int run_server(struct server_t * server);
+HTTPDAPI int run_server(struct server_t * server, const char* root);
+
+static const char * NOT_FOUND_RESPONSE =
+    "HTTP/1.1 404 Not Found\r\n"
+    "Content-Type: text/html\r\n"
+    "Connection: keep-alive\r\n"
+    "\r\n"
+    "<html><body>404 Not Found</body></html>\r\n"; // TODO: Better 404 Page (and error pages in general)
 
 #ifdef HTTPD_IMPLEMENTATION
+
+HTTPDAPI int str_append(char * s, size_t len, char c)
+{
+	size_t l = strlen(s);
+	if (l < len) {
+		s[l]= c;
+		return 0;
+	}
+	return -1;
+}
 
 HTTPDAPI int method_append(struct request_t * r, char c)
 {
@@ -370,7 +388,7 @@ HTTPDAPI void print_req(int rc, struct request_t * r)
 	printf("\n");
 }
 
-HTTPDAPI int run_server(struct server_t * server)
+HTTPDAPI int run_server(struct server_t * server, const char* root)
 {
 	struct client_t client;
 	struct request_t r;
@@ -386,8 +404,8 @@ HTTPDAPI int run_server(struct server_t * server)
 		rc = parse(client.sock, &r);
 		print_req(rc, &r);
 		if (rc == 0) {
-			if (server->func_request)
-				server->func_request(client.sock, &r);
+			if (server->func_request.func_request_root)
+				server->func_request.func_request_root(client.sock, &r, root);
 		} else {
 			if (server->func_bad_request)
 				server->func_bad_request(client.sock, &r);
@@ -404,7 +422,7 @@ HTTPDAPI int request_bad(int sock, const struct request_t * req)
 		"Content-Type: text/html\r\n"
 		"Pragma: no-cache\r\n"
 		"Cache-Control: no-cache\r\n"
-		"Connection: close\r\n"
+		"Connection: keep-alive\r\n"
 		"\r\n"
 		"<html><body>Bad Request</body></html>\r\n";
 
@@ -450,9 +468,9 @@ HTTPDAPI int response_append_no_cache(struct response_t * res)
 	return response_append(res, TEXT, strlen(TEXT));
 }
 
-HTTPDAPI int response_append_connection_close(struct response_t * res)
+HTTPDAPI int response_append_connection_keep_alive(struct response_t * res)
 {
-	static const char * TEXT = "Connection: close\r\n";
+	static const char * TEXT = "Connection: keep-alive\r\n";
 	return response_append(res, TEXT, strlen(TEXT));
 }
 
@@ -477,7 +495,7 @@ HTTPDAPI int send_header_mime(int sock, const char * mime)
 	response_append_header_start(&res);
 	response_append_content_type(&res, mime);
 	response_append_no_cache(&res);
-	response_append_connection_close(&res);
+	response_append_connection_keep_alive(&res);
 	response_append_header_end(&res);
 
 	len = (int)strlen(res.head);
@@ -508,27 +526,49 @@ HTTPDAPI int request_send_file(int sock, const struct request_t * req, const cha
 	return 0;
 }
 
-HTTPDAPI int request_response(int sock, const struct request_t * req)
+HTTPDAPI int has_file_extension(const char *path) 
 {
-	static const char * RESPONSE =
-		"HTTP/1.1 200 OK\r\n"
-		"Content-Type: text/html\r\n"
-		"Pragma: no-cache\r\n"
-		"Cache-Control: no-cache\r\n"
-		"Connection: close\r\n"
-		"\r\n"
-		"<html><body>Welcome (default response)</body></html>\r\n";
+    const char *extension = strrchr(path, '.');
+    
+    if (extension != NULL) {
+        if (*(extension + 1) != '\0') {
+            return true;
+        }
+    }
+    
+    return false;
+} 
+HTTPDAPI int is_index_html_needed(const char *url) 
+{
+    size_t url_len = strlen(url);
+    if (url_len == 0 || url[url_len - 1] == '/' || !has_file_extension(url)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
+HTTPDAPI int request_response(int sock, const struct request_t * req, const char* root)
+{
 	int length = 0;
 
 	UNUSED(req);
+    Cstr file = CONCAT(root, req->url);
 
-	if (strcmp(req->url, "/") == 0) {
-		return request_send_file(sock, req, "index.html");
-	} else {
-		length = strlen(RESPONSE);
-		return (write(sock, RESPONSE, length) == length) ? 0 : -1;
-	}
+    if(!clib_file_exists(file)){
+        length = strlen(NOT_FOUND_RESPONSE);
+        return (write(sock, NOT_FOUND_RESPONSE, length) == length) ? 0 : -1;
+    }
+    
+	if (is_index_html_needed(req->url)){
+        size_t url_len = strlen(req->url);
+        if(req->url[url_len] == '/'){
+            return request_send_file(sock, req, CONCAT(file, "index.html"));
+        } else {
+            return request_send_file(sock, req, CONCAT(file, "/", "index.html"));
+        }
+    }
+    return request_send_file(sock, req, CONCAT(root, req->url));
 }
 
 #endif // HTTPD_IMPLEMENTATION

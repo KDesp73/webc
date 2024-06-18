@@ -63,6 +63,14 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr)
             return "width";
         case ATTR_HEIGHT:
             return "height";
+        case ATTR_METHOD:
+            return "method";
+        case ATTR_TYPE:
+            return "type";
+        case ATTR_ACTION:
+            return "action";
+        case ATTR_VALUE:
+            return "value";
         default:
             return NULL;
     }
@@ -113,6 +121,10 @@ WEBCAPI AttributeList UseModifier(Modifier modifier)
     if (modifier.alt != NULL) list.count++;
     if (modifier.width > 0) list.count++;
     if (modifier.height > 0) list.count++;
+    if (modifier.type != NULL) list.count++;
+    if (modifier.action != NULL) list.count++;
+    if (modifier.method != NULL) list.count++;
+    if (modifier.value != NULL) list.count++;
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -143,6 +155,18 @@ WEBCAPI AttributeList UseModifier(Modifier modifier)
 
     if(modifier.height > 0)
         list.items[list.count++] = MakeAttribute(ATTR_HEIGHT, clib_format_text("%zu", modifier.height));
+
+    if (modifier.type != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_TYPE,  modifier.type);
+
+    if (modifier.action != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_ACTION,  modifier.action);
+
+    if (modifier.method != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_METHOD,  modifier.method);
+
+    if (modifier.value != NULL)
+        list.items[list.count++] = MakeAttribute(ATTR_VALUE,  modifier.value);
 
     return list;
 }
