@@ -49,3 +49,15 @@ WEBCAPI void ExportRoute(Route route)
 {
     Export(route.buffer, route.path);
 }
+
+void ExportRouteRoot(Cstr root, Route route)
+{
+    Export(route.buffer, CONCAT(root, route.path));
+}
+
+WEBCAPI void ExportTree(Tree tree)
+{
+    for (size_t i = 0; i < tree.count; ++i) {
+        ExportRouteRoot(tree.root, *tree.routes[i]);
+    }
+}

@@ -1,6 +1,6 @@
 #include "webc-server.h"
 
-WEBCAPI int Serve(int port, Cstr root)
+struct server_t setup(int port)
 {
 	static struct server_t server;
 	const int reuse = 1;
@@ -34,7 +34,23 @@ WEBCAPI int Serve(int port, Cstr root)
 	}
 
 	server.func_bad_request = request_bad;
-	server.func_request = request_response;
+
+    return server;
+}
+
+WEBCAPI int ServeExported(int port, Cstr root)
+{
+    struct server_t server = setup(port);
+	server.func_request.func_request_root= request_response;
 
 	return run_server(&server, root);
+}
+
+
+WEBCAPI int ServeTree(int port, Tree tree)
+{
+    struct server_t server = setup(port);
+	server.func_request.func_request_tree = request_response_tree;
+    
+	return run_server_tree(&server, tree);
 }

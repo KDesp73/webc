@@ -31,11 +31,17 @@
 #ifndef WEBCSERVER_H
 #define WEBCSERVER_H
 
+#include "webc-actions.h"
 #include "webc-core.h"
 #define HTTPD_IMPLEMENTATION
 #include "extern/httpd.h"
 
-WEBCAPI int Serve(int port, Cstr root);
+WEBCAPI int ServeExported(int port, Cstr root);
+WEBCAPI int ServeTree(int port, Tree tree);
+
+// HTTPD Extensions
+WEBCAPI int request_response_tree(int sock, const struct request_t* req, Tree tree);
+WEBCAPI int run_server_tree(struct server_t * server, Tree tree);
 
 #endif // WEBCSERVER_H
 

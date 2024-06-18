@@ -7,6 +7,7 @@
 #ifndef HTTPD_H
 #define HTTPD_H
 
+#include "webc-actions.h"
 #ifndef HTTPDAPI
     #define HTTPDAPI static
 #endif // HTTPDAPI
@@ -51,15 +52,20 @@ struct request_t {
 };
 
 struct response_t {
-	char head[256];
+	char head[2048];
 };
+
+typedef union {
+	int (*func_request_root)(int, const struct request_t *, const char*);
+	int (*func_request_tree)(int, const struct request_t *, Tree);
+} request_functiont_t;
 
 struct server_t {
 	int sock;
 	struct sockaddr_in addr;
 
 	int (*func_bad_request)(int, const struct request_t *);
-	int (*func_request)(int, const struct request_t *, const char*);
+    request_functiont_t func_request;
 };
 
 struct client_t {
@@ -81,7 +87,6 @@ HTTPDAPI int url_append(struct request_t * r, char c);
 HTTPDAPI int query_append(struct request_t * r, char c);
 HTTPDAPI int query_next(struct request_t * r);
 HTTPDAPI void clear(char * s, size_t len);
-HTTPDAPI int append(char * s, size_t len, char c);
 HTTPDAPI void clear_header_property(struct header_property_t * prop);
 HTTPDAPI int append(char * s, size_t len, char c);
 HTTPDAPI int parse(int client_sock, struct request_t * r);
@@ -99,6 +104,12 @@ HTTPDAPI int request_response(int sock, const struct request_t * req, const char
 HTTPDAPI void print_req(int rc, struct request_t * r);
 HTTPDAPI int run_server(struct server_t * server, const char* root);
 
+static const char * NOT_FOUND_RESPONSE =
+    "HTTP/1.1 404 Not Found\r\n"
+    "Content-Type: text/html\r\n"
+    "Connection: keep-alive\r\n"
+    "\r\n"
+    "<html><body>404 Not Found</body></html>\r\n"; // TODO: Better 404 Page (and error pages in general)
 
 #ifdef HTTPD_IMPLEMENTATION
 
@@ -393,8 +404,8 @@ HTTPDAPI int run_server(struct server_t * server, const char* root)
 		rc = parse(client.sock, &r);
 		print_req(rc, &r);
 		if (rc == 0) {
-			if (server->func_request)
-				server->func_request(client.sock, &r, root);
+			if (server->func_request.func_request_root)
+				server->func_request.func_request_root(client.sock, &r, root);
 		} else {
 			if (server->func_bad_request)
 				server->func_bad_request(client.sock, &r);
@@ -539,13 +550,6 @@ HTTPDAPI int is_index_html_needed(const char *url)
 
 HTTPDAPI int request_response(int sock, const struct request_t * req, const char* root)
 {
-	static const char * NOT_FOUND_RESPONSE =
-		"HTTP/1.1 404 Not Found\r\n"
-		"Content-Type: text/html\r\n"
-		"Connection: keep-alive\r\n"
-		"\r\n"
-		"<html><body>404 Not Found</body></html>\r\n";
-
 	int length = 0;
 
 	UNUSED(req);

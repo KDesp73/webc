@@ -59,21 +59,23 @@ WEBCAPI void HandleAction(WebcAction action, Tree tree)
 {
     switch (action) {
         case ACTION_EXPORT:
-            for (size_t i = 0; i < tree.count; ++i) {
-                ExportRoute(*tree.routes[i]);
-            }
+            ExportTree(tree);
             break;
         case ACTION_SERVE_STATIC:
-            PANIC("ACTION_SERVE_STATIC not implemented yet");
         case ACTION_SERVE_DYNAMIC:
-            PANIC("ACTION_SERVE_DYNAMIC not implemented yet");
         case ACTION_SERVE_EXPORTED_STATIC: {
             Cstr port_env = clib_get_env("WEBC_PORT");
             if(port_env == NULL){
                 PANIC("WEBC_PORT environment variable is not set");
             }
 
-            Serve(atoi(port_env), tree.root);
+            if(action == ACTION_SERVE_STATIC){
+                ServeTree(atoi(port_env), tree);     
+            } else if(action == ACTION_SERVE_DYNAMIC){
+                PANIC("ACTION_SERVE_DYNAMIC is not implemented yet");
+            } else if(action == ACTION_SERVE_EXPORTED_STATIC){
+                ServeExported(atoi(port_env), tree.root);
+            }
             break;
         }
         case ACTION_PRINT_DOCUMENTS:
@@ -98,6 +100,7 @@ WEBCAPI Route* MakeRoute(Cstr path, char* buffer)
     return route;
 }
 
+// TODO: dont include the root again in every path
 WEBCAPI Tree MakeTree(Cstr root, Route* first, ...)
 {
     Tree result = {0};
