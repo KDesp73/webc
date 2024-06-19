@@ -12,7 +12,9 @@
     #define HTTPDAPI static
 #endif // HTTPDAPI
 
+#ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 
 /* ########## Includes ########## */
 
