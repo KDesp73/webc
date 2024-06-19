@@ -1,24 +1,25 @@
 CC = cc
 CFLAGS = -Wall -ggdb -fPIC -Iinclude
+LDFLAGS = 
 
 SRC_DIR = src
 INCLUDE_DIR = include
 BUILD_DIR = build
 
-# List all the source files
-SRC_FILES := $(filter-out $(SRC_DIR)/main.c, $(shell find $(SRC_DIR) -name '*.c'))
-
-# Generate the corresponding object file names
+SRC_FILES := $(shell find $(SRC_DIR) -name '*.c')
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 
-# Target: the final executable (FOR TESTING)
-TARGET = webc 
+# chmod 755 libwebc.so
 LIB_NAME = libwebc.so
 
-# Default target, build the executable
-all: $(BUILD_DIR) library
+# chmod 644 libwebc.a
+STATIC_LIB_NAME = libwebc.a
 
-# Rule to create the build directory
+# read access for all users
+DLL_NAME = webc.dll
+
+all: library
+
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 	mkdir -p $(BUILD_DIR)/core
@@ -26,24 +27,22 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)/actions
 	mkdir -p $(BUILD_DIR)/server
 
-# Rule to build the executable
-$(TARGET): $(OBJ_FILES) $(BUILD_DIR)/main.o	
-	$(CC) -o $@ $^ $(LFLAGS)
-
-# Rule to build object files from source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-library: $(OBJ_FILES)
+library: $(BUILD_DIR) $(OBJ_FILES)
 	$(CC) -shared -o $(LIB_NAME) $(OBJ_FILES)
 
-# Clean rule to remove generated files
+static_library: $(BUILD_DIR) $(OBJ_FILES)
+	ar rcs $(STATIC_LIB_NAME) $(OBJ_FILES)
+
+dll: $(BUILD_DIR) $(OBJ_FILES)
+	$(CC) -shared -o $(DLL_NAME) $(OBJ_FILES) -Wl,--out-implib,libwebc.dll.a
+
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET) $(LIB_NAME)
+	rm -rf $(BUILD_DIR) $(LIB_NAME) $(STATIC_LIB_NAME) $(DLL_NAME) libwebc.dll.a
 
 compile_commands.json: $(SRC_FILES)
 	bear -- make
 
-# Phony target to avoid conflicts with file names
-.PHONY: all clean library
-
+.PHONY: all clean library static_library dll

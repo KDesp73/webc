@@ -37,14 +37,23 @@
 #include "extern/httpd.h"
 
 /**
- * Serves a physical file tree starting from the root
+ * Serves the physical file tree exported from this program starting from the root
  *
  * @param port The port to start the server from
- * @param root The root directory
+ * @param tree The virtual tree
  *
  * @return int Success code
  */
 WEBCAPI int ServeExported(int port, Tree tree);
+
+/**
+ * Serves a physical file tree starting from the root
+ *
+ * @param port The port to start the server from
+ * @param root The root directory to start serving from
+ *
+ * @return int Success code
+ */
 WEBCAPI int ServeExportedRoot(int port, Cstr root);
 
 /**
