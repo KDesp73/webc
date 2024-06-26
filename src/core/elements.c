@@ -134,7 +134,7 @@ WEBCAPI void WEBC_Header(char **buffer, AttributeList attributes, BlockContents 
     WEBC_BlockAttr(buffer, "header", attributes, contents);
 }
 
-WEBCAPI void WEBC_WEBC_Heading(char** buffer, AttributeList attributes, size_t size, Cstr text){
+WEBCAPI void WEBC_Heading(char** buffer, AttributeList attributes, size_t size, Cstr text){
     if(size == 0 || size > 6) {
         PANIC("Heading size should be between 1 and 6");
     }

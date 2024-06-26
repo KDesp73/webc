@@ -75,11 +75,11 @@ WEBCAPI Route* WEBC_MakeRoute(Cstr path, char* buffer);
  * @return Tree
  */
 WEBCAPI Tree WEBC_MakeTree(Cstr root, Route* first, ...);
-#define CleanRoute(route) free(route->buffer);
-#define CleanTree(tree) \
+#define WEBC_CleanRoute(route) free(route->buffer);
+#define WEBC_CleanTree(tree) \
     do {\
         for(size_t i = 0; i < tree.count; ++i){ \
-            CleanRoute(tree.routes[i]); \
+            WEBC_CleanRoute(tree.routes[i]); \
         } \
     } while(0);
 

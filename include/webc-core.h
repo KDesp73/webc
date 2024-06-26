@@ -398,19 +398,19 @@ The following macros are used to append the html tags that don't require closing
 #define WEBC_Javascript(buffer, text) \
     WEBC_PlainText(buffer, text)
 #define WEBC_Input(buffer, attr) \
-    WEBC_AppendLn(buffer, TagToString(MakeTag("input", attr)))
+    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("input", attr)))
 #define WEBC_Img(buffer, attr) \
-    WEBC_AppendLn(buffer, TagToString(MakeTag("img", attr)))
+    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("img", attr)))
 #define WEBC_Link(buffer, attr) \
-    WEBC_AppendLn(buffer, TagToString(MakeTag("link", attr)))
+    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("link", attr)))
 #define WEBC_Br(buffer) \
-    WEBC_AppendLn(buffer, TagToString(MakeTag("br", NO_ATTRIBUTES)))
+    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("br", NO_ATTRIBUTES)))
 #define WEBC_Hr(buffer) \
-    WEBC_AppendLn(buffer, TagToString(MakeTag("hr", NO_ATTRIBUTES)))
+    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("hr", NO_ATTRIBUTES)))
 #define WEBC_Source(buffer, attr) \
-    WEBC_AppendLn(buffer, TagToString(MakeTag("source", attr)))
+    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("source", attr)))
 #define WEBC_Track(buffer, attr) \
-    WEBC_AppendLn(buffer, TagToString(MakeTag("track", attr)))
+    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("track", attr)))
 
 /*
 Specific Heading elements
