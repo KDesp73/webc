@@ -28,11 +28,12 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
 
     struct option* opts = clib_get_options(args);
 
+    char* usage = clib_format_text("%s [-h | -v] -e [-s | -S | -d] -p <port> -r <root>", argv[0]);
     int opt;
     while((opt = getopt_long(argc, argv, clib_generate_cli_format_string(args), opts, NULL)) != -1){
         switch (opt) {
             case 'h':
-                clib_cli_help(args, CONCAT(argv[0], " [-h | -v ] -e [-s | -S | -d] -p <port> -r <root>"), "Made by KDesp73");
+                clib_cli_help(args, usage, "Made by KDesp73");
                 exit(0);
             case 'v':
                 printf("webc v%s\n", VERSION);
@@ -60,6 +61,7 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
         }
 
     }
+    free(usage);
     return action;
 }
 

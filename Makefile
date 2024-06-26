@@ -1,6 +1,15 @@
 CC = cc
+
+SANITIZERS = 
 CFLAGS = -Wall -ggdb -fPIC -Iinclude -O0 -g3
 LDFLAGS = 
+
+ifdef SANITIZE
+	SANITIZERS = -fsanitize=address,undefined
+endif
+
+CFLAGS += $(SANITIZERS)
+LDFLAGS += $(SANITIZERS)
 
 ifeq ($(OS),Windows_NT)
     CFLAGS += -DWINDOWS
