@@ -1,5 +1,20 @@
 #include "webc-actions.h"
 
+WEBCAPI void WEBC_CleanRoute(Route* route)
+{
+    free(route->path);
+    free(route->buffer);
+    free(route);
+}
+
+WEBCAPI void WEBC_CleanTree(Tree tree)
+{
+    for(size_t i = 0; i < tree.count; ++i){
+        WEBC_CleanRoute(tree.routes[i]);
+    }
+    free(tree.routes);
+}
+
 WEBCAPI Route* WEBC_MakeRoute(Cstr path, char* buffer)
 {
     Route* route = (Route*) malloc(sizeof(Route));

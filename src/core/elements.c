@@ -37,6 +37,7 @@ WEBCAPI void WEBC_Head(char** buffer, Cstr title, Tag* first, ...)
         char* first_tag_str = (char*) WEBC_TagToString(first);
         WEBC_AppendLn(&head, first_tag_str);
         free(first_tag_str);
+        WEBC_CleanTag(&first);
 
         va_list args;
         va_start(args, first);
@@ -45,9 +46,11 @@ WEBCAPI void WEBC_Head(char** buffer, Cstr title, Tag* first, ...)
             char* tag_str = (char*) WEBC_TagToString(tag);
             WEBC_AppendLn(&head, tag_str);
             free(tag_str);
+            WEBC_CleanTag(&tag);
             tag = va_arg(args, Tag*);
         }
         va_end(args);
+
     }
 
     Cstr title_tag = clib_format_text("<title>%s</title>", title);
@@ -83,50 +86,66 @@ WEBCAPI void WEBC_HtmlStart(char**buffer, Cstr lang)
 
 WEBCAPI void WEBC_HtmlEnd(char** buffer)
 {
-    char* closing_tag = WEBC_CLOSING_TAG("html");
-    WEBC_AppendLn(buffer, closing_tag);
-    free(closing_tag);
+    char* tag = WEBC_CLOSING_TAG("html");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 
 WEBCAPI void WEBC_BodyStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("body"));
+    char* tag = WEBC_OPENING_TAG("body");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_BodyEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("body"));
+    char* tag = WEBC_CLOSING_TAG("body");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_ScriptStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("script"));
+    char* tag = WEBC_OPENING_TAG("script");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_ScriptEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("script"));
+    char* tag = WEBC_CLOSING_TAG("script");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_StyleStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("style"));
+    char* tag = WEBC_OPENING_TAG("style");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_StyleEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("style"));
+    char* tag = WEBC_CLOSING_TAG("style");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_DivStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("div"));
+    char* tag = WEBC_OPENING_TAG("div");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_DivEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("div"));
+    char* tag = WEBC_CLOSING_TAG("div");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
 }
 
 WEBCAPI void WEBC_Header(char **buffer, AttributeList attributes, BlockContents contents)
@@ -139,7 +158,68 @@ WEBCAPI void WEBC_Heading(char** buffer, AttributeList attributes, size_t size, 
         PANIC("Heading size should be between 1 and 6");
     }
 
-    InlineBlock(buffer, clib_format_text("h%zu", size), attributes, text);
+    char* heading = clib_format_text("h%zu", size);
+    InlineBlock(buffer, heading, attributes, text);
+    free(heading);
+}
+
+WEBCAPI void WEBC_Input(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("input", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    free(tag_str);
+    WEBC_CleanTag(&tag);
+}
+
+WEBCAPI void WEBC_Img(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("img", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    free(tag_str);
+    WEBC_CleanTag(&tag);
+}
+
+WEBCAPI void WEBC_Link(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("link", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    free(tag_str);
+    WEBC_CleanTag(&tag);
+}
+
+WEBCAPI void WEBC_Br(char** buffer)
+{
+    char* tag_str = (char*) WEBC_OPENING_TAG("br");
+    WEBC_AppendLn(buffer, tag_str);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_Hr(char** buffer)
+{
+    char* tag_str = (char*) WEBC_OPENING_TAG("hr");
+    WEBC_AppendLn(buffer, tag_str);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_Source(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("source", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    free(tag_str);
+    WEBC_CleanTag(&tag);
+}
+
+WEBCAPI void WEBC_Track(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("track", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    free(tag_str);
+    WEBC_CleanTag(&tag);
 }
 
 WEBCAPI void WEBC_Paragraph(char** buffer, AttributeList attributes, Cstr text)

@@ -76,6 +76,15 @@ WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
     }
 }
 
+WEBCAPI void WEBC_CleanAttributeList(AttributeList list)
+{
+    for(size_t i = 0; i < list.count; ++i){
+        if(list.items != NULL)
+            free(list.items[i]);
+    }
+    free(list.items);
+}
+
 WEBCAPI AttributeList WEBC_MakeAttributeList(Attribute* first, ...)
 {
     AttributeList result = {0};
@@ -130,7 +139,7 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     list.count = 0;
 
     if(modifier.style != NULL)
-        list.items[list.count++] = WEBC_MakeAttribute(ATTR_STYLE, modifier.style);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_STYLE, strdup(modifier.style));
 
     if(modifier.href != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_HREF, modifier.href);
@@ -150,11 +159,17 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if(modifier.alt != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ALT, modifier.alt);
 
-    if(modifier.width > 0)
-        list.items[list.count++] = WEBC_MakeAttribute(ATTR_WIDTH, clib_format_text("%zu", modifier.width));
+    if(modifier.width > 0){
+        char* width = clib_format_text("%zu", modifier.width);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_WIDTH, width);
+        free(width);
+    }
 
-    if(modifier.height > 0)
-        list.items[list.count++] = WEBC_MakeAttribute(ATTR_HEIGHT, clib_format_text("%zu", modifier.height));
+    if(modifier.height > 0){
+        char* height = clib_format_text("%zu", modifier.height);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_HEIGHT, height);
+        free(height);
+    }
 
     if (modifier.type != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_TYPE,  modifier.type);
@@ -163,7 +178,8 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ACTION,  modifier.action);
 
     if (modifier.method != NULL)
-        list.items[list.count++] = WEBC_MakeAttribute(ATTR_METHOD,  modifier.method);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_METHOD,  strdup(modifier.method));
+        
 
     if (modifier.value != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_VALUE,  modifier.value);

@@ -217,6 +217,13 @@ WEBCAPI Attribute* WEBC_MakeAttribute(AttributeName name, Cstr value);
 WEBCAPI AttributeList WEBC_MakeAttributeList(Attribute* first, ...);
 
 /**
+ * Frees the memory allocated bu the AttributeList
+ *
+ * @param list The AttributeList
+ */
+WEBCAPI void WEBC_CleanAttributeList(AttributeList list);
+
+/**
  * Stringifies the AttributeName enum
  *
  * @param attr The enum
@@ -389,6 +396,14 @@ WEBCAPI void WEBC_Var(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Video(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Wbr(char** buffer, AttributeList attributes, Cstr text);
 
+WEBCAPI void WEBC_Input(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_Img(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_Link(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_Br(char** buffer);
+WEBCAPI void WEBC_Hr(char** buffer);
+WEBCAPI void WEBC_Source(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_Track(char** buffer, AttributeList attributes);
+
 /* 
 The following macros are used to append the html tags that don't require closing to the buffer
 */
@@ -397,20 +412,6 @@ The following macros are used to append the html tags that don't require closing
     WEBC_AppendLn(buffer, text)
 #define WEBC_Javascript(buffer, text) \
     WEBC_PlainText(buffer, text)
-#define WEBC_Input(buffer, attr) \
-    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("input", attr)))
-#define WEBC_Img(buffer, attr) \
-    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("img", attr)))
-#define WEBC_Link(buffer, attr) \
-    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("link", attr)))
-#define WEBC_Br(buffer) \
-    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("br", NO_ATTRIBUTES)))
-#define WEBC_Hr(buffer) \
-    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("hr", NO_ATTRIBUTES)))
-#define WEBC_Source(buffer, attr) \
-    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("source", attr)))
-#define WEBC_Track(buffer, attr) \
-    WEBC_AppendLn(buffer, WEBC_TagToString(WEBC_MakeTag("track", attr)))
 
 /*
 Specific Heading elements
