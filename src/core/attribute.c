@@ -19,11 +19,15 @@ WEBCAPI Attribute* WEBC_MakeAttribute(AttributeName name, const char* value)
     }
 
     attr->value = (char*)malloc((strlen(value) + 1));
+    memset(attr->value, 0, strlen(value) + 1);
+
     if (attr->value == NULL) {
         free(attr);
         return NULL;
     }
+
     strcpy(attr->value, value);
+    attr->value[strlen(value)] = '\0';
 
     return attr;
 }
@@ -79,8 +83,10 @@ WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
 WEBCAPI void WEBC_CleanAttributeList(AttributeList list)
 {
     for(size_t i = 0; i < list.count; ++i){
-        if(list.items != NULL)
+        if(list.items != NULL){
+            // free(list.items[i]->value);
             free(list.items[i]);
+        }
     }
     free(list.items);
 }

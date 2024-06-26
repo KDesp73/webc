@@ -555,7 +555,7 @@ HTTPDAPI int request_response(int sock, const struct request_t * req, const char
 	int length = 0;
 
 	UNUSED(req);
-    Cstr file = CONCAT(root, req->url);
+    Cstr file = clib_format_text("%s%s", root, req->url);
 
     if(!clib_file_exists(file)){
         length = strlen(NOT_FOUND_RESPONSE);
@@ -565,12 +565,12 @@ HTTPDAPI int request_response(int sock, const struct request_t * req, const char
 	if (is_index_html_needed(req->url)){
         size_t url_len = strlen(req->url);
         if(req->url[url_len] == '/'){
-            return request_send_file(sock, req, CONCAT(file, "index.html"));
+            return request_send_file(sock, req, clib_format_text("%s%s", file, "index.html"));
         } else {
-            return request_send_file(sock, req, CONCAT(file, "/", "index.html"));
+            return request_send_file(sock, req, clib_format_text("%s/%s", file, "index.html"));
         }
     }
-    return request_send_file(sock, req, CONCAT(root, req->url));
+    return request_send_file(sock, req, clib_format_text("%s%s", root, req->url));
 }
 
 #endif // HTTPD_IMPLEMENTATION

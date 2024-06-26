@@ -23,6 +23,8 @@ WEBCAPI Route* WEBC_MakeRoute(Cstr path, char* buffer)
     route->buffer = (char*) malloc(strlen(buffer) + 1);
     strcpy(route->buffer, buffer);
 
+    free(buffer);
+
     return route;
 }
 

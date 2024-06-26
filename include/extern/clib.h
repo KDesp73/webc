@@ -67,7 +67,7 @@ typedef const char * Cstr;
 typedef uint8_t Bool;
 
 typedef struct {
-    Cstr* items;
+    Cstr** items;
     size_t count;
 } CstrArray;
 
@@ -87,9 +87,6 @@ typedef struct {
 // END [TYPES] END//
 
 // START [DECLARATIONS] START //
-CLIBAPI CstrArray clib_cstr_array_make(Cstr first, ...);
-CLIBAPI Cstr clib_cstr_array_join(Cstr sep, CstrArray cstrs);
-
 #ifndef _WIN32
     #define PATH_SEP "/"
 #else 
@@ -181,9 +178,6 @@ CLIBAPI int clib_file_exists(const char *filename);
 CLIBAPI int clib_eu_mod(int a, int b);
 #define ITOA(s, i) sprintf(s, "%d", i);
 #define FTOA(s, f) sprintf(s, "%f", f);
-#define JOIN(sep, ...) clib_cstr_array_join(sep, clib_cstr_array_make(__VA_ARGS__, NULL))
-#define CONCAT(...) JOIN("", __VA_ARGS__)
-#define PATH(...) JOIN(PATH_SEP, __VA_ARGS__)
 CLIBAPI char* clib_format_text(const char *format, ...);
 
 // CLI
@@ -412,6 +406,7 @@ CLIBAPI void clib_clean_arguments(CliArguments* arguments){
         free(arguments->args[i]->help);
         free(arguments->args[i]);
     }
+    free(arguments->args);
 }
 
 CLIBAPI CliArguments clib_make_cli_arguments(size_t capacity, CliArg* first, ...){
@@ -859,89 +854,6 @@ CLIBAPI int clib_eu_mod(int a, int b){
         r += (b > 0) ? b : -b;
     }
     return r;
-}
-
-// Memory leak
-CLIBAPI CstrArray clib_cstr_array_make(Cstr first, ...) {
-    CstrArray result = {0};
-
-    if (first == NULL) {
-        return result;
-    }
-
-    result.count = 0;
-
-    va_list args;
-    va_start(args, first);
-    for (Cstr next = va_arg(args, Cstr); next != NULL; next = va_arg(args, Cstr)) {
-        result.count++;
-    }
-    va_end(args);
-
-    result.items = (Cstr*) malloc(result.count * sizeof(result.items[0]));
-    if (result.items == NULL) {
-        PANIC("could not allocate memory: %s", strerror(errno));
-    }
-    result.count = 0;
-
-    result.items[result.count++] = first;
-
-    va_start(args, first);
-    for (Cstr next = va_arg(args, Cstr); next != NULL; next = va_arg(args, Cstr)) {
-        result.items[result.count++] = next;
-    }
-    va_end(args);
-
-    return result;
-}
-
-CLIBAPI Cstr clib_cstr_array_join(Cstr sep, CstrArray cstrs) {
-    if (cstrs.count == 0) {
-        char *empty_str = (char*) malloc(1);
-        if (empty_str == NULL) {
-            PANIC("could not allocate memory: %s", strerror(errno));
-        }
-        empty_str[0] = '\0';
-        return empty_str;
-    }
-
-    const size_t sep_len = strlen(sep);
-    size_t len = 0;
-    for (size_t i = 0; i < cstrs.count; ++i) {
-        if(cstrs.items[i] != NULL)
-            len += strlen(cstrs.items[i]);
-    }
-
-    // Check for potential overflow before allocating memory
-    if (sep_len > 0 && (SIZE_MAX - len) / sep_len < (cstrs.count - 1)) {
-        PANIC("size overflow in clib_cstr_array_join\n");
-    }
-
-    const size_t result_len = (cstrs.count - 1) * sep_len + len + 1;
-    if (result_len < len) { // check for overflow
-        PANIC("size overflow in clib_cstr_array_join\n");
-    }
-
-    char *result = (char*) malloc(result_len);
-    if (result == NULL) {
-        PANIC("could not allocate memory: %s", strerror(errno));
-    }
-    memset(result, 0, result_len);
-
-    len = 0;
-    for (size_t i = 0; i < cstrs.count; ++i) {
-        if (i > 0) {
-            memcpy(result + len, sep, sep_len);
-            len += sep_len;
-        }
-
-        size_t elem_len = strlen(cstrs.items[i]);
-        memcpy(result + len, cstrs.items[i], elem_len);
-        len += elem_len;
-    }
-    result[len] = '\0';
-
-    return result;
 }
 
 CLIBAPI char* clib_shift_args(int *argc, char ***argv) {

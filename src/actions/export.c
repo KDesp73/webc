@@ -3,6 +3,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
+// TODO: Add to clib.h
 void CreatePath(const char *path) {
     char *token;
     char *path_copy = strdup(path);
@@ -42,6 +43,7 @@ WEBCAPI void WEBC_Export(char* buffer, Cstr path)
 
     clib_write_file(n_path, buffer, "w");
     INFO("%s created", n_path);
+    free((char*) n_path);
 }
 
 WEBCAPI void WEBC_ExportRoute(Route route)
@@ -51,7 +53,9 @@ WEBCAPI void WEBC_ExportRoute(Route route)
 
 void ExportRouteRoot(Cstr root, Route route)
 {
-    WEBC_Export(route.buffer, clib_format_text("%s%s", root, route.path));
+    char* path = clib_format_text("%s%s", root, route.path);
+    WEBC_Export(route.buffer, path);
+    free(path);
 }
 
 WEBCAPI void WEBC_ExportTree(Tree tree)

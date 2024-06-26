@@ -11,9 +11,14 @@ WEBCAPI void WEBC_Block(char** buffer, Tag* tag, BlockContents contents)
 {
     assert(tag != NULL);
 
-    WEBC_AppendLn(buffer, WEBC_TagToString(tag));
+    char* opening = (char*) WEBC_TagToString(tag);
+    char* closing = (char*) WEBC_ClosingTag(tag);
+    WEBC_AppendLn(buffer, opening);
     contents(buffer);
-    WEBC_AppendLn(buffer, WEBC_ClosingTag(tag));
+    WEBC_AppendLn(buffer, closing);
+
+    free(opening);
+    free(closing);
     WEBC_CleanTag(&tag);
 }
 
@@ -21,7 +26,14 @@ WEBCAPI void InlineBlock(char** buffer, Cstr name, AttributeList attributes, Cst
 {
 
     Tag* tag = WEBC_MakeTag(name, attributes);
-    WEBC_AppendLn(buffer, clib_format_text("%s%s%s", WEBC_TagToString(tag), text, WEBC_ClosingTag(tag)));
+    char* opening = (char*) WEBC_TagToString(tag);
+    char* closing = (char*) WEBC_ClosingTag(tag);
+    char* tag_str = clib_format_text("%s%s%s", opening, text, closing);
+
+    WEBC_AppendLn(buffer, tag_str);
+    free(opening);
+    free(closing);
+    free(tag_str);
     WEBC_CleanTag(&tag);
 }
 
@@ -50,7 +62,6 @@ WEBCAPI void WEBC_Head(char** buffer, Cstr title, Tag* first, ...)
             tag = va_arg(args, Tag*);
         }
         va_end(args);
-
     }
 
     Cstr title_tag = clib_format_text("<title>%s</title>", title);
@@ -59,6 +70,7 @@ WEBCAPI void WEBC_Head(char** buffer, Cstr title, Tag* first, ...)
 
     free((char*) title_tag);
     free((char*) header_str);
+    free(head);
 }
 
 WEBCAPI void WEBC_HtmlStart(char**buffer, Cstr lang)

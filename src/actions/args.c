@@ -29,8 +29,9 @@ WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
     struct option* opts = clib_get_options(args);
 
     char* usage = clib_format_text("%s [-h | -v] -e [-s | -S | -d] -p <port> -r <root>", argv[0]);
+    char* format = clib_generate_cli_format_string(args);
     int opt;
-    while((opt = getopt_long(argc, argv, clib_generate_cli_format_string(args), opts, NULL)) != -1){
+    while((opt = getopt_long(argc, argv, format, opts, NULL)) != -1){
         switch (opt) {
             case 'h':
                 clib_cli_help(args, usage, "Made by KDesp73");
@@ -62,12 +63,14 @@ WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
 
     }
     free(usage);
+    free(format);
+    free(opts);
     clib_clean_arguments(&args);
     return action;
 }
 
 void siginthandler(int params){
-    INFO("Server closed");
+    INFO("\nServer closed");
     exit(0);
 }
 
@@ -83,7 +86,7 @@ WEBCAPI void WEBC_HandleAction(WebcAction action, Tree tree)
         }
         signal(SIGINT, siginthandler);
         INFO("Server started at port %d...", action.port);
-        INFO("Press Ctrl+C to stop");
+        INFO("Press %sCtrl+C%s to stop", COLOR_FG(2), RESET);
     }
 
     if(action.serve_static){
@@ -97,5 +100,10 @@ WEBCAPI void WEBC_HandleAction(WebcAction action, Tree tree)
             WEBC_ServeExported(action.port, tree);
         }
     }
+
+    if(action.root != NULL)
+        free(action.root);
+
+    WEBC_CleanTree(tree);
 }
 
