@@ -4,7 +4,9 @@
 
 WEBCAPI void WEBC_BlockAttr(char** buffer, Cstr name, AttributeList attributes, BlockContents contents)
 {
-    WEBC_Block(buffer, WEBC_MakeTag(name, attributes), contents);
+    Tag* tag = WEBC_MakeTag(name, attributes);
+    WEBC_Block(buffer, tag, contents);
+    WEBC_CleanTag(&tag);
 }
 
 WEBCAPI void WEBC_Block(char** buffer, Tag* tag, BlockContents contents)
@@ -19,7 +21,6 @@ WEBCAPI void WEBC_Block(char** buffer, Tag* tag, BlockContents contents)
 
     free(opening);
     free(closing);
-    WEBC_CleanTag(&tag);
 }
 
 WEBCAPI void InlineBlock(char** buffer, Cstr name, AttributeList attributes, Cstr text)

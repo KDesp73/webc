@@ -145,7 +145,7 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     list.count = 0;
 
     if(modifier.style != NULL)
-        list.items[list.count++] = WEBC_MakeAttribute(ATTR_STYLE, strdup(modifier.style));
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_STYLE, modifier.style);
 
     if(modifier.href != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_HREF, modifier.href);
@@ -184,8 +184,7 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ACTION,  modifier.action);
 
     if (modifier.method != NULL)
-        list.items[list.count++] = WEBC_MakeAttribute(ATTR_METHOD,  strdup(modifier.method));
-        
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_METHOD,  modifier.method);
 
     if (modifier.value != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_VALUE,  modifier.value);

@@ -12,6 +12,7 @@ WEBCAPI void WEBC_CleanTag(Tag** tag)
         free((*tag)->attributes.items[i]);
         (*tag)->attributes.items[i] = NULL;
     }
+
     free((*tag)->attributes.items);
     (*tag)->attributes.items = NULL;
     free(*tag);
