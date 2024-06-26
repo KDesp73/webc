@@ -5,7 +5,7 @@ TODO: implement all elements with modifier
 TODO: fix server issues
 TODO: put logging on a seperate thread
 TODO: resolve all memory leaks
-TODO: prefix everything
 DONE: single header file for easier use
 DONE: add all the existing html tags
 DONE: http server in C to handle both frontend and backend
+DONE: prefix everything

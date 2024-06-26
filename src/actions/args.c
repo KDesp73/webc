@@ -70,7 +70,8 @@ WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
 }
 
 void siginthandler(int params){
-    INFO("\nServer closed");
+    printf("\n");
+    INFO("Server closed");
     exit(0);
 }
 
