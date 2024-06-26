@@ -156,8 +156,8 @@ WEBCAPI Cstr WEBC_TagToString(Tag* tag);
  */
 WEBCAPI void WEBC_CleanTag(Tag** tag);
 
-#define OPENING_TAG(name) clib_format_text("<%s>", name)
-#define CLOSING_TAG(name) clib_format_text("</%s>", name)
+#define WEBC_OPENING_TAG(name) clib_format_text("<%s>", name)
+#define WEBC_CLOSING_TAG(name) clib_format_text("</%s>", name)
 
 // ############ Utils ############ //
 
@@ -393,40 +393,40 @@ WEBCAPI void WEBC_Wbr(char** buffer, AttributeList attributes, Cstr text);
 The following macros are used to append the html tags that don't require closing to the buffer
 */
 
-#define PlainText(buffer, text) \
-    Append(buffer, text)
-#define Javascript(buffer, text) \
-    PlainText(buffer, text)
-#define Input(buffer, attr) \
-    Append(buffer, TagToString(MakeTag("input", attr)))
-#define Img(buffer, attr) \
-    Append(buffer, TagToString(MakeTag("img", attr)))
-#define Link(buffer, attr) \
-    Append(buffer, TagToString(MakeTag("link", attr)))
-#define Br(buffer) \
-    Append(buffer, TagToString(MakeTag("br", NO_ATTRIBUTES)))
-#define Hr(buffer) \
-    Append(buffer, TagToString(MakeTag("hr", NO_ATTRIBUTES)))
-#define Source(buffer, attr) \
-    Append(buffer, TagToString(MakeTag("source", attr)))
-#define Track(buffer, attr) \
-    Append(buffer, TagToString(MakeTag("track", attr)))
+#define WEBC_PlainText(buffer, text) \
+    WEBC_AppendLn(buffer, text)
+#define WEBC_Javascript(buffer, text) \
+    WEBC_PlainText(buffer, text)
+#define WEBC_Input(buffer, attr) \
+    WEBC_AppendLn(buffer, TagToString(MakeTag("input", attr)))
+#define WEBC_Img(buffer, attr) \
+    WEBC_AppendLn(buffer, TagToString(MakeTag("img", attr)))
+#define WEBC_Link(buffer, attr) \
+    WEBC_AppendLn(buffer, TagToString(MakeTag("link", attr)))
+#define WEBC_Br(buffer) \
+    WEBC_AppendLn(buffer, TagToString(MakeTag("br", NO_ATTRIBUTES)))
+#define WEBC_Hr(buffer) \
+    WEBC_AppendLn(buffer, TagToString(MakeTag("hr", NO_ATTRIBUTES)))
+#define WEBC_Source(buffer, attr) \
+    WEBC_AppendLn(buffer, TagToString(MakeTag("source", attr)))
+#define WEBC_Track(buffer, attr) \
+    WEBC_AppendLn(buffer, TagToString(MakeTag("track", attr)))
 
 /*
 Specific Heading elements
 */
 
-#define H1(buffer, attr, text) \
-    Heading(buffer, attr, 1, text);
-#define H2(buffer, attr, text) \
-    Heading(buffer, attr, 2, text);
-#define H3(buffer, attr, text) \
-    Heading(buffer, attr, 3, text);
-#define H4(buffer, attr, text) \
-    Heading(buffer, attr, 4, text);
-#define H5(buffer, attr, text) \
-    Heading(buffer, attr, 5, text);
-#define H6(buffer, attr, text) \
-    Heading(buffer, attr, 6, text);
+#define WEBC_H1(buffer, attr, text) \
+    WEBC_Heading(buffer, attr, 1, text);
+#define WEBC_H2(buffer, attr, text) \
+    WEBC_Heading(buffer, attr, 2, text);
+#define WEBC_H3(buffer, attr, text) \
+    WEBC_Heading(buffer, attr, 3, text);
+#define WEBC_H4(buffer, attr, text) \
+    WEBC_Heading(buffer, attr, 4, text);
+#define WEBC_H5(buffer, attr, text) \
+    WEBC_Heading(buffer, attr, 5, text);
+#define WEBC_H6(buffer, attr, text) \
+    WEBC_Heading(buffer, attr, 6, text);
 
 #endif // WEBC_H

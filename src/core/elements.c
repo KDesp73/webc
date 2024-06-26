@@ -83,7 +83,7 @@ WEBCAPI void WEBC_HtmlStart(char**buffer, Cstr lang)
 
 WEBCAPI void WEBC_HtmlEnd(char** buffer)
 {
-    char* closing_tag = CLOSING_TAG("html");
+    char* closing_tag = WEBC_CLOSING_TAG("html");
     WEBC_AppendLn(buffer, closing_tag);
     free(closing_tag);
 }
@@ -91,42 +91,42 @@ WEBCAPI void WEBC_HtmlEnd(char** buffer)
 
 WEBCAPI void WEBC_BodyStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, OPENING_TAG("body"));
+    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("body"));
 }
 
 WEBCAPI void WEBC_BodyEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, CLOSING_TAG("body"));
+    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("body"));
 }
 
 WEBCAPI void WEBC_ScriptStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, OPENING_TAG("script"));
+    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("script"));
 }
 
 WEBCAPI void WEBC_ScriptEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, CLOSING_TAG("script"));
+    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("script"));
 }
 
 WEBCAPI void WEBC_StyleStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, OPENING_TAG("style"));
+    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("style"));
 }
 
 WEBCAPI void WEBC_StyleEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, CLOSING_TAG("style"));
+    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("style"));
 }
 
 WEBCAPI void WEBC_DivStart(char** buffer)
 {
-    WEBC_AppendLn(buffer, OPENING_TAG("div"));
+    WEBC_AppendLn(buffer, WEBC_OPENING_TAG("div"));
 }
 
 WEBCAPI void WEBC_DivEnd(char** buffer)
 {
-    WEBC_AppendLn(buffer, CLOSING_TAG("div"));
+    WEBC_AppendLn(buffer, WEBC_CLOSING_TAG("div"));
 }
 
 WEBCAPI void WEBC_Header(char **buffer, AttributeList attributes, BlockContents contents)
