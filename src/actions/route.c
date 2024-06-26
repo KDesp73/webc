@@ -3,9 +3,9 @@
 WEBCAPI Route* MakeRoute(Cstr path, char* buffer)
 {
     Route* route = (Route*) malloc(sizeof(Route));
-    route->path = (char*) malloc(sizeof(char) * (strlen(path) + 1));
+    route->path = (char*) malloc(strlen(path) + 1);
     strcpy(route->path, path);
-    route->buffer = (char*) malloc(sizeof(char) * (strlen(buffer) + 1));
+    route->buffer = (char*) malloc(strlen(buffer) + 1);
     strcpy(route->buffer, buffer);
 
     return route;

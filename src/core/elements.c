@@ -11,9 +11,9 @@ WEBCAPI void Block(char** buffer, Tag* tag, BlockContents contents)
 {
     assert(tag != NULL);
 
-    Append(buffer, TagToString(tag));
+    AppendLn(buffer, TagToString(tag));
     contents(buffer);
-    Append(buffer, ClosingTag(tag));
+    AppendLn(buffer, ClosingTag(tag));
     CleanTag(&tag);
 }
 
@@ -21,7 +21,7 @@ WEBCAPI void InlineBlock(char** buffer, Cstr name, AttributeList attributes, Cst
 {
 
     Tag* tag = MakeTag(name, attributes);
-    Append(buffer, clib_format_text("%s%s%s", TagToString(tag), text, ClosingTag(tag)));
+    AppendLn(buffer, clib_format_text("%s%s%s", TagToString(tag), text, ClosingTag(tag)));
     CleanTag(&tag);
 }
 
@@ -29,19 +29,13 @@ WEBCAPI void InlineBlock(char** buffer, Cstr name, AttributeList attributes, Cst
 
 WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...)
 {
-    CstrArray header_arr = clib_cstr_array_make(
-        "<head>",
-        "<meta charset=\"UTF-8\">",
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
-        NULL
-    );
-
-    char* header = (char*) clib_cstr_array_join("\n", header_arr);
+    char* head = (char*) malloc(1);
+    head[0] = '\0';
+    AppendLn(&head, "<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
 
     if (first != NULL) {
         char* first_tag_str = (char*) TagToString(first);
-        strcat(header, "\n");
-        strcat(header, first_tag_str);
+        AppendLn(&head, first_tag_str);
         free(first_tag_str);
 
         va_list args;
@@ -49,8 +43,7 @@ WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...)
         Tag* tag = va_arg(args, Tag*);
         while (tag != NULL) {
             char* tag_str = (char*) TagToString(tag);
-            strcat(header, "\n");
-            strcat(header, tag_str);
+            AppendLn(&head, tag_str);
             free(tag_str);
             tag = va_arg(args, Tag*);
         }
@@ -58,10 +51,11 @@ WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...)
     }
 
     Cstr title_tag = clib_format_text("<title>%s</title>", title);
-    Cstr header_str = clib_format_text("%s\n%s\n</head>", header, title_tag);
-    Append(buffer, header_str);
+    Cstr header_str = clib_format_text("%s\n%s\n</head>", head, title_tag);
+    AppendLn(buffer, header_str);
 
-    free(header);
+    free((char*) title_tag);
+    free((char*) header_str);
 }
 
 WEBCAPI void HtmlStart(char**buffer, Cstr lang)
@@ -70,16 +64,13 @@ WEBCAPI void HtmlStart(char**buffer, Cstr lang)
         PANIC("Language is NULL");
     }
 
-    *buffer = (char*) malloc(0);
+    *buffer = (char*) malloc(1);
     if(*buffer == NULL){
         PANIC("Couldnt initialize buffer");
     }
     *buffer[0] = '\0';
 
-    char* temp = (char*) JOIN("\n",
-        "<!DOCTYPE html>",
-        CONCAT("<html lang=\"", lang, "\">\n")
-    );
+    char* temp = clib_format_text("<!DOCTYPE html>\n<html lang=\"%s\">\n");
 
     *buffer = (char*) realloc(*buffer, strlen(temp) + 1);
     if(*buffer == NULL){
@@ -92,48 +83,50 @@ WEBCAPI void HtmlStart(char**buffer, Cstr lang)
 
 WEBCAPI void HtmlEnd(char** buffer)
 {
-    Append(buffer, CLOSING_TAG("html"));
+    char* closing_tag = CLOSING_TAG("html");
+    AppendLn(buffer, closing_tag);
+    free(closing_tag);
 }
 
 
 WEBCAPI void BodyStart(char** buffer)
 {
-    Append(buffer, OPENING_TAG("body"));
+    AppendLn(buffer, OPENING_TAG("body"));
 }
 
 WEBCAPI void BodyEnd(char** buffer)
 {
-    Append(buffer, CLOSING_TAG("body"));
+    AppendLn(buffer, CLOSING_TAG("body"));
 }
 
 WEBCAPI void ScriptStart(char** buffer)
 {
-    Append(buffer, OPENING_TAG("script"));
+    AppendLn(buffer, OPENING_TAG("script"));
 }
 
 WEBCAPI void ScriptEnd(char** buffer)
 {
-    Append(buffer, CLOSING_TAG("script"));
+    AppendLn(buffer, CLOSING_TAG("script"));
 }
 
 WEBCAPI void StyleStart(char** buffer)
 {
-    Append(buffer, OPENING_TAG("style"));
+    AppendLn(buffer, OPENING_TAG("style"));
 }
 
 WEBCAPI void StyleEnd(char** buffer)
 {
-    Append(buffer, CLOSING_TAG("style"));
+    AppendLn(buffer, CLOSING_TAG("style"));
 }
 
 WEBCAPI void DivStart(char** buffer)
 {
-    Append(buffer, OPENING_TAG("div"));
+    AppendLn(buffer, OPENING_TAG("div"));
 }
 
 WEBCAPI void DivEnd(char** buffer)
 {
-    Append(buffer, CLOSING_TAG("div"));
+    AppendLn(buffer, CLOSING_TAG("div"));
 }
 
 WEBCAPI void Header(char **buffer, AttributeList attributes, BlockContents contents)

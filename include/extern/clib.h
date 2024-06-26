@@ -180,6 +180,7 @@ CLIBAPI int clib_file_exists(const char *filename);
 
 CLIBAPI int clib_eu_mod(int a, int b);
 #define ITOA(s, i) sprintf(s, "%d", i);
+#define FTOA(s, f) sprintf(s, "%f", f);
 #define JOIN(sep, ...) clib_cstr_array_join(sep, clib_cstr_array_make(__VA_ARGS__, NULL))
 #define CONCAT(...) JOIN("", __VA_ARGS__)
 #define PATH(...) JOIN(PATH_SEP, __VA_ARGS__)
@@ -188,6 +189,7 @@ CLIBAPI char* clib_format_text(const char *format, ...);
 // CLI
 CLIBAPI char* clib_shift_args(int *argc, char ***argv);
 CLIBAPI CliArg* clib_create_argument(char abr, Cstr full, Cstr help, size_t argument_required);
+CLIBAPI void clib_clean_arguments(CliArguments* arguments);
 CLIBAPI void clib_add_arg(CliArg* arg, CliArguments* arguments);
 CLIBAPI CliArguments clib_make_cli_arguments(size_t capacity, CliArg* first, ...);
 CLIBAPI struct option* clib_get_options(CliArguments args);
@@ -214,9 +216,9 @@ CLIBAPI void clib_log(int log_level, char* format, ...);
 
 #define LOG(stream, type, format, ...) \
     do { \
-        char* fmt = clib_format_text("[%s] %s\n", type, format); \
-        fprintf(stream, fmt, ##__VA_ARGS__); \
-        free(fmt); \
+        fprintf(stream, "[%s] ", type); \
+        fprintf(stream, format, ##__VA_ARGS__); \
+        fprintf(stream, "\n"); \
     } while(0)
 
 #define INFO(format, ...) \
@@ -404,6 +406,14 @@ CLIBAPI void clib_add_arg(CliArg* arg, CliArguments* arguments){
     arguments->args[arguments->count++] = arg;
 }
 
+CLIBAPI void clib_clean_arguments(CliArguments* arguments){
+    for(size_t i = 0; i < arguments->count; ++i){
+        free(arguments->args[i]->full);
+        free(arguments->args[i]->help);
+        free(arguments->args[i]);
+    }
+}
+
 CLIBAPI CliArguments clib_make_cli_arguments(size_t capacity, CliArg* first, ...){
     CliArguments arguments = { .capacity = capacity };
 
@@ -509,7 +519,7 @@ CLIBAPI void clib_cli_help(CliArguments args, Cstr usage, Cstr footer){
 
         char* spaces = add_spaces(max_len, args.args[i]);
         if(spaces == NULL) return;
-        char* arg_required = COLOR_FG(args.args[i]->argument_required + 1);
+        Cstr arg_required = COLOR_FG(args.args[i]->argument_required + 1);
         if(args.args[i]->full){
             printf("-%c --%s%s%s %s[%s]%s\n", 
                 args.args[i]->abr, 
@@ -530,7 +540,7 @@ CLIBAPI void clib_cli_help(CliArguments args, Cstr usage, Cstr footer){
                 RESET
             );
         }
-        free(arg_required);
+        free((char*) arg_required);
         free(spaces);
     }
     printf("\n");
@@ -572,10 +582,10 @@ CLIBAPI void clib_log(int log_level, char* format, ...){
         fprintf(stderr, "[INFO] ");
         break;
     case CLIB_WARN:
-        fprintf(stderr, "[WARNING] ");
+        fprintf(stderr, "[WARN] ");
         break;
     case CLIB_ERRO:
-        fprintf(stderr, "[ERROR] ");
+        fprintf(stderr, "[ERRO] ");
         break;
     case CLIB_DEBU:
         fprintf(stderr, "[DEBU] ");
@@ -949,8 +959,7 @@ CLIBAPI Cstr clib_color(int color, int bg) {
     ITOA(where_code, bg + 3);
     ITOA(color_string, color);
 
-    // return CONCAT("\e[", where_code, "8;5;", color_string, "m");
-    return clib_format_text("\e[%s8;5;%sm", where_code, color_string);
+    return (Cstr) clib_format_text("\e[%s8;5;%sm", where_code, color_string);
 }
 
 CLIBAPI void clib_clear_screen() {

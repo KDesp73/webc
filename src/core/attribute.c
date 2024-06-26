@@ -18,7 +18,7 @@ WEBCAPI Attribute* MakeAttribute(AttributeName name, const char* value)
         return attr;
     }
 
-    attr->value = (char*)malloc((strlen(value) + 1) * sizeof(char));
+    attr->value = (char*)malloc((strlen(value) + 1));
     if (attr->value == NULL) {
         free(attr);
         return NULL;

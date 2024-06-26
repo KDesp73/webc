@@ -36,12 +36,11 @@ WEBCAPI void Export(char* buffer, Cstr path)
     Cstr n_path = NULL;
     
     if (path[strlen(path) - 1] == PATH_SEP[0]) 
-        n_path = CONCAT(path, "index.html");
+        n_path = clib_format_text("%s%s", path, "index.html");
     else
-        n_path = CONCAT(path, "/index.html");
+        n_path = clib_format_text("%s%s", path, "/index.html");
 
     clib_write_file(n_path, buffer, "w");
-    Clean(&buffer);
     INFO("%s created", n_path);
 }
 
@@ -52,7 +51,7 @@ WEBCAPI void ExportRoute(Route route)
 
 void ExportRouteRoot(Cstr root, Route route)
 {
-    Export(route.buffer, CONCAT(root, route.path));
+    Export(route.buffer, clib_format_text("%s%s", root, route.path));
 }
 
 WEBCAPI void ExportTree(Tree tree)

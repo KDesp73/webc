@@ -62,6 +62,7 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
 
     }
     free(usage);
+    clib_clean_arguments(&args);
     return action;
 }
 

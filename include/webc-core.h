@@ -156,13 +156,21 @@ WEBCAPI Cstr TagToString(Tag* tag);
  */
 WEBCAPI void CleanTag(Tag** tag);
 
-#define OPENING_TAG(name) CONCAT("<", name, ">")
-#define CLOSING_TAG(name) CONCAT("</", name, ">")
+#define OPENING_TAG(name) clib_format_text("<%s>", name)
+#define CLOSING_TAG(name) clib_format_text("</%s>", name)
 
 // ############ Utils ############ //
 
 /**
  * Appends text (and a newline) to the buffer
+ *
+ * @param buffer The buffer's pointer
+ * @param text The text to append
+ */
+WEBCAPI void AppendLn(char** buffer, Cstr text);
+
+/**
+ * Appends text (no newline) to the buffer
  *
  * @param buffer The buffer's pointer
  * @param text The text to append

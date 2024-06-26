@@ -27,14 +27,14 @@ WEBCAPI Cstr TagToString(Tag* tag)
     assert(tag != NULL);
     assert(tag->name != NULL);
 
-    int initial_size = 256;
-    char* tag_str = (char*)malloc(initial_size * sizeof(char));
+    char* tag_str = (char*)malloc(1);
     if (tag_str == NULL) {
         return NULL;
     }
+    tag_str[0] = '\0';
 
-    strcpy(tag_str, CONCAT("<", tag->name));
-    size_t current_size = strlen(tag_str);
+    Append(&tag_str, "<");
+    Append(&tag_str, tag->name);
 
     for (size_t i = 0; i < tag->attributes.count; ++i) {
         Cstr name = AttributeNameToString(tag->attributes.items[i]->name);
@@ -48,24 +48,16 @@ WEBCAPI Cstr TagToString(Tag* tag)
             attr_str = clib_format_text(" %s", name);
         else 
             attr_str = clib_format_text(" %s=\"%s\"", name, value);
-        size_t attr_len = strlen(attr_str);
 
-        if ((int) (current_size + attr_len) >= initial_size) {
-            initial_size *= 2;
-            tag_str = (char*)realloc(tag_str, initial_size * sizeof(char));
-            if (tag_str == NULL) {
-                free(attr_str);
-                return NULL;
-            }
-        }
+        if(attr_str == NULL) continue;
 
-        strcat(tag_str, attr_str);
-        current_size += attr_len;
+        Append(&tag_str, attr_str);
 
         free(attr_str);
     }
 
-    return CONCAT(tag_str, ">");
+    Append(&tag_str, ">");
+    return tag_str;
 }
 
 WEBCAPI Tag* MakeTag(Cstr name, AttributeList attributes)
