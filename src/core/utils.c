@@ -1,7 +1,7 @@
 #include "webc-core.h"
 #include <stdio.h>
 
-WEBCAPI void AppendLn(char** buffer, Cstr text)
+WEBCAPI void WEBC_AppendLn(char** buffer, Cstr text)
 {
     assert(buffer != NULL && *buffer != NULL);
     assert(text != NULL);
@@ -16,7 +16,7 @@ WEBCAPI void AppendLn(char** buffer, Cstr text)
     free((char*) new_text);
 }
 
-WEBCAPI void Append(char** buffer, const char* text) {
+WEBCAPI void WEBC_Append(char** buffer, const char* text) {
     assert(buffer != NULL && *buffer != NULL);
     assert(text != NULL);
 
@@ -31,13 +31,13 @@ WEBCAPI void Append(char** buffer, const char* text) {
     strcat(*buffer, text);
 }
 
-WEBCAPI void Clean(char** buffer)
+WEBCAPI void WEBC_Clean(char** buffer)
 {
     free(*buffer);
     *buffer = NULL;
 }
 
-WEBCAPI void IntegrateFile(char** buffer, Cstr path)
+WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
 {
     Cstr contents = clib_read_file(path);
     
@@ -45,5 +45,5 @@ WEBCAPI void IntegrateFile(char** buffer, Cstr path)
         PANIC("Couldn't read file: %s", path);
     }
 
-    AppendLn(buffer, contents);
+    WEBC_AppendLn(buffer, contents);
 }

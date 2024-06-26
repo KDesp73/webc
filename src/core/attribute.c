@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-WEBCAPI Attribute* MakeAttribute(AttributeName name, const char* value)
+WEBCAPI Attribute* WEBC_MakeAttribute(AttributeName name, const char* value)
 {
     Attribute* attr = (Attribute*)malloc(sizeof(Attribute));
     if (attr == NULL) {
@@ -28,7 +28,7 @@ WEBCAPI Attribute* MakeAttribute(AttributeName name, const char* value)
     return attr;
 }
 
-WEBCAPI Cstr AttributeNameToString(AttributeName attr)
+WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
 {
     switch (attr) {
         case ATTR_ID:
@@ -76,7 +76,7 @@ WEBCAPI Cstr AttributeNameToString(AttributeName attr)
     }
 }
 
-WEBCAPI AttributeList MakeAttributeList(Attribute* first, ...)
+WEBCAPI AttributeList WEBC_MakeAttributeList(Attribute* first, ...)
 {
     AttributeList result = {0};
     result.count = 0;
@@ -107,7 +107,7 @@ WEBCAPI AttributeList MakeAttributeList(Attribute* first, ...)
 }
 
 
-WEBCAPI AttributeList UseModifier(Modifier modifier)
+WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
 {
     AttributeList list = {0};
 
@@ -130,43 +130,43 @@ WEBCAPI AttributeList UseModifier(Modifier modifier)
     list.count = 0;
 
     if(modifier.style != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_STYLE, modifier.style);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_STYLE, modifier.style);
 
     if(modifier.href != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_HREF, modifier.href);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_HREF, modifier.href);
     
     if(modifier.id != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_ID, modifier.id);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_ID, modifier.id);
     
     if(modifier.class != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_CLASS, modifier.class);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_CLASS, modifier.class);
     
     if(modifier.target != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_TARGET, modifier.target);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_TARGET, modifier.target);
 
     if(modifier.src != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_SRC, modifier.src);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_SRC, modifier.src);
 
     if(modifier.alt != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_ALT, modifier.alt);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_ALT, modifier.alt);
 
     if(modifier.width > 0)
-        list.items[list.count++] = MakeAttribute(ATTR_WIDTH, clib_format_text("%zu", modifier.width));
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_WIDTH, clib_format_text("%zu", modifier.width));
 
     if(modifier.height > 0)
-        list.items[list.count++] = MakeAttribute(ATTR_HEIGHT, clib_format_text("%zu", modifier.height));
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_HEIGHT, clib_format_text("%zu", modifier.height));
 
     if (modifier.type != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_TYPE,  modifier.type);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_TYPE,  modifier.type);
 
     if (modifier.action != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_ACTION,  modifier.action);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_ACTION,  modifier.action);
 
     if (modifier.method != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_METHOD,  modifier.method);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_METHOD,  modifier.method);
 
     if (modifier.value != NULL)
-        list.items[list.count++] = MakeAttribute(ATTR_VALUE,  modifier.value);
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_VALUE,  modifier.value);
 
     return list;
 }

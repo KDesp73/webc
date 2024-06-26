@@ -63,7 +63,7 @@ typedef struct {
  *
  * @return Route*
  */
-WEBCAPI Route* MakeRoute(Cstr path, char* buffer);
+WEBCAPI Route* WEBC_MakeRoute(Cstr path, char* buffer);
 
 /**
  * Creates a Tree struct contatining multiple Route struct pointers
@@ -74,7 +74,7 @@ WEBCAPI Route* MakeRoute(Cstr path, char* buffer);
  *
  * @return Tree
  */
-WEBCAPI Tree MakeTree(Cstr root, Route* first, ...);
+WEBCAPI Tree WEBC_MakeTree(Cstr root, Route* first, ...);
 #define CleanRoute(route) free(route->buffer);
 #define CleanTree(tree) \
     do {\
@@ -91,7 +91,7 @@ WEBCAPI Tree MakeTree(Cstr root, Route* first, ...);
  *
  * @return WebcAction struct
  */
-WEBCAPI WebcAction ParseCliArgs(int argc, char** argv);
+WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv);
 
 /**
  * Depending on the action the method exports / serves the tree (physical or virtual)
@@ -99,7 +99,7 @@ WEBCAPI WebcAction ParseCliArgs(int argc, char** argv);
  * @param action the WebcAction returned from the ParseCliArgs method
  * @param tree The virtual tree created by the user
  */
-WEBCAPI void HandleAction(WebcAction action, Tree tree);
+WEBCAPI void WEBC_HandleAction(WebcAction action, Tree tree);
 
 /**
  * Exports the contents of the buffer to an html file, while also creating the path that is being passed. Finally the buffer is freed
@@ -107,20 +107,20 @@ WEBCAPI void HandleAction(WebcAction action, Tree tree);
  * @param buffer The contents of the buffer
  * @param path The path to export the html file to
  */
-WEBCAPI void Export(char* buffer, Cstr path);
+WEBCAPI void WEBC_Export(char* buffer, Cstr path);
 
 /**
  * Exports the Route struct containing a buffer and a path
  *
  * @param route The Route struct
  */
-WEBCAPI void ExportRoute(Route route);
+WEBCAPI void WEBC_ExportRoute(Route route);
 
 /**
  * Exports every Route in the tree
  *
  * @param tree The virtual tree created by the user
  */
-WEBCAPI void ExportTree(Tree tree);
+WEBCAPI void WEBC_ExportTree(Tree tree);
 
 #endif // WEBCACTIONS_H

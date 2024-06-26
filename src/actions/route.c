@@ -1,6 +1,6 @@
 #include "webc-actions.h"
 
-WEBCAPI Route* MakeRoute(Cstr path, char* buffer)
+WEBCAPI Route* WEBC_MakeRoute(Cstr path, char* buffer)
 {
     Route* route = (Route*) malloc(sizeof(Route));
     route->path = (char*) malloc(strlen(path) + 1);
@@ -11,7 +11,7 @@ WEBCAPI Route* MakeRoute(Cstr path, char* buffer)
     return route;
 }
 
-WEBCAPI Tree MakeTree(Cstr root, Route* first, ...)
+WEBCAPI Tree WEBC_MakeTree(Cstr root, Route* first, ...)
 {
     Tree result = {0};
     result.root = root;

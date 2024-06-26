@@ -37,7 +37,7 @@
 
 // ############ UI Elements ############ //
 
-WEBCAPI void UIButton(char** buffer, Modifier modifier, Cstr text);
+WEBCAPI void WEBC_UIButton(char** buffer, Modifier modifier, Cstr text);
 
 
 #endif // WEBCUI_H

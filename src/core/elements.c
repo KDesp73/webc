@@ -2,48 +2,48 @@
 #include <assert.h>
 #include <stdlib.h>
 
-WEBCAPI void BlockAttr(char** buffer, Cstr name, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_BlockAttr(char** buffer, Cstr name, AttributeList attributes, BlockContents contents)
 {
-    Block(buffer, MakeTag(name, attributes), contents);
+    WEBC_Block(buffer, WEBC_MakeTag(name, attributes), contents);
 }
 
-WEBCAPI void Block(char** buffer, Tag* tag, BlockContents contents)
+WEBCAPI void WEBC_Block(char** buffer, Tag* tag, BlockContents contents)
 {
     assert(tag != NULL);
 
-    AppendLn(buffer, TagToString(tag));
+    WEBC_AppendLn(buffer, WEBC_TagToString(tag));
     contents(buffer);
-    AppendLn(buffer, ClosingTag(tag));
-    CleanTag(&tag);
+    WEBC_AppendLn(buffer, WEBC_ClosingTag(tag));
+    WEBC_CleanTag(&tag);
 }
 
 WEBCAPI void InlineBlock(char** buffer, Cstr name, AttributeList attributes, Cstr text)
 {
 
-    Tag* tag = MakeTag(name, attributes);
-    AppendLn(buffer, clib_format_text("%s%s%s", TagToString(tag), text, ClosingTag(tag)));
-    CleanTag(&tag);
+    Tag* tag = WEBC_MakeTag(name, attributes);
+    WEBC_AppendLn(buffer, clib_format_text("%s%s%s", WEBC_TagToString(tag), text, WEBC_ClosingTag(tag)));
+    WEBC_CleanTag(&tag);
 }
 
 /* ######################### Elements Below ######################### */
 
-WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...)
+WEBCAPI void WEBC_Head(char** buffer, Cstr title, Tag* first, ...)
 {
     char* head = (char*) malloc(1);
     head[0] = '\0';
-    AppendLn(&head, "<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+    WEBC_AppendLn(&head, "<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
 
     if (first != NULL) {
-        char* first_tag_str = (char*) TagToString(first);
-        AppendLn(&head, first_tag_str);
+        char* first_tag_str = (char*) WEBC_TagToString(first);
+        WEBC_AppendLn(&head, first_tag_str);
         free(first_tag_str);
 
         va_list args;
         va_start(args, first);
         Tag* tag = va_arg(args, Tag*);
         while (tag != NULL) {
-            char* tag_str = (char*) TagToString(tag);
-            AppendLn(&head, tag_str);
+            char* tag_str = (char*) WEBC_TagToString(tag);
+            WEBC_AppendLn(&head, tag_str);
             free(tag_str);
             tag = va_arg(args, Tag*);
         }
@@ -52,13 +52,13 @@ WEBCAPI void Head(char** buffer, Cstr title, Tag* first, ...)
 
     Cstr title_tag = clib_format_text("<title>%s</title>", title);
     Cstr header_str = clib_format_text("%s\n%s\n</head>", head, title_tag);
-    AppendLn(buffer, header_str);
+    WEBC_AppendLn(buffer, header_str);
 
     free((char*) title_tag);
     free((char*) header_str);
 }
 
-WEBCAPI void HtmlStart(char**buffer, Cstr lang)
+WEBCAPI void WEBC_HtmlStart(char**buffer, Cstr lang)
 {
     if(lang == NULL){
         PANIC("Language is NULL");
@@ -81,60 +81,60 @@ WEBCAPI void HtmlStart(char**buffer, Cstr lang)
     free(temp);
 }
 
-WEBCAPI void HtmlEnd(char** buffer)
+WEBCAPI void WEBC_HtmlEnd(char** buffer)
 {
     char* closing_tag = CLOSING_TAG("html");
-    AppendLn(buffer, closing_tag);
+    WEBC_AppendLn(buffer, closing_tag);
     free(closing_tag);
 }
 
 
-WEBCAPI void BodyStart(char** buffer)
+WEBCAPI void WEBC_BodyStart(char** buffer)
 {
-    AppendLn(buffer, OPENING_TAG("body"));
+    WEBC_AppendLn(buffer, OPENING_TAG("body"));
 }
 
-WEBCAPI void BodyEnd(char** buffer)
+WEBCAPI void WEBC_BodyEnd(char** buffer)
 {
-    AppendLn(buffer, CLOSING_TAG("body"));
+    WEBC_AppendLn(buffer, CLOSING_TAG("body"));
 }
 
-WEBCAPI void ScriptStart(char** buffer)
+WEBCAPI void WEBC_ScriptStart(char** buffer)
 {
-    AppendLn(buffer, OPENING_TAG("script"));
+    WEBC_AppendLn(buffer, OPENING_TAG("script"));
 }
 
-WEBCAPI void ScriptEnd(char** buffer)
+WEBCAPI void WEBC_ScriptEnd(char** buffer)
 {
-    AppendLn(buffer, CLOSING_TAG("script"));
+    WEBC_AppendLn(buffer, CLOSING_TAG("script"));
 }
 
-WEBCAPI void StyleStart(char** buffer)
+WEBCAPI void WEBC_StyleStart(char** buffer)
 {
-    AppendLn(buffer, OPENING_TAG("style"));
+    WEBC_AppendLn(buffer, OPENING_TAG("style"));
 }
 
-WEBCAPI void StyleEnd(char** buffer)
+WEBCAPI void WEBC_StyleEnd(char** buffer)
 {
-    AppendLn(buffer, CLOSING_TAG("style"));
+    WEBC_AppendLn(buffer, CLOSING_TAG("style"));
 }
 
-WEBCAPI void DivStart(char** buffer)
+WEBCAPI void WEBC_DivStart(char** buffer)
 {
-    AppendLn(buffer, OPENING_TAG("div"));
+    WEBC_AppendLn(buffer, OPENING_TAG("div"));
 }
 
-WEBCAPI void DivEnd(char** buffer)
+WEBCAPI void WEBC_DivEnd(char** buffer)
 {
-    AppendLn(buffer, CLOSING_TAG("div"));
+    WEBC_AppendLn(buffer, CLOSING_TAG("div"));
 }
 
-WEBCAPI void Header(char **buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Header(char **buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "header", attributes, contents);
+    WEBC_BlockAttr(buffer, "header", attributes, contents);
 }
 
-WEBCAPI void Heading(char** buffer, AttributeList attributes, size_t size, Cstr text){
+WEBCAPI void WEBC_WEBC_Heading(char** buffer, AttributeList attributes, size_t size, Cstr text){
     if(size == 0 || size > 6) {
         PANIC("Heading size should be between 1 and 6");
     }
@@ -142,477 +142,477 @@ WEBCAPI void Heading(char** buffer, AttributeList attributes, size_t size, Cstr 
     InlineBlock(buffer, clib_format_text("h%zu", size), attributes, text);
 }
 
-WEBCAPI void Paragraph(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Paragraph(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "p", attributes, text);
 }
 
-WEBCAPI void ParagraphBlock(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_ParagraphBlock(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "p", attributes, contents);
+    WEBC_BlockAttr(buffer, "p", attributes, contents);
 }
 
-WEBCAPI void Anchor(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Anchor(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "a", attributes, text);
 }
 
-WEBCAPI void AnchorBlock(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_AnchorBlock(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "a", attributes, contents);
+    WEBC_BlockAttr(buffer, "a", attributes, contents);
 }
 
-WEBCAPI void Abbr(char** buffer, AttributeList attributes, Cstr abbr)
+WEBCAPI void WEBC_Abbr(char** buffer, AttributeList attributes, Cstr abbr)
 {
     InlineBlock(buffer, "abbr", attributes, abbr);
 }
 
-WEBCAPI void Address(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Address(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "address", attributes, contents);
+    WEBC_BlockAttr(buffer, "address", attributes, contents);
 }
 
-WEBCAPI void Div(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Div(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "div", attributes, contents);
+    WEBC_BlockAttr(buffer, "div", attributes, contents);
 }
 
-WEBCAPI void Style(char**buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Style(char**buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "style", attributes, contents);
+    WEBC_BlockAttr(buffer, "style", attributes, contents);
 }
 
-WEBCAPI void Script(char**buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Script(char**buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "script", attributes, contents);
+    WEBC_BlockAttr(buffer, "script", attributes, contents);
 }
 
-WEBCAPI void Cite(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Cite(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "cite", attributes, text);
 }
 
-WEBCAPI void Code(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Code(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "code", attributes, text);
 }
 
-WEBCAPI void Bold(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Bold(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "b", attributes, text);
 }
 
-WEBCAPI void Blockquote(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Blockquote(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "blockquote", attributes, text);
 }
 
-WEBCAPI void Del(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Del(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "del", attributes, text);
 }
 
-WEBCAPI void Li(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Li(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "li", attributes, text);
 }
 
-WEBCAPI void Ul(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Ul(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "ul", attributes, contents);
+    WEBC_BlockAttr(buffer, "ul", attributes, contents);
 }
 
-WEBCAPI void Ol(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Ol(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "ol", attributes, contents);
+    WEBC_BlockAttr(buffer, "ol", attributes, contents);
 }
 
-WEBCAPI void Area(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Area(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "area", attributes, contents);
+    WEBC_BlockAttr(buffer, "area", attributes, contents);
 }
 
-WEBCAPI void Article(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Article(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "article", attributes, contents);
+    WEBC_BlockAttr(buffer, "article", attributes, contents);
 }
 
-WEBCAPI void Aside(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Aside(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "aside", attributes, contents);
+    WEBC_BlockAttr(buffer, "aside", attributes, contents);
 }
 
-WEBCAPI void Audio(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Audio(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "audio", attributes, contents);
+    WEBC_BlockAttr(buffer, "audio", attributes, contents);
 }
 
-WEBCAPI void Canvas(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Canvas(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "canvas", attributes, contents);
+    WEBC_BlockAttr(buffer, "canvas", attributes, contents);
 }
 
-WEBCAPI void Col(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Col(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "col", attributes, contents);
+    WEBC_BlockAttr(buffer, "col", attributes, contents);
 }
 
-WEBCAPI void Colgroup(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Colgroup(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "colgroup", attributes, contents);
+    WEBC_BlockAttr(buffer, "colgroup", attributes, contents);
 }
 
-WEBCAPI void Data(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Data(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "data", attributes, contents);
+    WEBC_BlockAttr(buffer, "data", attributes, contents);
 }
 
-WEBCAPI void Datalist(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Datalist(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "datalist", attributes, contents);
+    WEBC_BlockAttr(buffer, "datalist", attributes, contents);
 }
 
-WEBCAPI void Details(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Details(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "details", attributes, contents);
+    WEBC_BlockAttr(buffer, "details", attributes, contents);
 }
 
-WEBCAPI void Embed(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Embed(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "embed", attributes, contents);
+    WEBC_BlockAttr(buffer, "embed", attributes, contents);
 }
 
-WEBCAPI void Fieldset(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Fieldset(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "fieldset", attributes, contents);
+    WEBC_BlockAttr(buffer, "fieldset", attributes, contents);
 }
 
-WEBCAPI void Dialog(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Dialog(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "dialog", attributes, contents);
+    WEBC_BlockAttr(buffer, "dialog", attributes, contents);
 }
 
-WEBCAPI void Dl(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Dl(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "dl", attributes, contents);
+    WEBC_BlockAttr(buffer, "dl", attributes, contents);
 }
 
-WEBCAPI void Figure(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Figure(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "figure", attributes, contents);
+    WEBC_BlockAttr(buffer, "figure", attributes, contents);
 }
 
-WEBCAPI void Footer(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Footer(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "footer", attributes, contents);
+    WEBC_BlockAttr(buffer, "footer", attributes, contents);
 }
 
-WEBCAPI void Form (char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Form (char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "form", attributes, contents);
+    WEBC_BlockAttr(buffer, "form", attributes, contents);
 }
 
-WEBCAPI void Iframe(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Iframe(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "iframe", attributes, contents);
+    WEBC_BlockAttr(buffer, "iframe", attributes, contents);
 }
 
-WEBCAPI void Hgroup(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Hgroup(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "hgroup", attributes, contents);
+    WEBC_BlockAttr(buffer, "hgroup", attributes, contents);
 }
 
-WEBCAPI void Main(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Main(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "main", attributes, contents);
+    WEBC_BlockAttr(buffer, "main", attributes, contents);
 }
 
-WEBCAPI void Map(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Map(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "map", attributes, contents);
+    WEBC_BlockAttr(buffer, "map", attributes, contents);
 }
 
-WEBCAPI void Menu(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Menu(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "menu", attributes, contents);
+    WEBC_BlockAttr(buffer, "menu", attributes, contents);
 }
 
-WEBCAPI void Nav(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Nav(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "nav", attributes, contents);
+    WEBC_BlockAttr(buffer, "nav", attributes, contents);
 }
 
-WEBCAPI void Noscript(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Noscript(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "noscript", attributes, contents);
+    WEBC_BlockAttr(buffer, "noscript", attributes, contents);
 }
 
-WEBCAPI void Object(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Object(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "object", attributes, contents);
+    WEBC_BlockAttr(buffer, "object", attributes, contents);
 }
 
-WEBCAPI void Optgroup(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Optgroup(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "optgroup", attributes, contents);
+    WEBC_BlockAttr(buffer, "optgroup", attributes, contents);
 }
 
-WEBCAPI void Picture(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Picture(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "picture", attributes, contents);
+    WEBC_BlockAttr(buffer, "picture", attributes, contents);
 }
 
-WEBCAPI void Ruby(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Ruby(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "ruby", attributes, contents);
+    WEBC_BlockAttr(buffer, "ruby", attributes, contents);
 }
 
-WEBCAPI void Search(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Search(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "search", attributes, contents);
+    WEBC_BlockAttr(buffer, "search", attributes, contents);
 }
 
-WEBCAPI void Section(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Section(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "section", attributes, contents);
+    WEBC_BlockAttr(buffer, "section", attributes, contents);
 }
 
-WEBCAPI void Select(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Select(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "select", attributes, contents);
+    WEBC_BlockAttr(buffer, "select", attributes, contents);
 }
 
-WEBCAPI void Svg(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Svg(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "svg", attributes, contents);
+    WEBC_BlockAttr(buffer, "svg", attributes, contents);
 }
 
-WEBCAPI void Table(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Table(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "table", attributes, contents);
+    WEBC_BlockAttr(buffer, "table", attributes, contents);
 }
 
-WEBCAPI void Tbody(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Tbody(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "tbody", attributes, contents);
+    WEBC_BlockAttr(buffer, "tbody", attributes, contents);
 }
 
-WEBCAPI void Tfoot(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Tfoot(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "tfoot", attributes, contents);
+    WEBC_BlockAttr(buffer, "tfoot", attributes, contents);
 }
 
-WEBCAPI void Thead(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Thead(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "thead", attributes, contents);
+    WEBC_BlockAttr(buffer, "thead", attributes, contents);
 }
 
-WEBCAPI void Tr(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Tr(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "tr", attributes, contents);
+    WEBC_BlockAttr(buffer, "tr", attributes, contents);
 }
 
-WEBCAPI void Video(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Video(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "video", attributes, contents);
+    WEBC_BlockAttr(buffer, "video", attributes, contents);
 }
 
-WEBCAPI void Template(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Template(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "template", attributes, contents);
+    WEBC_BlockAttr(buffer, "template", attributes, contents);
 }
 
-WEBCAPI void Textarea(char** buffer, AttributeList attributes, BlockContents contents)
+WEBCAPI void WEBC_Textarea(char** buffer, AttributeList attributes, BlockContents contents)
 {
-    BlockAttr(buffer, "textarea", attributes, contents);
+    WEBC_BlockAttr(buffer, "textarea", attributes, contents);
 }
 
-WEBCAPI void B(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_B(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "b", attributes, text);
 }
 
-WEBCAPI void Bdo(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Bdo(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "bdo", attributes, text);
 }
 
-WEBCAPI void Bdi(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Bdi(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "bdi", attributes, text);
 }
 
-WEBCAPI void Caption(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Caption(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "caption", attributes, text);
 }
 
-WEBCAPI void Dd(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Dd(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "dd", attributes, text);
 }
 
-WEBCAPI void Dfn(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Dfn(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "dfn", attributes, text);
 }
 
-WEBCAPI void Figcaption(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Figcaption(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "figcaption", attributes, text);
 }
 
-WEBCAPI void I(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_I(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "i", attributes, text);
 }
 
-WEBCAPI void Dt(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Dt(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "dt", attributes, text);
 }
 
-WEBCAPI void Em(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Em(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "em", attributes, text);
 }
 
-WEBCAPI void Ins(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Ins(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "ins", attributes, text);
 }
 
-WEBCAPI void Kbd(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Kbd(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "kbd", attributes, text);
 }
 
-WEBCAPI void Label(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Label(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "label", attributes, text);
 }
 
-WEBCAPI void Legend(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Legend(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "legend", attributes, text);
 }
 
-WEBCAPI void Meter(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Meter(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "meter", attributes, text);
 }
 
-WEBCAPI void Mark(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Mark(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "mark", attributes, text);
 }
 
-WEBCAPI void Option(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Option(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "option", attributes, text);
 }
 
-WEBCAPI void Output(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Output(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "output", attributes, text);
 }
 
-WEBCAPI void Param(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Param(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "param", attributes, text);
 }
 
-WEBCAPI void Pre(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Pre(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "pre", attributes, text);
 }
 
-WEBCAPI void Progress(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Progress(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "progress", attributes, text);
 }
 
-WEBCAPI void Q(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Q(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "q", attributes, text);
 }
 
-WEBCAPI void Rp(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Rp(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "rp", attributes, text);
 }
 
-WEBCAPI void Rt(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Rt(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "rt", attributes, text);
 }
 
-WEBCAPI void S(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_S(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "s", attributes, text);
 }
 
-WEBCAPI void Samp(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Samp(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "samp", attributes, text);
 }
 
-WEBCAPI void Small(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Small(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "small", attributes, text);
 }
 
-WEBCAPI void Span(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Span(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "span", attributes, text);
 }
 
-WEBCAPI void Strong(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Strong(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "strong", attributes, text);
 }
 
-WEBCAPI void Sub(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Sub(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "sub", attributes, text);
 }
 
-WEBCAPI void Summary(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Summary(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "summary", attributes, text);
 }
 
-WEBCAPI void Time(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Time(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "time", attributes, text);
 }
 
-WEBCAPI void Th(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Th(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "th", attributes, text);
 }
 
-WEBCAPI void U(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_U(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "u", attributes, text);
 }
 
-WEBCAPI void Var(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Var(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "var", attributes, text);
 }
 
-WEBCAPI void Wbr(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Wbr(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "wbr", attributes, text);
 }
 
-WEBCAPI void Sup(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Sup(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "sup", attributes, text);
 }
 
-WEBCAPI void Td(char** buffer, AttributeList attributes, Cstr text)
+WEBCAPI void WEBC_Td(char** buffer, AttributeList attributes, Cstr text)
 {
     InlineBlock(buffer, "td", attributes, text);
 }

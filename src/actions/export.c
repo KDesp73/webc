@@ -30,7 +30,7 @@ void CreatePath(const char *path) {
     free(current_dir);
 }
 
-WEBCAPI void Export(char* buffer, Cstr path)
+WEBCAPI void WEBC_Export(char* buffer, Cstr path)
 {
     CreatePath(path);
     Cstr n_path = NULL;
@@ -44,17 +44,17 @@ WEBCAPI void Export(char* buffer, Cstr path)
     INFO("%s created", n_path);
 }
 
-WEBCAPI void ExportRoute(Route route)
+WEBCAPI void WEBC_ExportRoute(Route route)
 {
-    Export(route.buffer, route.path);
+    WEBC_Export(route.buffer, route.path);
 }
 
 void ExportRouteRoot(Cstr root, Route route)
 {
-    Export(route.buffer, clib_format_text("%s%s", root, route.path));
+    WEBC_Export(route.buffer, clib_format_text("%s%s", root, route.path));
 }
 
-WEBCAPI void ExportTree(Tree tree)
+WEBCAPI void WEBC_ExportTree(Tree tree)
 {
     for (size_t i = 0; i < tree.count; ++i) {
         ExportRouteRoot(tree.root, *tree.routes[i]);

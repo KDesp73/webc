@@ -5,7 +5,7 @@
 #include <string.h>
 
 
-WEBCAPI WebcAction ParseCliArgs(int argc, char** argv)
+WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
 {
     if(argc == 1){
         WARN("No argument provided.");
@@ -71,10 +71,10 @@ void siginthandler(int params){
     exit(0);
 }
 
-WEBCAPI void HandleAction(WebcAction action, Tree tree)
+WEBCAPI void WEBC_HandleAction(WebcAction action, Tree tree)
 {
     if(action.export){
-        ExportTree(tree);
+        WEBC_ExportTree(tree);
     } 
 
     if(action.serve_static || action.serve_dynamic || action.serve_exported_static){
@@ -87,14 +87,14 @@ WEBCAPI void HandleAction(WebcAction action, Tree tree)
     }
 
     if(action.serve_static){
-        ServeTree(action.port, tree);     
+        WEBC_ServeTree(action.port, tree);     
     } else if(action.serve_dynamic){
         PANIC("ACTION_SERVE_DYNAMIC is not implemented yet");
     } else if(action.serve_exported_static){
         if(action.root != NULL){
-            ServeExportedRoot(action.port, action.root);
+            WEBC_ServeExportedRoot(action.port, action.root);
         } else {
-            ServeExported(action.port, tree);
+            WEBC_ServeExported(action.port, tree);
         }
     }
 }

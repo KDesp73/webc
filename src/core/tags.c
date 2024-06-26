@@ -1,7 +1,7 @@
 #include "webc-core.h"
 #include <stdlib.h>
 
-WEBCAPI void CleanTag(Tag** tag)
+WEBCAPI void WEBC_CleanTag(Tag** tag)
 {
     if (*tag == NULL) {
         return;
@@ -17,12 +17,12 @@ WEBCAPI void CleanTag(Tag** tag)
     *tag = NULL;
 }
 
-WEBCAPI Cstr ClosingTag(Tag* tag)
+WEBCAPI Cstr WEBC_ClosingTag(Tag* tag)
 {
     return clib_format_text("</%s>", tag->name);
 }
 
-WEBCAPI Cstr TagToString(Tag* tag)
+WEBCAPI Cstr WEBC_TagToString(Tag* tag)
 {
     assert(tag != NULL);
     assert(tag->name != NULL);
@@ -33,11 +33,11 @@ WEBCAPI Cstr TagToString(Tag* tag)
     }
     tag_str[0] = '\0';
 
-    Append(&tag_str, "<");
-    Append(&tag_str, tag->name);
+    WEBC_Append(&tag_str, "<");
+    WEBC_Append(&tag_str, tag->name);
 
     for (size_t i = 0; i < tag->attributes.count; ++i) {
-        Cstr name = AttributeNameToString(tag->attributes.items[i]->name);
+        Cstr name = WEBC_AttributeNameToString(tag->attributes.items[i]->name);
         Cstr value = tag->attributes.items[i]->value;
         if(name == NULL) {
             PANIC("Null name for name: %d, Ensure that you terminated the AttributeList", tag->attributes.items[i]->name);
@@ -51,16 +51,16 @@ WEBCAPI Cstr TagToString(Tag* tag)
 
         if(attr_str == NULL) continue;
 
-        Append(&tag_str, attr_str);
+        WEBC_Append(&tag_str, attr_str);
 
         free(attr_str);
     }
 
-    Append(&tag_str, ">");
+    WEBC_Append(&tag_str, ">");
     return tag_str;
 }
 
-WEBCAPI Tag* MakeTag(Cstr name, AttributeList attributes)
+WEBCAPI Tag* WEBC_MakeTag(Cstr name, AttributeList attributes)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
     tag->name = name;
@@ -69,7 +69,7 @@ WEBCAPI Tag* MakeTag(Cstr name, AttributeList attributes)
     return tag;
 }
 
-WEBCAPI Tag* MakeTagAttr(Cstr name, Attribute* first, ...)
+WEBCAPI Tag* WEBC_MakeTagAttr(Cstr name, Attribute* first, ...)
 {
     Tag* tag = (Tag*) malloc(sizeof(Tag));
     tag->attributes.count= 0;
