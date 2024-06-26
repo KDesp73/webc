@@ -86,7 +86,7 @@ WEBCAPI void WEBC_HtmlStart(char**buffer, Cstr lang)
     }
     *buffer[0] = '\0';
 
-    char* temp = clib_format_text("<!DOCTYPE html>\n<html lang=\"%s\">\n");
+    char* temp = clib_format_text("<!DOCTYPE html>\n<html lang=\"%s\">\n", lang);
 
     *buffer = (char*) realloc(*buffer, strlen(temp) + 1);
     if(*buffer == NULL){

@@ -307,6 +307,7 @@ WEBCAPI void WEBC_Bdi(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Bdo(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Blockquote(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Bold(char** buffer, AttributeList attributes, Cstr text);
+WEBCAPI void WEBC_Br(char** buffer);
 WEBCAPI void WEBC_Button(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_ButtonBlock(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Canvas(char** buffer, AttributeList attributes, BlockContents contents);
@@ -336,14 +337,18 @@ WEBCAPI void WEBC_Form (char** buffer, AttributeList attributes, BlockContents c
 WEBCAPI void WEBC_Header(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Heading(char** buffer, AttributeList attributes, size_t size, Cstr text);
 WEBCAPI void WEBC_Hgroup(char** buffer, AttributeList attributes, BlockContents contents);
+WEBCAPI void WEBC_Hr(char** buffer);
 WEBCAPI void WEBC_I(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Iframe(char** buffer, AttributeList attributes, BlockContents contents);
+WEBCAPI void WEBC_Img(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_Input(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_Ins(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Kbd(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Label(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Legend(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Li(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_LiBlock(char** buffer, AttributeList attributes, BlockContents contents);
+WEBCAPI void WEBC_Link(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_Main(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Map(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Mark(char** buffer, AttributeList attributes, Cstr text);
@@ -373,6 +378,7 @@ WEBCAPI void WEBC_Search(char** buffer, AttributeList attributes, BlockContents 
 WEBCAPI void WEBC_Section(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Select(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Small(char** buffer, AttributeList attributes, Cstr text);
+WEBCAPI void WEBC_Source(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_Span(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Strong(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Style(char**buffer, AttributeList attributes, BlockContents contents);
@@ -390,19 +396,12 @@ WEBCAPI void WEBC_Th(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Thead(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Time(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Tr(char** buffer, AttributeList attributes, BlockContents contents);
+WEBCAPI void WEBC_Track(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_U(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Ul(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Var(char** buffer, AttributeList attributes, Cstr text);
 WEBCAPI void WEBC_Video(char** buffer, AttributeList attributes, BlockContents contents);
 WEBCAPI void WEBC_Wbr(char** buffer, AttributeList attributes, Cstr text);
-
-WEBCAPI void WEBC_Input(char** buffer, AttributeList attributes);
-WEBCAPI void WEBC_Img(char** buffer, AttributeList attributes);
-WEBCAPI void WEBC_Link(char** buffer, AttributeList attributes);
-WEBCAPI void WEBC_Br(char** buffer);
-WEBCAPI void WEBC_Hr(char** buffer);
-WEBCAPI void WEBC_Source(char** buffer, AttributeList attributes);
-WEBCAPI void WEBC_Track(char** buffer, AttributeList attributes);
 
 /* 
 The following macros are used to append the html tags that don't require closing to the buffer

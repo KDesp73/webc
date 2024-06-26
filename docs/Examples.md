@@ -82,6 +82,7 @@ int main(int argc, char** argv)
     );
 
     HandleAction(action, tree);
+    return 0;
 }
 ```
 Structuring your code in this way adds these options to your executable

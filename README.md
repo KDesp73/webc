@@ -41,7 +41,6 @@ Add `-Lpath/to/library -lwebc` to your LDFLAGS
 
 Make sure run `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/lib/webc` before compiling
 
-
 ## Examples
 
 See [Examples.md](./docs/Examples.md)

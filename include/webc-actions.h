@@ -75,7 +75,19 @@ WEBCAPI Route* WEBC_MakeRoute(Cstr path, char* buffer);
  * @return Tree
  */
 WEBCAPI Tree WEBC_MakeTree(Cstr root, Route* first, ...);
+
+/**
+ * Frees the memory allocated by a Route
+ *
+ * @param route The Route* to free
+ */
 WEBCAPI void WEBC_CleanRoute(Route* route);
+
+/**
+ * Frees the memory allocated by a Tree
+ *
+ * @param tree The virtual tree contating the Routes
+ */
 WEBCAPI void WEBC_CleanTree(Tree tree);
 
 /**
