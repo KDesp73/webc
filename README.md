@@ -11,9 +11,7 @@ Y88b       d88P     d88P"       d88P
    Y88b d88P         "Y8888P d88P          
 ```
 
-
-
-Write websites using the far superior (and actual programming language) C. 
+Write and deploy websites using the C Programming Language.
 
 <!--toc:start-->
 - [webc](#webc)
