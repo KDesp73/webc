@@ -7,7 +7,7 @@ This template creates a Single Page Portfolio including the following sections:
 3. Skills
 4. Contact
 
-You can set your own style
+You can set your own style (check [spp-style.css](../../style/spp-style.css) for classnames)
 
 ```c
 #include "webc-actions.h"

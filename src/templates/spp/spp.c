@@ -31,7 +31,7 @@ char* WEBC_SinglePagePortfolioTemplate(SinglePagePortfolio portfolio)
         if(portfolio.style_path != NULL)
             WEBC_IntegrateFile(&buffer, portfolio.style_path);
         else
-            WEBC_IntegrateFile(&buffer, "");
+            WEBC_IntegrateFile(&buffer, "https://raw.githubusercontent.com/KDesp73/webc/main/style/spp-style.css");
         WEBC_StyleEnd(&buffer);
 
         WEBC_BodyStart(&buffer);

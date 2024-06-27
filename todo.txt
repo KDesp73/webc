@@ -1,7 +1,6 @@
 TODO: backend framework in C
 TODO: UI library (Thanasis)
 TODO: Project website using the project itself
-TODO: implement all elements with modifier 
 TODO: fix server issues
 TODO: put logging on a seperate thread
 TODO: markdown renderer
