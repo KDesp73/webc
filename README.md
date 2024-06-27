@@ -47,6 +47,10 @@ Make sure you have the LD_LIBRARY_PATH environment variable set correctly by run
 
 See [docs/examples/](./docs/examples/core.md)
 
+## Templates
+
+- Single Page Portfolio `spp.h`
+
 ## Documentation
 
 The documentation for this library is written in the header files
