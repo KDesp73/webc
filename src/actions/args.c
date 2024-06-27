@@ -87,7 +87,7 @@ WEBCAPI void WEBC_HandleAction(WebcAction action, Tree tree)
         }
         signal(SIGINT, siginthandler);
         INFO("Server started at port %d...", action.port);
-        INFO("Press %sCtrl+C%s to stop", COLOR_FG(2), RESET);
+        INFO("Press Ctrl+C to stop");
     }
 
     if(action.serve_static){

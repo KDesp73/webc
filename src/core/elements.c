@@ -147,11 +147,13 @@ WEBCAPI void WEBC_StyleEnd(char** buffer)
     free(tag);
 }
 
-WEBCAPI void WEBC_DivStart(char** buffer)
+WEBCAPI void WEBC_DivStart(char** buffer, AttributeList attributes)
 {
-    char* tag = WEBC_OPENING_TAG("div");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    Tag* tag = WEBC_MakeTag("div", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
 }
 
 WEBCAPI void WEBC_DivEnd(char** buffer)

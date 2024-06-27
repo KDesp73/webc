@@ -278,7 +278,7 @@ WEBCAPI void WEBC_ScriptStart(char** buffer);
 WEBCAPI void WEBC_ScriptEnd(char** buffer);
 WEBCAPI void WEBC_StyleStart(char** buffer);
 WEBCAPI void WEBC_StyleEnd(char** buffer);
-WEBCAPI void WEBC_DivStart(char** buffer);
+WEBCAPI void WEBC_DivStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_DivEnd(char** buffer);
 // TODO: maybe add more Start-End pair for easier use
 

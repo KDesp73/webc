@@ -46,4 +46,5 @@ WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
     }
 
     WEBC_AppendLn(buffer, contents);
+    free((char*) contents);
 }
