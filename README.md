@@ -50,6 +50,10 @@ See [docs/examples/](./docs/examples/core.md)
 ## Templates
 
 - Single Page Portfolio `spp.h`
+  
+![image](https://github.com/KDesp73/webc/assets/63654361/60561368-e2fd-42c2-9151-f9dac91cfea2)
+
+
 
 ## Documentation
 
