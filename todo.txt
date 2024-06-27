@@ -4,6 +4,7 @@ TODO: Project website using the project itself
 TODO: fix server issues
 TODO: put logging on a seperate thread
 TODO: markdown renderer
+TODO: Middleware (Mokas)
 DONE: single header file for easier use
 DONE: add all the existing html tags
 DONE: http server in C to handle both frontend and backend
