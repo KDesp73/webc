@@ -17,6 +17,7 @@ char* SinglePagePortfolioTemplate(SinglePagePortfolio portfolio)
         );
 
         WEBC_StyleStart(&buffer);
+        if(portfolio.style_path != NULL)
             WEBC_IntegrateFile(&buffer, portfolio.style_path);
         WEBC_StyleEnd(&buffer);
 
