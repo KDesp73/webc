@@ -280,6 +280,13 @@ WEBCAPI void WEBC_StyleStart(char** buffer);
 WEBCAPI void WEBC_StyleEnd(char** buffer);
 WEBCAPI void WEBC_DivStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_DivEnd(char** buffer);
+WEBCAPI void WEBC_MainStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_MainEnd(char** buffer);
+WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_UlEnd(char** buffer);
+WEBCAPI void WEBC_FooterStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_FooterEnd(char** buffer);
+
 // TODO: maybe add more Start-End pair for easier use
 
 

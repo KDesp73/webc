@@ -162,6 +162,51 @@ WEBCAPI void WEBC_DivEnd(char** buffer)
     WEBC_AppendLn(buffer, tag);
     free(tag);
 }
+WEBCAPI void WEBC_MainStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("main", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_MainEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("main");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+WEBCAPI void WEBC_FooterStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("footer", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_FooterEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("footer");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("ul", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_UlEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("ul");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
 
 WEBCAPI void WEBC_Header(char **buffer, AttributeList attributes, BlockContents contents)
 {
