@@ -1,6 +1,12 @@
 #include "webc-templates/spp.h"
 
-void SidebarLinks(char** buffer)
+typedef struct {
+    Cstr text;
+    Cstr link;
+    Cstr target;
+} Link;
+
+void WEBC_SidebarLinks(char** buffer)
 {
     Link links[] = {
         (Link){.text = "Intro",.link = "#intro", .target = NULL},
@@ -18,7 +24,7 @@ void SidebarLinks(char** buffer)
     }
 }
 
-void SidebarFooter(char** buffer, Cstr author, size_t year)
+void WEBC_SidebarFooter(char** buffer, Cstr author, size_t year)
 {
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, "Made with <a href=\"https://github.com/KDesp73/webc\" target=\"_blank\">webc</a>");
     char* copyright = clib_format_text("Copyright (c) %s %zu",author, year);
@@ -26,14 +32,14 @@ void SidebarFooter(char** buffer, Cstr author, size_t year)
     free(copyright);
 }
 
-void SideBar(char** buffer, SinglePagePortfolio portfolio)
+void WEBC_SideBar(char** buffer, SinglePagePortfolio portfolio)
 {
     WEBC_H2(buffer, NO_ATTRIBUTES, portfolio.github_username);
     WEBC_UlStart(buffer, NO_ATTRIBUTES);
-        SidebarLinks(buffer);
+        WEBC_SidebarLinks(buffer);
     WEBC_UlEnd(buffer);
     WEBC_FooterStart(buffer, NO_ATTRIBUTES);
-        SidebarFooter(buffer, portfolio.author, portfolio.year);
+        WEBC_SidebarFooter(buffer, portfolio.author, portfolio.year);
     WEBC_FooterEnd(buffer);
 }
 

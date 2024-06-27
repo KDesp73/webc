@@ -1,0 +1,132 @@
+/* General Styles */
+:root {
+    --sidebar-width-small: 20%;
+    --sidebar-width-medium: 30%;
+    --sidebar-width-large: 20%;
+
+    --accent-color: #247ba0;
+
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width-medium);
+    height: 100%;
+    background-color: #232323;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+}
+
+.sidebar ul {
+    flex-grow: 1;
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    height: 2em;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    color: var(--accent-color);
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 10;
+}
+
+/* Main Content Styles */
+main {
+    margin-left: calc(var(--sidebar-width) + 20px);
+    padding: 40px 20px 20px 20px;
+    overflow-x: hidden;
+}
+
+main h1 {
+    margin-top: 0;
+}
+
+main p {
+    line-height: 1.5;
+}
+
+.project {
+    margin-bottom: 40px;
+}
+
+.project h2 {
+    margin-top: 0;
+}
+
+.project img {
+    max-width: 100%;
+    height: auto;
+}
+
+.project a {
+    color: #181818;
+    text-decoration: none;
+}
+
+.project a:hover {
+    color: var(--accent-color);
+}
+
+.skills {
+    max-width: 80%;
+    display: flex;
+    flex-flow: wrap;
+    margin-bottom: 1em;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        width: var(--sidebar-width-medium);
+    }
+    main {
+        margin-left: calc(var(--sidebar-width-medium) + 20px);
+    }
+    .skills {
+        max-width: calc(100vw - var(--sidebar-width-medium));
+    }
+}
+
+@media (min-width: 1200px) {
+    .sidebar {
+        width: var(--sidebar-width-large);
+    }
+    main {
+        margin-left: calc(var(--sidebar-width-large) + 30px);
+    }
+    .skills {
+        max-width: calc(100vw - var(--sidebar-width-large));
+    }
+}

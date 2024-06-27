@@ -37,14 +37,37 @@ WEBCAPI void WEBC_Clean(char** buffer)
     *buffer = NULL;
 }
 
+int is_url(const char *str)
+{
+    if (strncmp(str, "http://", 7) == 0 || strncmp(str, "https://", 8) == 0) {
+        if (strchr(str + 7, '/') != NULL || strchr(str + 8, '/') != NULL) {
+            return 1; // Valid URL
+        }
+    }
+    return 0; // Not a valid URL
+}
+
 WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
 {
-    Cstr contents = clib_read_file(path);
-    
-    if(contents == NULL){
-        PANIC("Couldn't read file: %s", path);
-    }
+    if(is_url(path)){
+        char* command = clib_format_text("curl -fsSL %s", path);
+        Cstr out = clib_execute_command(command);
+        free(command);
 
-    WEBC_AppendLn(buffer, contents);
-    free((char*) contents);
+        if(out == NULL){
+            PANIC("Couldn't get url: %s", path);
+        }
+
+        WEBC_AppendLn(buffer, out);
+        free((char*) out);
+    } else {
+        Cstr contents = clib_read_file(path);
+
+        if(contents == NULL){
+            PANIC("Couldn't read file: %s", path);
+        }
+
+        WEBC_AppendLn(buffer, contents);
+        free((char*) contents);
+    }
 }

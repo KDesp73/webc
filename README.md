@@ -45,7 +45,7 @@ Make sure you have the LD_LIBRARY_PATH environment variable set correctly by run
 
 ## Examples
 
-See [Examples.md](./docs/Examples.md)
+See [docs/examples/](./docs/examples/core.md)
 
 ## Documentation
 

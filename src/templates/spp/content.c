@@ -24,7 +24,7 @@ void Section(char** buffer, Cstr title)
     WEBC_Br(buffer);
 }
 
-void Intro(char** buffer, Cstr name, Cstr about)
+void WEBC_Intro(char** buffer, Cstr name, Cstr about)
 {
     Section(buffer, "intro");
     
@@ -51,7 +51,7 @@ void ShowProject(char** buffer, Project project)
     WEBC_DivEnd(buffer);
 }
 
-void Projects(char** buffer, Project projects[], size_t count)
+void WEBC_Projects(char** buffer, Project projects[], size_t count)
 {
     Section(buffer, "projects");
 
@@ -61,7 +61,7 @@ void Projects(char** buffer, Project projects[], size_t count)
     
 }
 
-void Skills(char** buffer, Cstr skills[], size_t skills_count)
+void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count)
 {
     Section(buffer, "skills");
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, "I am familiar with the following technologies");
@@ -101,7 +101,7 @@ void WayOfContact(char** buffer, Cstr label, Cstr title, Cstr link)
     free(paragraph);
 }
 
-void Contact(char** buffer, Cstr email, Cstr github_username)
+void WEBC_Contact(char** buffer, Cstr email, Cstr github_username)
 {
     Section(buffer, "contact");
 
@@ -125,14 +125,14 @@ void Seperator(char** buffer)
     WEBC_Br(buffer);
 }
 
-void Content(char** buffer, SinglePagePortfolio portfolio)
+void WEBC_Content(char** buffer, SinglePagePortfolio portfolio)
 {
 
-    Intro(buffer, portfolio.author, portfolio.about);
+    WEBC_Intro(buffer, portfolio.author, portfolio.about);
     Seperator(buffer);
-    Projects(buffer, portfolio.projects, portfolio.projects_count);
+    WEBC_Projects(buffer, portfolio.projects, portfolio.projects_count);
     Seperator(buffer);
-    Skills(buffer, portfolio.skills, portfolio.skills_count);
+    WEBC_Skills(buffer, portfolio.skills, portfolio.skills_count);
     Seperator(buffer);
-    Contact(buffer, portfolio.email, portfolio.github_username);
+    WEBC_Contact(buffer, portfolio.email, portfolio.github_username);
 }
