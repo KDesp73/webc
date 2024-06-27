@@ -2,7 +2,7 @@
 
 ## Simple Portfolio
 
-Check it out [here](https://github.com/KDesp73/webc-portfoli)
+Check it out [here](https://github.com/KDesp73/webc-portfolio)
 
 ## Simple Usage
 
