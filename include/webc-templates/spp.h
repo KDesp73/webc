@@ -29,8 +29,8 @@
  */
 
 
-#ifndef WEBCTEMPLATESPP_H
-#define WEBCTEMPLATESPP_H
+#ifndef WEBC_TEMPLATE_SPP_H
+#define WEBC_TEMPLATE_SPP_H
 
 #include "webc-core.h"
 
@@ -66,4 +66,4 @@ WEBCAPI void WEBC_Contact(char** buffer, Cstr email, Cstr github_username);
 WEBCAPI void WEBC_Content(char** buffer, SinglePagePortfolio portfolio);
 WEBCAPI char* WEBC_SinglePagePortfolioTemplate(SinglePagePortfolio portfolio);
 
-#endif // WEBCTEMPLATESPP_H
+#endif // WEBC_TEMPLATE_SPP_H
