@@ -121,3 +121,9 @@ int main(int argc, char** argv)
     return 0;
 }
 ```
+
+Build with:
+
+```bash
+cc -o spp ./src/main.c -Lpath/to/library -lwebc -Ipath/to/library/include
+```

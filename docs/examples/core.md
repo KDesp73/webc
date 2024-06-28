@@ -34,7 +34,7 @@ int main(void)
         Paragraph(&buffer, "Hello from C");
     BodyEnd(&buffer);
 
-    Cstr root = "site/"
+    Cstr root = "site/";
     Route index = {
         .path = root,
         .buffer = buffer
