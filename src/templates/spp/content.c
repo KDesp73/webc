@@ -75,6 +75,10 @@ void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count)
             if(j == 5){
                 WEBC_Append(&s, skills[j]);
             } else {
+                if(j >= skills_count) {
+                    free(s);
+                    break;
+                }
                 char* skill_comma = clib_format_text("%s,", skills[j]);
                 WEBC_Append(&s, skill_comma);
                 free(skill_comma);
@@ -85,6 +89,7 @@ void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count)
         }
 
         char* link = clib_format_text("https://skillicons.dev/icons?i=%s", skills_line);
+        free(skills_line);
         WEBC_Img(buffer, WEBC_UseModifier((Modifier) {.src = link, .class="skills"}));
         free(link);
     }

@@ -55,6 +55,7 @@ WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
         free(command);
 
         if(out == NULL){
+            WEBC_Clean(buffer);
             PANIC("Couldn't get url: %s", path);
         }
 
@@ -64,6 +65,7 @@ WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
         Cstr contents = clib_read_file(path);
 
         if(contents == NULL){
+            WEBC_Clean(buffer);
             PANIC("Couldn't read file: %s", path);
         }
 
