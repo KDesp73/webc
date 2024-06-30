@@ -4,7 +4,7 @@
 WEBCAPI void WEBC_TemplateFooter(char** buffer, Cstr author, size_t year)
 {
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, "Made with <a href=\"https://github.com/KDesp73/webc\" target=\"_blank\">webc</a>");
-    char* copyright = clib_format_text("Copyright (c) %s %zu. Some rights reserved",author, year);
+    char* copyright = clib_format_text("© %zu %s. Some rights reserved", year, author);
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, copyright);
     free(copyright);
 }
@@ -45,7 +45,7 @@ char* capitalize_first_letter(const char *str) {
     return NULL;
 }
 
-void Section(char** buffer, Cstr title)
+void WEBC_TemplateSection(char** buffer, Cstr title)
 {
     Modifier m = {
         .id = title

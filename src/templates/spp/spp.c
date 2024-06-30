@@ -1,4 +1,5 @@
 #include "webc-templates/spp.h"
+#include "webc-core.h"
 
 void fill_portfolio(SinglePagePortfolio* portfolio)
 {
@@ -16,15 +17,8 @@ char* WEBC_SinglePagePortfolioTemplate(SinglePagePortfolio portfolio)
     char* buffer = NULL;
 
     WEBC_HtmlStart(&buffer, "en");
-        WEBC_Head(&buffer, portfolio.title,
-            WEBC_MakeTag(META, 
-                WEBC_MakeAttributeList(
-                    WEBC_MakeAttribute(ATTR_NAME, "author"),
-                    WEBC_MakeAttribute(ATTR_CONTENT, portfolio.author),
-                    NULL
-                )
-            ),
-            NULL
+        WEBC_Head(&buffer, portfolio.title, 
+            META_AUTHOR_TAG(portfolio.author), NULL
         );
 
         WEBC_StyleStart(&buffer);
