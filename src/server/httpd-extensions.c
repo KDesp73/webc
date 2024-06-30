@@ -96,6 +96,7 @@ char* build_full_url(const char* root, const char* url) {
     // Copy root to full URL
     strcpy(full_url, root);
 
+    // Append '/' if necessary
     if (needs_slash) {
         strcat(full_url, "/");
     }
@@ -103,7 +104,6 @@ char* build_full_url(const char* root, const char* url) {
     // Append the normalized URL
     strcat(full_url, n_url);
 
-    // Append '/' if necessary
 
     return full_url;
 }

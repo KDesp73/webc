@@ -35,9 +35,11 @@ WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
         switch (opt) {
             case 'h':
                 clib_cli_help(args, usage, "Made by KDesp73");
+                clib_clean_arguments(&args);
                 exit(0);
             case 'v':
                 printf("webc v%s\n", VERSION);
+                clib_clean_arguments(&args);
                 exit(0);
             case 'e':
                 action.export = true;

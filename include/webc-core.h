@@ -47,26 +47,26 @@
 // ############ Types ############ //
 
 typedef enum {
-    ATTR_CHARSET = 0,
-    ATTR_NAME,
-    ATTR_CONTENT,
-    ATTR_REL,
-    ATTR_HREF,
-    ATTR_PROPERTY,
-    ATTR_HTTP_EQUIV,
-    ATTR_STYLE,
-    ATTR_TITLE,
-    ATTR_TARGET,
-    ATTR_SRC,
+    ATTR_ACTION = 0,
     ATTR_ALT,
-    ATTR_WIDTH,
-    ATTR_HEIGHT,
-    ATTR_ID,
+    ATTR_CHARSET,
     ATTR_CLASS,
+    ATTR_CONTENT,
+    ATTR_HEIGHT,
+    ATTR_HREF,
+    ATTR_HTTP_EQUIV,
+    ATTR_ID,
     ATTR_METHOD,
+    ATTR_NAME,
+    ATTR_PROPERTY,
+    ATTR_REL,
+    ATTR_SRC,
+    ATTR_STYLE,
+    ATTR_TARGET,
+    ATTR_TITLE,
     ATTR_TYPE,
-    ATTR_ACTION,
     ATTR_VALUE,
+    ATTR_WIDTH,
     
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
@@ -246,6 +246,15 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier);
 #define META "meta"
 #define LINK "link"
 #define BASE "base"
+
+#define META_AUTHOR_TAG(author) \
+    WEBC_MakeTag(META, \
+        WEBC_MakeAttributeList( \
+            WEBC_MakeAttribute(ATTR_NAME, "author"), \
+            WEBC_MakeAttribute(ATTR_CONTENT, author), \
+            NULL \
+        ) \
+    )
 
 /**
  * Appends the <head> block to the buffer with the default meta tags included

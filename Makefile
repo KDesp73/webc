@@ -1,15 +1,7 @@
 CC = cc
 
-SANITIZERS = 
 CFLAGS = -Wall -ggdb -fPIC -Iinclude -O0 -g3
 LDFLAGS = 
-
-ifdef SANITIZE
-	SANITIZERS = -fsanitize=address,undefined
-endif
-
-CFLAGS += $(SANITIZERS)
-LDFLAGS += $(SANITIZERS)
 
 ifeq ($(OS),Windows_NT)
     CFLAGS += -DWINDOWS
@@ -83,8 +75,9 @@ install_unix:
 	sudo chmod 644 $(INSTALL_DIR)/libwebc.a
 	
 	# Install header files
+	sudo rm -rf $(INCLUDE_INSTALL_DIR)
 	sudo mkdir -p $(INCLUDE_INSTALL_DIR)
-	sudo cp $(INCLUDE_DIR)/*.h $(INCLUDE_INSTALL_DIR)
+	sudo cp -r $(INCLUDE_DIR)/* $(INCLUDE_INSTALL_DIR)
 	sudo chmod 644 $(INCLUDE_INSTALL_DIR)/*.h
 
 install_windows:
