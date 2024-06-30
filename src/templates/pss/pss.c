@@ -13,21 +13,13 @@ void ProjectLink(char** buffer, Cstr link)
 
 WEBCAPI void WEBC_ProjectShowcaseSiteFragment(char** buffer, ProjectShowcaseSite site)
 {
-    WEBC_StyleStart(buffer);
-    
-        WEBC_IntegrateFile(buffer, site.style_path);
+    ProjectLink(buffer, site.project_repo);
+    WEBC_H1(buffer, NO_ATTRIBUTES, site.project_name);
+    WEBC_Span(buffer, NO_ATTRIBUTES, site.project_version);
 
-    WEBC_StyleEnd(buffer);
+    WEBC_Paragraph(buffer, NO_ATTRIBUTES, site.about);
 
-    WEBC_BodyStart(buffer);
-        ProjectLink(buffer, site.project_repo);
-        WEBC_H1(buffer, NO_ATTRIBUTES, site.project_name);
-        WEBC_Span(buffer, NO_ATTRIBUTES, site.project_version);
-
-        WEBC_Paragraph(buffer, NO_ATTRIBUTES, site.about);
-
-        WEBC_TemplateFooter(buffer, site.author, site.year);
-    WEBC_BodyEnd(buffer);
+    WEBC_TemplateFooter(buffer, site.author, site.year);
 }
 
 WEBCAPI char* WEBC_ProjectShowcaseSite(ProjectShowcaseSite site)
@@ -40,7 +32,13 @@ WEBCAPI char* WEBC_ProjectShowcaseSite(ProjectShowcaseSite site)
             NULL
         );
 
-        WEBC_ProjectShowcaseSiteFragment(&buffer, site);
+        WEBC_StyleStart(&buffer);
+            WEBC_IntegrateFile(&buffer, site.style_path);
+        WEBC_StyleEnd(&buffer);
+
+        WEBC_BodyStart(&buffer);
+            WEBC_ProjectShowcaseSiteFragment(&buffer, site);
+        WEBC_BodyEnd(&buffer);
     WEBC_HtmlEnd(&buffer);
 
     return buffer;

@@ -264,6 +264,51 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier);
         ) \
     )
 
+#define META_DESCRIPTION_TAG(description) \
+    WEBC_MakeTag(META, \
+        WEBC_MakeAttributeList( \
+            WEBC_MakeAttribute(ATTR_NAME, "description"), \
+            WEBC_MakeAttribute(ATTR_CONTENT, description), \
+            NULL \
+        ) \
+    )
+
+#define META_KEYWORDS_TAG(keywords) \
+    WEBC_MakeTag(META, \
+        WEBC_MakeAttributeList( \
+            WEBC_MakeAttribute(ATTR_NAME, "keywords"), \
+            WEBC_MakeAttribute(ATTR_CONTENT, keywords), \
+            NULL \
+        ) \
+    )
+
+#define LINK_STYLESHEET_TAG(file) \
+    WEBC_MakeTag(LINK, \
+        WEBC_MakeAttributeList( \
+            WEBC_MakeAttribute(ATTR_REL, "stylesheet"), \
+            WEBC_MakeAttribute(ATTR_HREF, file), \
+            NULL \
+        ) \
+    )
+
+#define LINK_ICON_TAG(file) \
+    WEBC_MakeTag(LINK, \
+        WEBC_MakeAttributeList( \
+            WEBC_MakeAttribute(ATTR_REL, "icon"), \
+            WEBC_MakeAttribute(ATTR_HREF, file), \
+            WEBC_MakeAttribute(ATTR_TYPE, "image/x-icon"), \
+            NULL \
+        ) \
+    )
+
+#define BASE_TAG(prefix) \
+    WEBC_MakeTag(BASE, \
+        WEBC_MakeAttributeList( \
+            WEBC_MakeAttribute(ATTR_HREF, prefix), \
+            NULL \
+        ) \
+    )
+
 /**
  * Appends the <head> block to the buffer with the default meta tags included
  *
