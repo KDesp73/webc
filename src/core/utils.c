@@ -1,6 +1,14 @@
 #include "webc-core.h"
 #include <stdio.h>
 
+WEBCAPI char* WEBC_BufferInit()
+{
+    char* buffer = (char*) malloc(1);
+    memset(buffer, 0, 1);
+
+    return buffer;
+}
+
 WEBCAPI void WEBC_AppendLn(char** buffer, Cstr text)
 {
     assert(buffer != NULL && *buffer != NULL);

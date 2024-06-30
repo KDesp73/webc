@@ -33,19 +33,22 @@
 #define WEBC_TEMPLATE_PSS_H
 
 #include "webc-core.h"
-#include "webc-templates/spp.h"
-
 
 typedef struct {
     Cstr title;
     Cstr author;
     Cstr about;
-    Cstr github_username;
     Cstr email;
     int year;
+    Cstr github_username;
+    Cstr project_name;
+    Cstr project_repo;
+    Cstr project_version;
+    Cstr project_license;
     Cstr style_path;
 } ProjectShowcaseSite;
 
 WEBCAPI char* WEBC_ProjectShowcaseSite(ProjectShowcaseSite site);
+WEBCAPI void WEBC_ProjectShowcaseSiteFragment(char** buffer, ProjectShowcaseSite site);
 
 #endif // WEBC_TEMPLATE_PSS_H

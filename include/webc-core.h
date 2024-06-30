@@ -161,6 +161,14 @@ WEBCAPI void WEBC_CleanTag(Tag** tag);
 
 // ############ Utils ############ //
 
+
+/**
+ * Allocates minimal memory for the buffer and cleans the allocated memory space
+ *
+ * @return char* The allocated buffer
+ */
+WEBCAPI char* WEBC_BufferInit();
+
 /**
  * Appends text (and a newline) to the buffer
  *

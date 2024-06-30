@@ -1,32 +1,11 @@
 #include "webc-templates/spp.h"
+#include "webc-templates/template.h"
 
-#include <ctype.h>
 #include <string.h>
 
-char* capitalize_first_letter(const char *str) {
-    if (str != NULL && strlen(str) > 0) {
-        char *copy = malloc(strlen(str) + 1);
-        strcpy(copy, str);
-        copy[0] = toupper(copy[0]);
-        return copy;
-    }
-    return NULL;
-}
-
-void Section(char** buffer, Cstr title)
+WEBCAPI void WEBC_Intro(char** buffer, Cstr name, Cstr about)
 {
-    Modifier m = {
-        .id = title
-    };
-    char* t = capitalize_first_letter(title);
-    WEBC_H1(buffer, WEBC_UseModifier(m), t);
-    free(t);
-    WEBC_Br(buffer);
-}
-
-void WEBC_Intro(char** buffer, Cstr name, Cstr about)
-{
-    Section(buffer, "intro");
+    WEBC_TemplateSection(buffer, "intro");
     
     char* par = clib_format_text("Hello there! My name is %s<br><br>%s", name, about);
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, par);
@@ -51,9 +30,9 @@ void ShowProject(char** buffer, Project project)
     WEBC_DivEnd(buffer);
 }
 
-void WEBC_Projects(char** buffer, Project projects[], size_t count)
+WEBCAPI void WEBC_Projects(char** buffer, Project projects[], size_t count)
 {
-    Section(buffer, "projects");
+    WEBC_TemplateSection(buffer, "projects");
 
     for(size_t i = 0; i < count; ++i){
         ShowProject(buffer, projects[i]);
@@ -61,9 +40,9 @@ void WEBC_Projects(char** buffer, Project projects[], size_t count)
     
 }
 
-void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count)
+WEBCAPI void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count)
 {
-    Section(buffer, "skills");
+    WEBC_TemplateSection(buffer, "skills");
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, "I am familiar with the following technologies");
 
     for(size_t i = 0; i < skills_count; i += 6){
@@ -95,32 +74,6 @@ void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count)
     }
 }
 
-void WayOfContact(char** buffer, Cstr label, Cstr title, Cstr link)
-{
-    char* anchor = (char*) malloc(1);
-    memset(anchor,0,1);
-    WEBC_Anchor(&anchor, WEBC_UseModifier((Modifier) {.href = link}), title);
-    char* paragraph = clib_format_text("%s: %s", label, anchor);
-    free(anchor);
-    WEBC_Paragraph(buffer, NO_ATTRIBUTES, paragraph);
-    free(paragraph);
-}
-
-void WEBC_Contact(char** buffer, Cstr email, Cstr github_username)
-{
-    Section(buffer, "contact");
-
-    char* email_link = clib_format_text("mailto:%s", email);
-    WayOfContact(buffer, "Email", email, email_link);
-    free(email_link);
-
-    char* github_link = clib_format_text("https://github.com/%s", github_username);
-    char* github_tag = clib_format_text("@%s", github_username);
-    WayOfContact(buffer, "Github", github_tag, github_link);
-    free(github_link);
-    free(github_tag);
-}
-
 void Seperator(char** buffer)
 {
     WEBC_Br(buffer);
@@ -139,5 +92,5 @@ void WEBC_Content(char** buffer, SinglePagePortfolio portfolio)
     Seperator(buffer);
     WEBC_Skills(buffer, portfolio.skills, portfolio.skills_count);
     Seperator(buffer);
-    WEBC_Contact(buffer, portfolio.email, portfolio.github_username);
+    WEBC_TemplateContact(buffer, portfolio.email, portfolio.github_username);
 }

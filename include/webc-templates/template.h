@@ -23,24 +23,15 @@
  */
 
 /**
- * @file webc-templates/spp.h
+ * @file webc-templates/template.h
  * @author KDesp73 (Konstantinos Despoinidis)
  * @version 0.0.1
  */
 
 
-#ifndef WEBC_TEMPLATE_SPP_H
-#define WEBC_TEMPLATE_SPP_H
-
+#ifndef WEBC_TEMPLATE_H
+#define WEBC_TEMPLATE_H
 #include "webc-core.h"
-
-typedef struct {
-    Cstr title;
-    Cstr link;
-    Cstr lang;
-    Cstr license;
-    Cstr desc;
-} Project;
 
 typedef struct {
     Cstr title;
@@ -50,18 +41,12 @@ typedef struct {
     Cstr github_username;
     int year;
     Cstr style_path;
-    Project* projects;
-    size_t projects_count;
-    Cstr* skills;
-    size_t skills_count;
-} SinglePagePortfolio;
+} Template;
 
-WEBCAPI void WEBC_SidebarLinks(char** buffer);
-WEBCAPI void WEBC_SideBar(char** buffer, SinglePagePortfolio portfolio);
-WEBCAPI void WEBC_Intro(char** buffer, Cstr name, Cstr about);
-WEBCAPI void WEBC_Projects(char** buffer, Project projects[], size_t count);
-WEBCAPI void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count);
-WEBCAPI void WEBC_Content(char** buffer, SinglePagePortfolio portfolio);
-WEBCAPI char* WEBC_SinglePagePortfolioTemplate(SinglePagePortfolio portfolio);
+WEBCAPI void WEBC_TemplateFooter(char** buffer, Cstr author, size_t year);
+WEBCAPI void WEBC_TemplateContact(char** buffer, Cstr email, Cstr github_username);
+WEBCAPI void WEBC_TemplateSection(char** buffer, Cstr title);
 
-#endif // WEBC_TEMPLATE_SPP_H
+
+#endif // WEBC_TEMPLATE_H
+
