@@ -567,15 +567,15 @@ HTTPDAPI int request_response(int sock, const struct request_t * req, const char
         char* path = NULL;
         if(req->url[url_len] == '/'){
             path = clib_format_text("%s%s", file, "index.html");
+            free(file);
             int code = request_send_file(sock, req, path);
             free(path);
-            free(file);
             return code;
         } else {
             path = clib_format_text("%s/%s", file, "index.html");
+            free(file);
             int code = request_send_file(sock, req, path);
             free(path);
-            free(file);
             return code;
         }
     }

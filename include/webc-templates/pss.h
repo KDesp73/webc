@@ -45,6 +45,7 @@ typedef struct {
     Cstr project_repo;
     Cstr project_version;
     Cstr project_license;
+    Cstr project_image;
     Cstr style_path;
 } ProjectShowcaseSite;
 
