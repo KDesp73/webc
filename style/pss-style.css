@@ -12,7 +12,7 @@ body {
     right: 0;
     width: 100vw;
     height: 150px;
-    position:relative;
+    z-index: 1;
 }
 
 .corner {
@@ -32,9 +32,13 @@ body {
     width: 60px;
     left: -80px;
     text-align: center;
-    font-family: arial;
     transform: rotate(45deg);
     display:block;
+}
+
+main {
+    z-index: 0;
+    margin-top: 2em;
 }
 
 a {
@@ -58,4 +62,10 @@ p {
 footer {
     position: absolute;
     bottom: 0;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly;
+    flex-direction: row-reverse;
+    
 }

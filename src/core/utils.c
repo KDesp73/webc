@@ -57,27 +57,27 @@ int is_url(const char *str)
 
 WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
 {
+    char* file = NULL;
     if(is_url(path)){
         char* command = clib_format_text("curl -fsSL %s", path);
-        Cstr out = clib_execute_command(command);
+        file = clib_execute_command(command);
         free(command);
 
-        if(out == NULL){
+        if(file == NULL){
             WEBC_Clean(buffer);
+            free(file);
             PANIC("Couldn't get url: %s", path);
         }
 
-        WEBC_AppendLn(buffer, out);
-        free((char*) out);
     } else {
-        Cstr contents = clib_read_file(path);
+        file = clib_read_file(path);
 
-        if(contents == NULL){
+        if(file == NULL){
             WEBC_Clean(buffer);
+            free(file);
             PANIC("Couldn't read file: %s", path);
         }
-
-        WEBC_AppendLn(buffer, contents);
-        free((char*) contents);
     }
+    WEBC_AppendLn(buffer, file);
+    free(file);
 }

@@ -1,12 +1,15 @@
 #include "webc-templates/template.h"
+#include "webc-core.h"
 #include <ctype.h>
 
 WEBCAPI void WEBC_TemplateFooter(char** buffer, Cstr author, size_t year)
 {
+    WEBC_FooterStart(buffer, NO_ATTRIBUTES);
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, "Made with <a href=\"https://github.com/KDesp73/webc\" target=\"_blank\">webc</a>");
     char* copyright = clib_format_text("© %zu %s. Some rights reserved", year, author);
     WEBC_Paragraph(buffer, NO_ATTRIBUTES, copyright);
     free(copyright);
+    WEBC_FooterEnd(buffer);
 }
 
 void WayOfContact(char** buffer, Cstr label, Cstr title, Cstr link)

@@ -31,8 +31,6 @@ void WEBC_SideBar(char** buffer, SinglePagePortfolio portfolio)
     WEBC_UlStart(buffer, NO_ATTRIBUTES);
         WEBC_SidebarLinks(buffer);
     WEBC_UlEnd(buffer);
-    WEBC_FooterStart(buffer, NO_ATTRIBUTES);
-        WEBC_TemplateFooter(buffer, portfolio.author, portfolio.year);
-    WEBC_FooterEnd(buffer);
+    WEBC_TemplateFooter(buffer, portfolio.author, portfolio.year);
 }
 
