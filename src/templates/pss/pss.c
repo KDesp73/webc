@@ -1,6 +1,6 @@
+#include "webc-core.h"
 #include "webc-templates/pss.h"
 #include "webc-templates/template.h"
-#include "webc-core.h"
 
 void ProjectLink(char** buffer, Cstr link)
 {
@@ -15,15 +15,19 @@ void ProjectLink(char** buffer, Cstr link)
 
 WEBCAPI void WEBC_TemplateProjectShowcaseSiteFragment(char** buffer, ProjectShowcaseSite site)
 {
-    ProjectLink(buffer, site.project.link);
-    WEBC_MainStart(buffer, NO_ATTRIBUTES);
+    WEBC_DivStart(buffer, NO_ATTRIBUTES);
+        ProjectLink(buffer, site.project.link);
         WEBC_H1(buffer, NO_ATTRIBUTES, site.project.name);
         WEBC_Span(buffer, NO_ATTRIBUTES, site.project.version);
 
         WEBC_Paragraph(buffer, NO_ATTRIBUTES, site.about);
-    WEBC_MainEnd(buffer);
 
-    WEBC_TemplateFooter(buffer, site.author, site.year);
+    if(site.project.image != NULL){
+        char* alt = clib_format_text("%s Image", site.project.name);
+        WEBC_Img(buffer, WEBC_UseModifier((Modifier) {.src = site.project.image, .alt = alt}));
+        free(alt);
+    }
+    WEBC_DivEnd(buffer);
 }
 
 WEBCAPI char* WEBC_TemplateProjectShowcaseSite(ProjectShowcaseSite site)
@@ -44,7 +48,10 @@ WEBCAPI char* WEBC_TemplateProjectShowcaseSite(ProjectShowcaseSite site)
         WEBC_StyleEnd(&buffer);
 
         WEBC_BodyStart(&buffer);
-            WEBC_TemplateProjectShowcaseSiteFragment(&buffer, site);
+            WEBC_MainStart(&buffer, NO_ATTRIBUTES);
+                WEBC_TemplateProjectShowcaseSiteFragment(&buffer, site);
+                WEBC_TemplateFooter(&buffer, site.author, site.year);
+            WEBC_MainEnd(&buffer);
         WEBC_BodyEnd(&buffer);
     WEBC_HtmlEnd(&buffer);
 
