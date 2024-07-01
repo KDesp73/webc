@@ -24,8 +24,8 @@ Write and deploy websites using the C Programming Language.
 <!--toc:end-->
 
 
-> [!IMPORTANT]
-> WARNING: This C library is in the early stages of development and is not yet ready for production use. 
+> [!WARNING]
+> This C library is in the early stages of development and is not yet ready for production use. 
 > The API, functionality, and overall stability of the library are subject to change without notice. 
 > Use this library at your own risk. We strongly recommend against using this library in any mission-critical or production systems. 
 > Please report any issues or feedback to the project maintainers. Further development and stabilization of 
