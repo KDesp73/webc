@@ -33,14 +33,7 @@
 #define WEBC_TEMPLATE_SPP_H
 
 #include "webc-core.h"
-
-typedef struct {
-    Cstr title;
-    Cstr link;
-    Cstr lang;
-    Cstr license;
-    Cstr desc;
-} Project;
+#include "webc-templates/template.h"
 
 typedef struct {
     Cstr title;
@@ -62,6 +55,6 @@ WEBCAPI void WEBC_Intro(char** buffer, Cstr name, Cstr about);
 WEBCAPI void WEBC_Projects(char** buffer, Project projects[], size_t count);
 WEBCAPI void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count);
 WEBCAPI void WEBC_Content(char** buffer, SinglePagePortfolio portfolio);
-WEBCAPI char* WEBC_SinglePagePortfolioTemplate(SinglePagePortfolio portfolio);
+WEBCAPI char* WEBC_TemplateSinglePagePortfolio(SinglePagePortfolio portfolio);
 
 #endif // WEBC_TEMPLATE_SPP_H

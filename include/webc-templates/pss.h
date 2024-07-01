@@ -33,6 +33,7 @@
 #define WEBC_TEMPLATE_PSS_H
 
 #include "webc-core.h"
+#include "webc-templates/template.h"
 
 typedef struct {
     Cstr title;
@@ -41,15 +42,11 @@ typedef struct {
     Cstr email;
     int year;
     Cstr github_username;
-    Cstr project_name;
-    Cstr project_repo;
-    Cstr project_version;
-    Cstr project_license;
-    Cstr project_image;
+    Project project;
     Cstr style_path;
 } ProjectShowcaseSite;
 
-WEBCAPI char* WEBC_ProjectShowcaseSite(ProjectShowcaseSite site);
-WEBCAPI void WEBC_ProjectShowcaseSiteFragment(char** buffer, ProjectShowcaseSite site);
+WEBCAPI char* WEBC_TemplateProjectShowcaseSite(ProjectShowcaseSite site);
+WEBCAPI void WEBC_TemplateProjectShowcaseSiteFragment(char** buffer, ProjectShowcaseSite site);
 
 #endif // WEBC_TEMPLATE_PSS_H

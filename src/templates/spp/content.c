@@ -17,7 +17,7 @@ void ShowProject(char** buffer, Project project)
     WEBC_DivStart(buffer, WEBC_UseModifier((Modifier) {.class = "project"}));
         char* anchor = (char*) malloc(1);
         memset(anchor, 0, 1);
-        WEBC_Anchor(&anchor, WEBC_UseModifier((Modifier) {.href = project.link, .target = "_blank"}), project.title);
+        WEBC_Anchor(&anchor, WEBC_UseModifier((Modifier) {.href = project.link, .target = "_blank"}), project.name);
         WEBC_H2(buffer, NO_ATTRIBUTES, anchor);
         free(anchor);
 

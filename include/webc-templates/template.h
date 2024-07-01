@@ -34,6 +34,16 @@
 #include "webc-core.h"
 
 typedef struct {
+    Cstr name;
+    Cstr link;
+    Cstr lang;
+    Cstr license;
+    Cstr version;
+    Cstr desc;
+    Cstr image;
+} Project;
+
+typedef struct {
     Cstr title;
     Cstr author;
     Cstr about;

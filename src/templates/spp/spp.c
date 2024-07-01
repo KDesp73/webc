@@ -11,7 +11,7 @@ void fill_portfolio(SinglePagePortfolio* portfolio)
     if(portfolio->github_username == NULL) portfolio->github_username = "User";
 }
 
-char* WEBC_SinglePagePortfolioTemplate(SinglePagePortfolio portfolio)
+char* WEBC_TemplateSinglePagePortfolio(SinglePagePortfolio portfolio)
 {
     fill_portfolio(&portfolio);
     char* buffer = NULL;
