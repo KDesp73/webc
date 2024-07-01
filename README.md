@@ -14,15 +14,15 @@ Y88b       d88P     d88P"       d88P
 Write and deploy websites using the C Programming Language.
 
 <!--toc:start-->
-- [webc](#webc)
+- [webc `</c>`](#webc-c)
   - [Usage](#usage)
     - [Build the library for Linux](#build-the-library-for-linux)
     - [Link the library to your project](#link-the-library-to-your-project)
   - [Examples](#examples)
+  - [Templates](#templates)
   - [Documentation](#documentation)
   - [LICENSE](#license)
 <!--toc:end-->
-
 
 > [!WARNING]
 > This C library is in the early stages of development and is not yet ready for production use. 
@@ -34,13 +34,33 @@ Write and deploy websites using the C Programming Language.
 
 ## Usage
 
-### Build the library for Linux
+### Build the library
 
-```console
+```bash
 git clone https://github.com/KDesp73/webc
 cd webc
 make
 ```
+
+> [!NOTE]
+> Library files (.so, .a, .dll) are located at `build/output/`
+
+### Install the library
+
+```bash
+make install
+```
+#### Linux
+
+The `.so` and `.a` files are copied to the `/usr/local/lib/webc/` directory 
+
+Additionally the header files are copied to the `/usr/local/include/webc/` directory
+
+#### Windows
+
+> [!NOTE]
+> Not implemented yet
+
 
 ### Link the library to your project
 
