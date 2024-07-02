@@ -20,7 +20,7 @@ WEBCAPI void WEBC_TemplateProjectShowcaseSiteFragment(char** buffer, ProjectShow
         WEBC_H1(buffer, NO_ATTRIBUTES, site.project.name);
         WEBC_Span(buffer, NO_ATTRIBUTES, site.project.version);
 
-        WEBC_Paragraph(buffer, NO_ATTRIBUTES, site.about);
+        WEBC_Paragraph(buffer, NO_ATTRIBUTES, site.project.desc);
 
     if(site.project.image != NULL){
         char* alt = clib_format_text("%s Image", site.project.name);

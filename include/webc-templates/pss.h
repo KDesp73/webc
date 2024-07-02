@@ -38,7 +38,6 @@
 typedef struct {
     Cstr title;
     Cstr author;
-    Cstr about;
     Cstr email;
     int year;
     Cstr github_username;

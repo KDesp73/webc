@@ -53,6 +53,9 @@ WEBCAPI void WEBC_ExportRoute(Route route)
 
 void ExportRouteRoot(Cstr root, Route route)
 {
+    if(root == NULL || route.path == NULL || route.buffer == NULL) 
+        return;
+
     char* path = clib_format_text("%s%s", root, route.path);
     WEBC_Export(route.buffer, path);
     free(path);

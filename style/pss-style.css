@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     text-align: center;
+    overflow-x: hidden;
 }
 
 .container {
@@ -37,8 +38,12 @@ body {
 }
 
 main {
-    z-index: 0;
-    margin-top: 2em;
+    padding: 2em;
+}
+
+main img {
+    width: 60%;
+    margin: 2em 0;
 }
 
 a {
@@ -60,8 +65,6 @@ p {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
     width: 100vw;
     display: flex;
     align-items: center;
