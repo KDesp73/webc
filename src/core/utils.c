@@ -1,5 +1,6 @@
 #include "webc-core.h"
 #include <stdio.h>
+#include "webc-md.h"
 
 WEBCAPI char* WEBC_BufferInit()
 {
@@ -55,6 +56,17 @@ int is_url(const char *str)
     return 0; // Not a valid URL
 }
 
+int is_markdown_file(const char *path) {
+    const char *markdownExtension = ".md";
+    const char *fileExtension = strrchr(path, '.');
+
+    if (fileExtension != NULL && strcmp(fileExtension, markdownExtension) == 0) {
+        return 1; // It is a Markdown file
+    }
+
+    return 0; // It is not a Markdown file
+}
+
 WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
 {
     char* file = NULL;
@@ -64,20 +76,22 @@ WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
         free(command);
 
         if(file == NULL){
-            WEBC_Clean(buffer);
-            free(file);
-            PANIC("Couldn't get url: %s", path);
+            ERRO("Couldn't get url: %s", path);
         }
+    } else if (is_markdown_file(path)){
+        file = (char*) WEBC_MarkdownToHtml(path);
 
+        if(file == NULL){
+            ERRO("Couldn't convert markdown file: %s", path);
+        }
     } else {
         file = clib_read_file(path);
 
         if(file == NULL){
-            WEBC_Clean(buffer);
-            free(file);
-            PANIC("Couldn't read file: %s", path);
+            ERRO("Couldn't read file: %s", path);
         }
     }
+    
     WEBC_AppendLn(buffer, file);
     free(file);
 }
