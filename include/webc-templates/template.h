@@ -33,6 +33,10 @@
 #define WEBC_TEMPLATE_H
 #include "webc-core.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     Cstr name;
     Cstr link;
@@ -58,5 +62,8 @@ WEBCAPI void WEBC_TemplateContact(char** buffer, Cstr email, Cstr github_usernam
 WEBCAPI void WEBC_TemplateSection(char** buffer, Cstr title);
 
 
+#ifdef __cplusplus
+}
+#endif
 #endif // WEBC_TEMPLATE_H
 

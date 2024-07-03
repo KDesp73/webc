@@ -35,6 +35,10 @@
 #include "webc-core.h"
 #include "webc-templates/template.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     Cstr title;
     Cstr author;
@@ -57,4 +61,7 @@ WEBCAPI void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count);
 WEBCAPI void WEBC_Content(char** buffer, SinglePagePortfolio portfolio);
 WEBCAPI char* WEBC_TemplateSinglePagePortfolio(SinglePagePortfolio portfolio);
 
+#ifdef __cplusplus
+}
+#endif
 #endif // WEBC_TEMPLATE_SPP_H

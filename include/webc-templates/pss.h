@@ -35,6 +35,10 @@
 #include "webc-core.h"
 #include "webc-templates/template.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     Cstr title;
     Cstr author;
@@ -48,4 +52,7 @@ typedef struct {
 WEBCAPI char* WEBC_TemplateProjectShowcaseSite(ProjectShowcaseSite site);
 WEBCAPI void WEBC_TemplateProjectShowcaseSiteFragment(char** buffer, ProjectShowcaseSite site);
 
+#ifdef __cplusplus
+}
+#endif
 #endif // WEBC_TEMPLATE_PSS_H

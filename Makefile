@@ -1,7 +1,7 @@
 CC = cc
 
 CFLAGS = -Wall -ggdb -fPIC -Iinclude -O0 -g3
-LDFLAGS = 
+LDFLAGS = -Llib/ -lcmark
 
 ifeq ($(OS),Windows_NT)
     CFLAGS += -DWINDOWS
@@ -49,7 +49,7 @@ $(OBJECTS_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 shared: $(BUILD_DIR) $(OBJ_FILES)
-	$(CC) -shared -o $(LIB_NAME) $(OBJ_FILES)
+	$(CC) -shared -o $(LIB_NAME) $(OBJ_FILES) $(LDFLAGS)
 	chmod 755 $(LIB_NAME)
 
 static: $(BUILD_DIR) $(OBJ_FILES)
@@ -57,7 +57,7 @@ static: $(BUILD_DIR) $(OBJ_FILES)
 	chmod 644 $(STATIC_LIB_NAME)
 
 dll: $(BUILD_DIR) $(OBJ_FILES)
-	$(CC) -shared -o $(DLL_NAME) $(OBJ_FILES) -Wl,--out-implib,$(BUILD_DIR)/output/libwebc.dll.a
+	$(CC) -shared -o $(DLL_NAME) $(OBJ_FILES) -Wl,--out-implib,$(BUILD_DIR)/output/libwebc.dll.a $(LDFLAGS)
 	chmod 644 $(DLL_NAME)
 	chmod 644 $(BUILD_DIR)/output/libwebc.dll.a
 

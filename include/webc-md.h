@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2024 Konstantinos Despoinidis (and other contributors)
+ * Copyright (c) 2024 Konstantinos Despoinidis 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,13 @@
  */
 
 /**
- * @file webc-ui.h
- * @author ThanasisGeorg (Thanasis Georgalis)
- * @version 0.0.0
+ * @file webc-actions.h
+ * @author KDesp73 (Konstantinos Despoinidis)
+ * @version 0.0.2
  */
 
-#ifndef WEBCUI_H
-#define WEBCUI_H
-
-// ############ Includes  ############ //
+#ifndef WEBCMD_H
+#define WEBCMD_H
 
 #include "webc-core.h"
 
@@ -39,13 +37,10 @@
 extern "C" {
 #endif
 
-// ############ UI Elements ############ //
-
-WEBCAPI void WEBC_UIButton(char** buffer, Modifier modifier, Cstr text);
-
+WEBCAPI Cstr WEBC_MarkdownToHtml(Cstr path);
 
 #ifdef __cplusplus
 }
 #endif
-#endif // WEBCUI_H
 
+#endif // WEBCMD_H

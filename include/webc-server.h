@@ -36,6 +36,10 @@
 #define HTTPD_IMPLEMENTATION
 #include "extern/httpd.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * Serves the physical file tree exported from this program starting from the root
  *
@@ -69,6 +73,10 @@ WEBCAPI int WEBC_ServeTree(int port, Tree tree);
 // HTTPD Extensions
 int request_response_tree(int sock, const struct request_t* req, Tree tree);
 int run_server_tree(struct server_t * server, Tree tree);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // WEBCSERVER_H
 

@@ -35,6 +35,10 @@
 #include "extern/clib.h"
 #include "webc-core.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     Bool export;
     Bool serve_static;
@@ -129,5 +133,9 @@ WEBCAPI void WEBC_ExportRoute(Route route);
  * @param tree The virtual tree created by the user
  */
 WEBCAPI void WEBC_ExportTree(Tree tree);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // WEBCACTIONS_H

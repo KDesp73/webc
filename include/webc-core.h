@@ -44,6 +44,9 @@
 #define CLIB_IMPLEMENTATION
 #include "extern/clib.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 // ############ Types ############ //
 
 typedef enum {
@@ -497,5 +500,9 @@ Specific Heading elements
     WEBC_Heading(buffer, attr, 5, text);
 #define WEBC_H6(buffer, attr, text) \
     WEBC_Heading(buffer, attr, 6, text);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // WEBC_H
