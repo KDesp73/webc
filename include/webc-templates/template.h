@@ -65,5 +65,6 @@ WEBCAPI void WEBC_TemplateSection(char** buffer, Cstr title);
 #ifdef __cplusplus
 }
 #endif
+
 #endif // WEBC_TEMPLATE_H
 

@@ -1,6 +1,5 @@
 TODO: backend framework in C
 TODO: UI library (Thanasis)
-TODO: Project website using the project itself
 TODO: fix server issues
 TODO: put logging on a seperate thread
 TODO: Middleware (Mokas)
@@ -15,3 +14,4 @@ DONE: prefix everything
 DONE: resolve all memory leaks
 DONE: project showcase template
 DONE: markdown renderer
+DONE: Project website using the project itself

@@ -55,4 +55,5 @@ WEBCAPI void WEBC_TemplateProjectShowcaseSiteFragment(char** buffer, ProjectShow
 #ifdef __cplusplus
 }
 #endif
+
 #endif // WEBC_TEMPLATE_PSS_H

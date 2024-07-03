@@ -1,7 +1,7 @@
 #include "webc-md.h"
 #include "extern/cmark/cmark.h"
 
-static char* convert(cmark_node *document, 
+char* convert(cmark_node *document, 
         int options, int width) {
     char *result;
 

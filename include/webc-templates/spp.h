@@ -64,4 +64,5 @@ WEBCAPI char* WEBC_TemplateSinglePagePortfolio(SinglePagePortfolio portfolio);
 #ifdef __cplusplus
 }
 #endif
+
 #endif // WEBC_TEMPLATE_SPP_H

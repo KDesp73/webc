@@ -23,7 +23,7 @@
  */
 
 /**
- * @file webc-actions.h
+ * @file webc-md.h
  * @author KDesp73 (Konstantinos Despoinidis)
  * @version 0.0.2
  */
@@ -46,7 +46,7 @@ extern "C" {
 WEBCAPI Cstr WEBC_MarkdownToHtml(Cstr path);
 
 /**
- * Converts the the markdown into html
+ * Converts the markdown into html
  *
  * @param md The markdown text
  * @return const char* The html
