@@ -44,7 +44,14 @@ extern "C" {
  * @return const char* The html
  */
 WEBCAPI Cstr WEBC_MarkdownToHtml(Cstr path);
-// TODO: Convert from text
+
+/**
+ * Converts the the markdown into html
+ *
+ * @param md The markdown text
+ * @return const char* The html
+ */
+WEBCAPI Cstr WEBC_MarkdownToHtmlText(Cstr md);
 
 #ifdef __cplusplus
 }

@@ -3,14 +3,15 @@ TODO: UI library (Thanasis)
 TODO: Project website using the project itself
 TODO: fix server issues
 TODO: put logging on a seperate thread
-TODO: markdown renderer
 TODO: Middleware (Mokas)
 TODO: blog template (github discussion integration)
 TODO: add SEO options
 TODO: better css for templates (help)
+TODO: better template naming
 DONE: single header file for easier use
 DONE: add all the existing html tags
 DONE: http server in C to handle both frontend and backend
 DONE: prefix everything
 DONE: resolve all memory leaks
 DONE: project showcase template
+DONE: markdown renderer

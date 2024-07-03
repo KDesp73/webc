@@ -78,18 +78,20 @@ WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
         if(file == NULL){
             ERRO("Couldn't get url: %s", path);
         }
-    } else if (is_markdown_file(path)){
-        file = (char*) WEBC_MarkdownToHtml(path);
-
-        if(file == NULL){
-            ERRO("Couldn't convert markdown file: %s", path);
-        }
     } else {
         file = clib_read_file(path);
 
         if(file == NULL){
             ERRO("Couldn't read file: %s", path);
         }
+    }
+
+    if(is_markdown_file(path)){
+        char* html = (char*) WEBC_MarkdownToHtmlText(file);
+        WEBC_AppendLn(buffer, html);
+        free(html);
+        free(file);
+        return;
     }
     
     WEBC_AppendLn(buffer, file);

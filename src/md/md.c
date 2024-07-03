@@ -47,3 +47,23 @@ WEBCAPI Cstr WEBC_MarkdownToHtml(Cstr path)
 
     return result;
 }
+
+WEBCAPI Cstr WEBC_MarkdownToHtmlText(Cstr md)
+{
+    cmark_parser *parser;
+    cmark_node *document;
+    int width = 0;
+    int options = CMARK_OPT_DEFAULT;
+    options |= CMARK_OPT_UNSAFE;
+    options |= CMARK_OPT_VALIDATE_UTF8;
+    
+    parser = cmark_parser_new(options);
+    cmark_parser_feed(parser, md, strlen(md));
+    document = cmark_parser_finish(parser);
+    cmark_parser_free(parser);
+
+    char* result = convert(document, options, width);
+    cmark_node_free(document);
+
+    return result;
+}
