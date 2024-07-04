@@ -70,6 +70,7 @@ typedef enum {
     ATTR_TITLE,
     ATTR_TYPE,
     ATTR_VALUE,
+    ATTR_CHECKED,
     ATTR_WIDTH,
     
     ATTRIBUTE_NAME_COUNT
@@ -106,7 +107,15 @@ typedef struct {
     Cstr action;
     Cstr type;
     Cstr value;
+    Cstr name;
+    Cstr checked;
 } Modifier;
+
+#define CLASS(cls) \
+    WEBC_UseModifier((Modifier) { .class = cls }) 
+
+#define STYLE(stl) \
+    WEBC_UseModifier((Modifier) { .style= stl }) 
 
 typedef void (*BlockContents)(char** buffer);
 

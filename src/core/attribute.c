@@ -140,6 +140,8 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.action != NULL) list.count++;
     if (modifier.method != NULL) list.count++;
     if (modifier.value != NULL) list.count++;
+    if (modifier.name != NULL) list.count++;
+    if (modifier.checked != NULL) list.count++;
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -188,6 +190,12 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
 
     if (modifier.value != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_VALUE,  modifier.value);
+
+    if (modifier.name!= NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_NAME,  modifier.name);
+
+    if (modifier.checked!= NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_NAME,  modifier.checked);
 
     return list;
 }

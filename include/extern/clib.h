@@ -178,6 +178,7 @@ CLIBAPI int clib_file_exists(const char *filename);
 CLIBAPI int clib_eu_mod(int a, int b);
 #define ITOA(s, i) sprintf(s, "%d", i);
 #define FTOA(s, f) sprintf(s, "%f", f);
+#define STR(x) #x
 CLIBAPI char* clib_format_text(const char *format, ...);
 
 // CLI

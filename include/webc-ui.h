@@ -39,10 +39,50 @@
 extern "C" {
 #endif
 
+// ############ Types ############ //
+
+typedef enum {
+    AVATAR_DEFAULT,
+    AVATAR_CIRCLE,
+    AVATAR_RING,
+    AVATAR_PRESENCE_ONLINE,
+    AVATAR_PRESENCE_OFFLINE
+} AvatarType;
+
+typedef struct {
+    Cstr title;
+    Cstr content;
+} Accordion;
+
 // ############ UI Elements ############ //
+
+#define DAISYUI_LINK \
+    WEBC_MakeTag(LINK, \
+            WEBC_MakeAttributeList( \
+                WEBC_MakeAttribute(ATTR_HREF, "https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"), \
+                WEBC_MakeAttribute(ATTR_REL, "stylesheet"), \
+                WEBC_MakeAttribute(ATTR_TYPE, "text/css"), \
+                NULL \
+            ) \
+        )
+#define TAILWINDCSS_SCRIPT(buffer) \
+    WEBC_PlainText(buffer, "<script src=\"https://cdn.tailwindcss.com\"></script>");
 
 WEBCAPI void WEBC_UIButton(char** buffer, Modifier modifier, Cstr text);
 
+// #ifdef DAISY_UI
+
+/**
+ * https://daisyui.com/components/accordion/#accordion-using-radio-inputs
+ */
+WEBCAPI void WEBC_DaisyAccordion(char** buffer, Accordion accordion, int open);
+
+/**
+ * https://daisyui.com/components/avatar/#avatar-in-custom-sizes 
+ */
+WEBCAPI void WEBC_DaisyAvatar(char** buffer, AvatarType type, Cstr img_src, Cstr placeholder, size_t width);
+
+// #endif // DAISY_UI
 
 #ifdef __cplusplus
 }
