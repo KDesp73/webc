@@ -15,14 +15,13 @@ Write and deploy websites using the C Programming Language.
 
 
 <!--toc:start-->
-- [webc `</c>`](#webc-c)
-  - [Usage](#usage)
+- [Usage](#usage)
     - [Build the library for Linux](#build-the-library-for-linux)
     - [Link the library to your project](#link-the-library-to-your-project)
-  - [Examples](#examples)
-  - [Templates](#templates)
-  - [Documentation](#documentation)
-  - [LICENSE](#license)
+- [Examples](#examples)
+- [Templates](#templates)
+- [Documentation](#documentation)
+- [LICENSE](#license)
 <!--toc:end-->
 
 > [!WARNING]
