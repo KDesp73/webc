@@ -49,6 +49,11 @@ typedef enum {
     AVATAR_PRESENCE_OFFLINE
 } AvatarType;
 
+typedef enum {
+    BADGE_DEFAULT,
+    BADGE_OUTLINE
+} BadgeType;
+
 typedef struct {
     Cstr title;
     Cstr content;
@@ -73,14 +78,24 @@ WEBCAPI void WEBC_UIButton(char** buffer, Modifier modifier, Cstr text);
 // #ifdef DAISY_UI
 
 /**
- * https://daisyui.com/components/accordion/#accordion-using-radio-inputs
+ * https://daisyui.com/components/accordion/
  */
 WEBCAPI void WEBC_DaisyAccordion(char** buffer, Accordion accordion, int open);
 
 /**
- * https://daisyui.com/components/avatar/#avatar-in-custom-sizes 
+ * https://daisyui.com/components/avatar/
  */
 WEBCAPI void WEBC_DaisyAvatar(char** buffer, AvatarType type, Cstr img_src, Cstr placeholder, size_t width);
+
+
+/**
+ * https://daisyui.com/components/badge/
+ *
+ * See colors at: https://daisyui.com/docs/colors/
+ *
+ * Example: WEBC_DaisyBadge(&buffer, BADGE_DEFAULT, "primary", "Example");
+ */
+WEBCAPI void WEBC_DaisyBadge(char** buffer, BadgeType type, Cstr color, Cstr text);
 
 // #endif // DAISY_UI
 
