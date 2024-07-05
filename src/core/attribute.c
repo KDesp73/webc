@@ -35,49 +35,56 @@ WEBCAPI Attribute* WEBC_MakeAttribute(AttributeName name, const char* value)
 WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
 {
     switch (attr) {
-        case ATTR_ID:
-            return "id";
-        case ATTR_CLASS:
-            return "class";
-        case ATTR_CHARSET:
-            return "charset";
-        case ATTR_NAME:
-            return "name";
-        case ATTR_CONTENT:
-            return "content";
-        case ATTR_REL:
-            return "rel";
-        case ATTR_HREF:
-            return "href";
-        case ATTR_PROPERTY:
-            return "property";
-        case ATTR_HTTP_EQUIV:
-            return "http_equiv";
-        case ATTR_STYLE:
-            return "style";
-        case ATTR_TITLE:
-            return "title";
-        case ATTR_TARGET:
-            return "target";
-        case ATTR_SRC:
-            return "src";
-        case ATTR_ALT:
-            return "alt";
-        case ATTR_WIDTH:
-            return "width";
-        case ATTR_HEIGHT:
-            return "height";
-        case ATTR_METHOD:
-            return "method";
-        case ATTR_TYPE:
-            return "type";
         case ATTR_ACTION:
             return "action";
+        case ATTR_ALT:
+            return "alt";
+        case ATTR_CHARSET:
+            return "charset";
+        case ATTR_CLASS:
+            return "class";
+        case ATTR_CONTENT:
+            return "content";
+        case ATTR_HEIGHT:
+            return "height";
+        case ATTR_HREF:
+            return "href";
+        case ATTR_HTTP_EQUIV:
+            return "http_equiv";
+        case ATTR_ID:
+            return "id";
+        case ATTR_METHOD:
+            return "method";
+        case ATTR_NAME:
+            return "name";
+        case ATTR_PROPERTY:
+            return "property";
+        case ATTR_REL:
+            return "rel";
+        case ATTR_SRC:
+            return "src";
+        case ATTR_STYLE:
+            return "style";
+        case ATTR_TABINDEX:
+            return "tabindex";
+        case ATTR_TARGET:
+            return "target";
+        case ATTR_TITLE:
+            return "title";
+        case ATTR_TYPE:
+            return "type";
         case ATTR_VALUE:
             return "value";
+        case ATTR_CHECKED:
+            return "checked";
+        case ATTR_WIDTH:
+            return "width";
+        case ATTR_ROLE:
+            return "role";
         default:
-            return NULL;
+            break;
     }
+    return NULL;
 }
 
 WEBCAPI void WEBC_CleanAttributeList(AttributeList list)
@@ -142,6 +149,8 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.value != NULL) list.count++;
     if (modifier.name != NULL) list.count++;
     if (modifier.checked != NULL) list.count++;
+    if (modifier.tabindex != NULL) list.count++;
+    if (modifier.role != NULL) list.count++;
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -191,11 +200,17 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.value != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_VALUE,  modifier.value);
 
-    if (modifier.name!= NULL)
+    if (modifier.name != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_NAME,  modifier.name);
 
-    if (modifier.checked!= NULL)
-        list.items[list.count++] = WEBC_MakeAttribute(ATTR_NAME,  modifier.checked);
+    if (modifier.checked != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_CHECKED,  modifier.checked);
+
+    if (modifier.tabindex != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_TABINDEX,  modifier.tabindex);
+
+    if (modifier.role != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_ROLE,  modifier.role);
 
     return list;
 }

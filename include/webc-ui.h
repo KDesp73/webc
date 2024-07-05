@@ -25,7 +25,6 @@
 /**
  * @file webc-ui.h
  * @author KDesp73 (Konstantinos Despoinidis)
- * @author ThanasisGeorg (Thanasis Georgalis)
  * @version 0.0.1
  */
 
@@ -41,6 +40,11 @@ extern "C" {
 #endif
 
 // ############ Types ############ //
+
+typedef struct {
+    Cstr title;
+    Cstr content;
+} Accordion;
 
 typedef enum {
     AVATAR_DEFAULT,
@@ -89,10 +93,13 @@ typedef struct {
     Cstr footer;
 } ChatBubble;
 
-typedef struct {
-    Cstr title;
-    Cstr content;
-} Accordion;
+typedef enum {
+    ALERT_DEFAULT = 0,
+    ALERT_INFO = 1,
+    ALERT_SUCCESS = 2,
+    ALERT_WARNING = 3,
+    ALERT_ERROR = 4,
+} AlertType;
 
 // ############ UI Elements ############ //
 
@@ -107,8 +114,6 @@ typedef struct {
         )
 #define TAILWINDCSS_SCRIPT(buffer) \
     WEBC_PlainText(buffer, "<script src=\"https://cdn.tailwindcss.com\"></script>");
-
-WEBCAPI void WEBC_UIButton(char** buffer, Modifier modifier, Cstr text);
 
 // #ifdef DAISY_UI
 
@@ -145,6 +150,16 @@ WEBCAPI void WEBC_DaisyCarousel(char** buffer, CarouselType type, size_t width, 
  * https://daisyui.com/components/chat/
  */
 WEBCAPI void WEBC_DaisyChatBubble(char** buffer, ChatBubbleType type, ChatBubble bubble, int left);
+
+/**
+ * https://daisyui.com/components/collapse/
+ */
+WEBCAPI void WEBC_DaisyCollapse(char** buffer, Cstr title, Cstr contents);
+
+/**
+ * https://daisyui.com.components/alert/
+ */
+WEBCAPI void WEBC_DaisyAlert(char** buffer, AlertType type, Cstr text);
 
 // #endif // DAISY_UI
 

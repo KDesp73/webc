@@ -66,12 +66,14 @@ typedef enum {
     ATTR_REL,
     ATTR_SRC,
     ATTR_STYLE,
+    ATTR_TABINDEX,
     ATTR_TARGET,
     ATTR_TITLE,
     ATTR_TYPE,
     ATTR_VALUE,
     ATTR_CHECKED,
     ATTR_WIDTH,
+    ATTR_ROLE,
     
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
@@ -106,8 +108,10 @@ typedef struct {
     Cstr method;
     Cstr action;
     Cstr type;
+    Cstr tabindex;
     Cstr value;
     Cstr name;
+    Cstr role;
     Cstr checked;
 } Modifier;
 
