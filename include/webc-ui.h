@@ -24,8 +24,9 @@
 
 /**
  * @file webc-ui.h
+ * @author KDesp73 (Konstantinos Despoinidis)
  * @author ThanasisGeorg (Thanasis Georgalis)
- * @version 0.0.0
+ * @version 0.0.1
  */
 
 #ifndef WEBCUI_H
@@ -53,6 +54,23 @@ typedef enum {
     BADGE_DEFAULT,
     BADGE_OUTLINE
 } BadgeType;
+
+typedef enum {
+    CAROUSEL_DEFAULT,
+    CAROUSEL_CENTER,
+    CAROUSEL_END,
+    CAROUSEL_FULL_WIDTH,
+    CAROUSEL_HALF_WIDTH,
+    CAROUSEL_FULL_BLEED,
+    CAROUSEL_INDICATOR_BUTTONS,
+    CAROUSEL_NEXT_PREV,
+    CAROUSEL_VERTICAL
+} CarouselType;
+
+typedef struct {
+    Cstr img_src;
+    Cstr img_alt;
+} CarouselItem;
 
 typedef struct {
     Cstr title;
@@ -96,6 +114,15 @@ WEBCAPI void WEBC_DaisyAvatar(char** buffer, AvatarType type, Cstr img_src, Cstr
  * Example: WEBC_DaisyBadge(&buffer, BADGE_DEFAULT, "primary", "Example");
  */
 WEBCAPI void WEBC_DaisyBadge(char** buffer, BadgeType type, Cstr color, Cstr text);
+
+// TODO: Card
+
+/**
+ * https://daisyui.com/components/carousel/
+ *
+ * Set width to 0 for full width
+ */
+WEBCAPI void WEBC_DaisyCarousel(char** buffer, CarouselType type, size_t width, CarouselItem items[], size_t item_count);
 
 // #endif // DAISY_UI
 
