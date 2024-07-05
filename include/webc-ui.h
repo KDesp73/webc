@@ -101,7 +101,29 @@ typedef enum {
     ALERT_ERROR = 4,
 } AlertType;
 
+typedef struct {
+    Cstr text;
+    Cstr color;
+    Cstr svg;
+    Cstr onclick;
+} Button;
+
+typedef enum {
+    BUTTON_DEFAULT,
+    BUTTON_OUTLINE,
+    BUTTON_RESPONSIVE,
+    BUTTON_WIDE,
+    BUTTON_GLASS,
+    BUTTON_SQUARE,
+    BUTTON_CIRCLE,
+    BUTTON_ICON,
+    BUTTON_LOADING,
+    BUTTON_LOADING_TEXT
+} ButtonType;
+
 // ############ UI Elements ############ //
+
+// #ifdef DAISY_UI
 
 #define DAISYUI_LINK \
     WEBC_MakeTag(LINK, \
@@ -112,10 +134,10 @@ typedef enum {
                 NULL \
             ) \
         )
+
 #define TAILWINDCSS_SCRIPT(buffer) \
     WEBC_PlainText(buffer, "<script src=\"https://cdn.tailwindcss.com\"></script>");
 
-// #ifdef DAISY_UI
 
 /**
  * https://daisyui.com/components/accordion/
@@ -160,6 +182,11 @@ WEBCAPI void WEBC_DaisyCollapse(char** buffer, Cstr title, Cstr contents);
  * https://daisyui.com.components/alert/
  */
 WEBCAPI void WEBC_DaisyAlert(char** buffer, AlertType type, Cstr text);
+
+/**
+ * https://daisyui.com/components/button/
+ */
+WEBCAPI void WEBC_DaisyButton(char** buffer, ButtonType type, Button button);
 
 // #endif // DAISY_UI
 

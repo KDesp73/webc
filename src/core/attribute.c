@@ -81,6 +81,8 @@ WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
             return "width";
         case ATTR_ROLE:
             return "role";
+        case ATTR_ONCLICK:
+            return "onclick";
         default:
             break;
     }
@@ -151,6 +153,7 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.checked != NULL) list.count++;
     if (modifier.tabindex != NULL) list.count++;
     if (modifier.role != NULL) list.count++;
+    if (modifier.onclick != NULL) list.count++;
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -211,6 +214,9 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
 
     if (modifier.role != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ROLE,  modifier.role);
+
+    if (modifier.onclick != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_ONCLICK,  modifier.onclick);
 
     return list;
 }
