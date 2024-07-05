@@ -113,5 +113,6 @@ WEBCAPI void WEBC_DaisyCarousel(char** buffer, CarouselType type, size_t width, 
             }
         WEBC_DivEnd(buffer);
     }
+    free(carousel_class);
 }
 

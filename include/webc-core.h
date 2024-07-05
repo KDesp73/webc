@@ -117,6 +117,10 @@ typedef struct {
 #define STYLE(stl) \
     WEBC_UseModifier((Modifier) { .style= stl }) 
 
+#define SRC(s) \
+    WEBC_UseModifier((Modifier) { .src= s }) 
+
+
 typedef void (*BlockContents)(char** buffer);
 
 // ############ Tags ############ //

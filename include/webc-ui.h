@@ -72,6 +72,23 @@ typedef struct {
     Cstr img_alt;
 } CarouselItem;
 
+typedef enum {
+    CHAT_BUBBLE_DEFAULT,
+    CHAT_BUBBLE_IMAGE,
+    CHAT_BUBBLE_FULL,
+    CHAT_BUBBLE_HEADER_FOOTER
+} ChatBubbleType;
+
+typedef struct {
+    Cstr text;
+    Cstr color;
+    Cstr img_src;
+    Cstr img_alt;
+    Cstr name;
+    Cstr time;
+    Cstr footer;
+} ChatBubble;
+
 typedef struct {
     Cstr title;
     Cstr content;
@@ -124,10 +141,16 @@ WEBCAPI void WEBC_DaisyBadge(char** buffer, BadgeType type, Cstr color, Cstr tex
  */
 WEBCAPI void WEBC_DaisyCarousel(char** buffer, CarouselType type, size_t width, CarouselItem items[], size_t item_count);
 
+/**
+ * https://daisyui.com/components/chat/
+ */
+WEBCAPI void WEBC_DaisyChatBubble(char** buffer, ChatBubbleType type, ChatBubble bubble, int left);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus
 }
 #endif
+
 #endif // WEBCUI_H
 
