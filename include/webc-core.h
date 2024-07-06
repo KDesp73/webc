@@ -373,6 +373,8 @@ WEBCAPI void WEBC_FooterStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_FooterEnd(char** buffer);
 WEBCAPI void WEBC_ButtonStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_ButtonEnd(char** buffer);
+WEBCAPI void WEBC_LabelStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_LabelEnd(char** buffer);
 
 // TODO: maybe add more Start-End pair for easier use
 

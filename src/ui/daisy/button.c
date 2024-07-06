@@ -54,6 +54,5 @@ WEBCAPI void WEBC_DaisyButton(char** buffer, ButtonType type, Button button)
         if(type != BUTTON_LOADING)
             WEBC_PlainText(buffer, button.text);
     WEBC_ButtonEnd(buffer);
-
 }
 

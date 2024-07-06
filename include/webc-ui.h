@@ -188,6 +188,13 @@ WEBCAPI void WEBC_DaisyAlert(char** buffer, AlertType type, Cstr text);
  */
 WEBCAPI void WEBC_DaisyButton(char** buffer, ButtonType type, Button button);
 
+/**
+ * https://daisyui.com/components/checkbox/
+ *
+ * Set color to NULL to use default color
+ */
+WEBCAPI void WEBC_DaisyCheckbox(char** buffer, Cstr label, Cstr color);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus

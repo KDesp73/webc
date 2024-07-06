@@ -209,6 +209,22 @@ WEBCAPI void WEBC_ButtonEnd(char** buffer)
     free(tag);
 }
 
+WEBCAPI void WEBC_LabelStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("label", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_LabelEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("label");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
 WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes)
 {
     Tag* tag = WEBC_MakeTag("ul", attributes);
