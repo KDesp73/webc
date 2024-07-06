@@ -74,6 +74,8 @@ typedef enum {
     ATTR_CHECKED,
     ATTR_WIDTH,
     ATTR_ROLE,
+    ATTR_FOR,
+    ATTR_ARIA_LABEL,
     ATTR_ONCLICK,
     ATTR_ONCONTEXTMENU,
     ATTR_ONDBLCLICK,
@@ -133,6 +135,8 @@ typedef struct {
     Cstr type;
     Cstr tabindex;
     Cstr value;
+    Cstr for_;
+    Cstr aria_label;
     Cstr name;
     Cstr role;
     Cstr checked;

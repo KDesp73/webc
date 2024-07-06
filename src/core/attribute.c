@@ -101,6 +101,10 @@ WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
             return "onmouseover";
         case ATTR_ONMOUSEUP:
             return "onmouseup";
+        case ATTR_FOR:
+            return "for";
+        case ATTR_ARIA_LABEL:
+            return "aria-label";
         default:
             break;
     }
@@ -182,6 +186,8 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.mouse_events.onmousemove != NULL) list.count++;
     if (modifier.mouse_events.onmouseout != NULL) list.count++;
     if (modifier.mouse_events.onmouseover != NULL) list.count++;
+    if (modifier.for_ != NULL) list.count++;
+    if (modifier.aria_label != NULL) list.count++;
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -242,6 +248,12 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
 
     if (modifier.role != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ROLE,  modifier.role);
+
+    if (modifier.for_ != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_FOR,  modifier.for_);
+
+    if (modifier.aria_label != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_ARIA_LABEL,  modifier.aria_label);
 
     if(modifier.mouse_events.onclick != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ONCLICK, modifier.mouse_events.onclick);

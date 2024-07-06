@@ -121,6 +121,12 @@ typedef enum {
     BUTTON_LOADING_TEXT
 } ButtonType;
 
+typedef struct {
+    Cstr title;
+    Cstr link;
+    Cstr target;
+} NavLink;
+
 // ############ UI Elements ############ //
 
 // #ifdef DAISY_UI
@@ -194,6 +200,20 @@ WEBCAPI void WEBC_DaisyButton(char** buffer, ButtonType type, Button button);
  * Set color to NULL to use default color
  */
 WEBCAPI void WEBC_DaisyCheckbox(char** buffer, Cstr label, Cstr color);
+
+/**
+ * https://daisyui.com/components/drawer/
+ *
+ * Set sidebar_content to NULL to use navbar_content in both cases
+ */
+WEBCAPI void WEBC_DaisyNavbarSidebar(
+        char** buffer, 
+        Cstr title, 
+        NavLink navbar_items[],
+        size_t navbar_items_count,
+        NavLink sidebar_items[],
+        size_t sidebar_items_count,
+        BlockContents page_content);
 
 // #endif // DAISY_UI
 
