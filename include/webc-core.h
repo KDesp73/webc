@@ -75,6 +75,15 @@ typedef enum {
     ATTR_WIDTH,
     ATTR_ROLE,
     ATTR_ONCLICK,
+    ATTR_ONCONTEXTMENU,
+    ATTR_ONDBLCLICK,
+    ATTR_ONMOUSEDOWN,
+    ATTR_ONMOUSEENTER,
+    ATTR_ONMOUSELEAVE,
+    ATTR_ONMOUSEMOVE,
+    ATTR_ONMOUSEOUT,
+    ATTR_ONMOUSEOVER,
+    ATTR_ONMOUSEUP,
     
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
@@ -97,6 +106,19 @@ typedef struct {
 } Tag;
 
 typedef struct {
+    Cstr onclick;
+    Cstr oncontextmenu;
+    Cstr ondblclick;
+    Cstr onmousedown;
+    Cstr onmouseenter;
+    Cstr onmouseleave;
+    Cstr onmousemove;
+    Cstr onmouseout;
+    Cstr onmouseover;
+    Cstr onmouseup;
+} MouseEvents;
+
+typedef struct {
     Cstr style;
     Cstr src;
     Cstr alt;
@@ -114,8 +136,9 @@ typedef struct {
     Cstr name;
     Cstr role;
     Cstr checked;
-    Cstr onclick;
+    MouseEvents mouse_events;
 } Modifier;
+
 
 #define CLASS(cls) \
     WEBC_UseModifier((Modifier) { .class = cls }) 

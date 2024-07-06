@@ -42,7 +42,7 @@ WEBCAPI void WEBC_DaisyButton(char** buffer, ButtonType type, Button button)
 
     Modifier mod = {
         .class = class,
-        .onclick = button.onclick
+        .mouse_events = button.events
     };
     WEBC_ButtonStart(buffer, WEBC_UseModifier(mod));
         if(button.svg != NULL)

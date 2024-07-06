@@ -105,7 +105,7 @@ typedef struct {
     Cstr text;
     Cstr color;
     Cstr svg;
-    Cstr onclick;
+    MouseEvents events;
 } Button;
 
 typedef enum {
