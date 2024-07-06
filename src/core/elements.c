@@ -257,6 +257,22 @@ WEBCAPI void WEBC_FormEnd(char** buffer)
     free(tag);
 }
 
+WEBCAPI void WEBC_SelectStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("select", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_SelectEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("select");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
 WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes)
 {
     Tag* tag = WEBC_MakeTag("ul", attributes);

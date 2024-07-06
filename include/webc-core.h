@@ -81,6 +81,8 @@ typedef enum {
     ATTR_MIN,
     ATTR_MAX,
     ATTR_STEP,
+    ATTR_DISABLED,
+    ATTR_SELECTED,
     ATTR_ONCLICK,
     ATTR_ONCONTEXTMENU,
     ATTR_ONDBLCLICK,
@@ -148,6 +150,8 @@ typedef struct {
     Cstr max;
     Cstr step;
     Cstr checked;
+    int disabled;
+    int selected;
     Cstr placeholder;
     Cstr data_prefix;
     MouseEvents mouse_events;
@@ -416,6 +420,8 @@ WEBCAPI void WEBC_DialogStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_DialogEnd(char** buffer);
 WEBCAPI void WEBC_FormStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_FormEnd(char** buffer);
+WEBCAPI void WEBC_SelectStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_SelectEnd(char** buffer);
 
 // TODO: maybe add more Start-End pair for easier use
 

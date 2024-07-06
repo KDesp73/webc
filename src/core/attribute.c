@@ -115,6 +115,10 @@ WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
             return "min";
         case ATTR_STEP:
             return "step";
+        case ATTR_DISABLED:
+            return "disabled";
+        case ATTR_SELECTED:
+            return "selected";
         default:
             break;
     }
@@ -203,6 +207,9 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.max != NULL) list.count++;
     if (modifier.min != NULL) list.count++;
     if (modifier.step != NULL) list.count++;
+    if (modifier.disabled > 0) list.count++;
+    if(modifier.selected > 0) list.count++;
+
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -284,6 +291,14 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
 
     if (modifier.step != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_STEP,  modifier.step);
+
+    if(modifier.disabled > 0){
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_DISABLED, NULL);
+    }
+    if(modifier.selected > 0){
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_SELECTED, NULL);
+    }
+
 
     if(modifier.mouse_events.onclick != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ONCLICK, modifier.mouse_events.onclick);

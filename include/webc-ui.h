@@ -306,6 +306,11 @@ WEBCAPI void WEBC_DaisyRange(
         Cstr size, 
         Cstr color);
 
+/**
+ * https://daisyui.com/components/select/
+ */
+WEBCAPI void WEBC_DaisySelect(char** buffer, Cstr title, char* options[], size_t count, Cstr color);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus
