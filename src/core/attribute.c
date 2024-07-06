@@ -105,6 +105,8 @@ WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
             return "for";
         case ATTR_ARIA_LABEL:
             return "aria-label";
+        case ATTR_PLACEHOLDER:
+            return "placeholder";
         default:
             break;
     }
@@ -188,6 +190,7 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.mouse_events.onmouseover != NULL) list.count++;
     if (modifier.for_ != NULL) list.count++;
     if (modifier.aria_label != NULL) list.count++;
+    if (modifier.placeholder != NULL) list.count++;
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -254,6 +257,9 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
 
     if (modifier.aria_label != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ARIA_LABEL,  modifier.aria_label);
+
+    if (modifier.placeholder != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_PLACEHOLDER,  modifier.placeholder);
 
     if(modifier.mouse_events.onclick != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ONCLICK, modifier.mouse_events.onclick);

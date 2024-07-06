@@ -244,6 +244,13 @@ WEBCAPI void WEBC_DaisyFileInput(char** buffer, Cstr color);
  */
 WEBCAPI void WEBC_DaisyIndicator(char** buffer, Cstr text, BlockContents toplaceon);
 
+/**
+ * https://daisyui.com/components/input/
+ *
+ * @param icon The svg html (viewBox should be "0 0 16 16")
+ */
+WEBCAPI void WEBC_DaisyTextInput(char** buffer, int password, Cstr placeholder, Cstr icon);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus
