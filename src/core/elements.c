@@ -16,7 +16,8 @@ WEBCAPI void WEBC_Block(char** buffer, Tag* tag, BlockContents contents)
     char* opening = (char*) WEBC_TagToString(tag);
     char* closing = (char*) WEBC_ClosingTag(tag);
     WEBC_AppendLn(buffer, opening);
-    contents(buffer);
+    if(contents != NULL)
+        contents(buffer);
     WEBC_AppendLn(buffer, closing);
 
     free(opening);

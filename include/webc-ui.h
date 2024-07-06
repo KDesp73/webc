@@ -311,6 +311,13 @@ WEBCAPI void WEBC_DaisyRange(
  */
 WEBCAPI void WEBC_DaisySelect(char** buffer, Cstr title, char* options[], size_t count, Cstr color);
 
+/**
+ * https://daisyui.com/components/textarea/
+ *
+ * @param size [xs | sm | md | lg]
+ */
+WEBCAPI void WEBC_DaisyTextarea(char** buffer, Cstr placeholder, Cstr color, Cstr size);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus
