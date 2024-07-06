@@ -204,7 +204,7 @@ WEBCAPI void WEBC_DaisyCheckbox(char** buffer, Cstr label, Cstr color);
 /**
  * https://daisyui.com/components/drawer/
  *
- * Set sidebar_content to NULL to use navbar_content in both cases
+ * Set sidebar_items to NULL or sidebar_items_counte to 0, to use navbar_content in both cases
  */
 WEBCAPI void WEBC_DaisyNavbarSidebar(
         char** buffer, 
@@ -214,6 +214,11 @@ WEBCAPI void WEBC_DaisyNavbarSidebar(
         NavLink sidebar_items[],
         size_t sidebar_items_count,
         BlockContents page_content);
+
+/**
+ * https://daisyui.com/components/dropdown/
+ */
+WEBCAPI void WEBC_DaisyDropdown(char** buffer, Cstr title, NavLink items[], size_t count);
 
 // #endif // DAISY_UI
 
