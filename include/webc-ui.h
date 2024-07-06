@@ -269,6 +269,11 @@ WEBCAPI void WEBC_DaisyCode(char** buffer, Cstr color, CodeLine code[], size_t c
  */
 WEBCAPI void WEBC_DaisyModal(char** buffer, Cstr id, Cstr title, Cstr content);
 
+/**
+ * https://daisyui.com/components/pagination/
+ */
+WEBCAPI void WEBC_DaisyPagination(char** buffer, size_t from, size_t to, size_t checked);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus
