@@ -323,6 +323,21 @@ WEBCAPI void WEBC_DaisyTextarea(char** buffer, Cstr placeholder, Cstr color, Cst
  */
 WEBCAPI void WEBC_DaisyThemeController(char** buffer);
 
+/**
+ * https://daisyui.com/components/toast/
+ */
+WEBCAPI void WEBC_DaisyToast(char** buffer, Cstr text, Cstr color);
+
+/**
+ * https://daisyui.com/components/toggle/
+ */
+WEBCAPI void WEBC_DaisyToggle(char** buffer, int checked, Cstr color, Cstr size);
+
+/**
+ * https://daisyui.com/components/tooltip/
+ */
+WEBCAPI void WEBC_DaisyTooltip(char** buffer, Cstr tooltip, Cstr location, int open, Cstr color, BlockContents toplaceon)
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus

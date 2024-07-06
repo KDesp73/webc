@@ -78,6 +78,7 @@ typedef enum {
     ATTR_ARIA_LABEL,
     ATTR_PLACEHOLDER,
     ATTR_DATA_PREFIX,
+    ATTR_DATA_TIP,
     ATTR_MIN,
     ATTR_MAX,
     ATTR_STEP,
@@ -154,6 +155,7 @@ typedef struct {
     int selected;
     Cstr placeholder;
     Cstr data_prefix;
+    Cstr data_tip;
     MouseEvents mouse_events;
 } Modifier;
 
