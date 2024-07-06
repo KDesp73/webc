@@ -111,6 +111,10 @@ WEBCAPI Cstr WEBC_AttributeNameToString(AttributeName attr)
             return "data-prefix";
         case ATTR_MAX:
             return "max";
+        case ATTR_MIN:
+            return "min";
+        case ATTR_STEP:
+            return "step";
         default:
             break;
     }
@@ -197,6 +201,8 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
     if (modifier.placeholder != NULL) list.count++;
     if (modifier.data_prefix != NULL) list.count++;
     if (modifier.max != NULL) list.count++;
+    if (modifier.min != NULL) list.count++;
+    if (modifier.step != NULL) list.count++;
 
     list.items = (Attribute**) malloc(sizeof(list.items[0]) * list.count);
     list.count = 0;
@@ -272,6 +278,12 @@ WEBCAPI AttributeList WEBC_UseModifier(Modifier modifier)
 
     if (modifier.max != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_MAX,  modifier.max);
+
+    if (modifier.min != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_MIN,  modifier.min);
+
+    if (modifier.step != NULL)
+        list.items[list.count++] = WEBC_MakeAttribute(ATTR_STEP,  modifier.step);
 
     if(modifier.mouse_events.onclick != NULL)
         list.items[list.count++] = WEBC_MakeAttribute(ATTR_ONCLICK, modifier.mouse_events.onclick);

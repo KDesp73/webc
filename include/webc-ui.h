@@ -235,7 +235,7 @@ WEBCAPI void WEBC_DaisyDropdown(char** buffer, Cstr title, NavLink items[], size
 /**
  * https://daisyui.com/components/loading/
  *
- * size: [xs | sm | md | lg]
+ * @param size [xs | sm | md | lg]
  */
 WEBCAPI void WEBC_DaisyLoading(char** buffer, LoadingType type, Cstr size);
 
@@ -284,6 +284,27 @@ WEBCAPI void WEBC_DaisyPagination(char** buffer, size_t from, size_t to, size_t 
  * Set max to 0 to enable indeterminate progress
  */
 WEBCAPI void WEBC_DaisyProgress(char** buffer, size_t width, Cstr color, size_t value, size_t max);
+
+/**
+ * https://daisyui.com/components/radio/
+ */
+WEBCAPI void WEBC_DaisyRadio(char** buffer, Cstr group_name, Cstr color, int checked);
+
+/**
+ * https://daisyui.com/components/range/
+ *
+ * Set step to 0 for smooth range
+ * 
+ * @param size [xs | sm | md | lg]
+ */
+WEBCAPI void WEBC_DaisyRange(
+        char** buffer, 
+        size_t min, 
+        size_t max, 
+        size_t value, 
+        size_t step, 
+        Cstr size, 
+        Cstr color);
 
 // #endif // DAISY_UI
 
