@@ -234,6 +234,8 @@ WEBCAPI void WEBC_DaisyDropdown(char** buffer, Cstr title, NavLink items[], size
  */
 WEBCAPI void WEBC_DaisyLoading(char** buffer, LoadingType type, Cstr size);
 
+WEBCAPI void WEBC_DaisyFileInput(char** buffer, Cstr color);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus
