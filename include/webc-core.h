@@ -66,11 +66,34 @@ typedef enum {
     ATTR_REL,
     ATTR_SRC,
     ATTR_STYLE,
+    ATTR_TABINDEX,
     ATTR_TARGET,
     ATTR_TITLE,
     ATTR_TYPE,
     ATTR_VALUE,
+    ATTR_CHECKED,
     ATTR_WIDTH,
+    ATTR_ROLE,
+    ATTR_FOR,
+    ATTR_ARIA_LABEL,
+    ATTR_PLACEHOLDER,
+    ATTR_DATA_PREFIX,
+    ATTR_DATA_TIP,
+    ATTR_MIN,
+    ATTR_MAX,
+    ATTR_STEP,
+    ATTR_DISABLED,
+    ATTR_SELECTED,
+    ATTR_ONCLICK,
+    ATTR_ONCONTEXTMENU,
+    ATTR_ONDBLCLICK,
+    ATTR_ONMOUSEDOWN,
+    ATTR_ONMOUSEENTER,
+    ATTR_ONMOUSELEAVE,
+    ATTR_ONMOUSEMOVE,
+    ATTR_ONMOUSEOUT,
+    ATTR_ONMOUSEOVER,
+    ATTR_ONMOUSEUP,
     
     ATTRIBUTE_NAME_COUNT
 } AttributeName;
@@ -93,6 +116,19 @@ typedef struct {
 } Tag;
 
 typedef struct {
+    Cstr onclick;
+    Cstr oncontextmenu;
+    Cstr ondblclick;
+    Cstr onmousedown;
+    Cstr onmouseenter;
+    Cstr onmouseleave;
+    Cstr onmousemove;
+    Cstr onmouseout;
+    Cstr onmouseover;
+    Cstr onmouseup;
+} MouseEvents;
+
+typedef struct {
     Cstr style;
     Cstr src;
     Cstr alt;
@@ -105,8 +141,34 @@ typedef struct {
     Cstr method;
     Cstr action;
     Cstr type;
+    Cstr tabindex;
     Cstr value;
+    Cstr for_;
+    Cstr aria_label;
+    Cstr name;
+    Cstr role;
+    Cstr min;
+    Cstr max;
+    Cstr step;
+    Cstr checked;
+    int disabled;
+    int selected;
+    Cstr placeholder;
+    Cstr data_prefix;
+    Cstr data_tip;
+    MouseEvents mouse_events;
 } Modifier;
+
+
+#define CLASS(cls) \
+    WEBC_UseModifier((Modifier) { .class = cls }) 
+
+#define STYLE(stl) \
+    WEBC_UseModifier((Modifier) { .style= stl }) 
+
+#define SRC(s) \
+    WEBC_UseModifier((Modifier) { .src= s }) 
+
 
 typedef void (*BlockContents)(char** buffer);
 
@@ -352,6 +414,16 @@ WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_UlEnd(char** buffer);
 WEBCAPI void WEBC_FooterStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_FooterEnd(char** buffer);
+WEBCAPI void WEBC_ButtonStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_ButtonEnd(char** buffer);
+WEBCAPI void WEBC_LabelStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_LabelEnd(char** buffer);
+WEBCAPI void WEBC_DialogStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_DialogEnd(char** buffer);
+WEBCAPI void WEBC_FormStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_FormEnd(char** buffer);
+WEBCAPI void WEBC_SelectStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_SelectEnd(char** buffer);
 
 // TODO: maybe add more Start-End pair for easier use
 

@@ -16,7 +16,8 @@ WEBCAPI void WEBC_Block(char** buffer, Tag* tag, BlockContents contents)
     char* opening = (char*) WEBC_TagToString(tag);
     char* closing = (char*) WEBC_ClosingTag(tag);
     WEBC_AppendLn(buffer, opening);
-    contents(buffer);
+    if(contents != NULL)
+        contents(buffer);
     WEBC_AppendLn(buffer, closing);
 
     free(opening);
@@ -192,6 +193,87 @@ WEBCAPI void WEBC_FooterEnd(char** buffer)
     WEBC_AppendLn(buffer, tag);
     free(tag);
 }
+
+WEBCAPI void WEBC_ButtonStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("button", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_ButtonEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("button");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
+WEBCAPI void WEBC_LabelStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("label", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_LabelEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("label");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
+WEBCAPI void WEBC_DialogStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("dialog", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_DialogEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("dialog");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
+WEBCAPI void WEBC_FormStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("form", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_FormEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("form");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
+WEBCAPI void WEBC_SelectStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("select", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_SelectEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("select");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
 WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes)
 {
     Tag* tag = WEBC_MakeTag("ul", attributes);

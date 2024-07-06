@@ -1,4 +1,3 @@
-TODO: backend framework in C
 TODO: UI library (Thanasis)
 TODO: fix server issues
 TODO: put logging on a seperate thread
@@ -8,6 +7,8 @@ TODO: add SEO options
 TODO: better css for templates (help)
 TODO: better template naming
 TODO: make server a daemon (optionally)
+TODO: daisy ui implementation documentation
+TODO: daisy ui check method inputs
 DONE: single header file for easier use
 DONE: add all the existing html tags
 DONE: http server in C to handle both frontend and backend
