@@ -136,6 +136,11 @@ typedef enum {
     LOADING_INFINITY
 } LoadingType;
 
+typedef struct {
+    Cstr prefix;
+    Cstr code;
+} CodeLine;
+
 // ############ UI Elements ############ //
 
 // #ifdef DAISY_UI
@@ -250,6 +255,11 @@ WEBCAPI void WEBC_DaisyIndicator(char** buffer, Cstr text, BlockContents toplace
  * @param icon The svg html (viewBox should be "0 0 16 16")
  */
 WEBCAPI void WEBC_DaisyTextInput(char** buffer, int password, Cstr placeholder, Cstr icon);
+
+/**
+ * https://daisyui.com/components/mockup-code/
+ */
+WEBCAPI void WEBC_DaisyCode(char** buffer, Cstr color, CodeLine code[], size_t count);
 
 // #endif // DAISY_UI
 

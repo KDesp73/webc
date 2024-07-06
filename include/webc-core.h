@@ -77,6 +77,7 @@ typedef enum {
     ATTR_FOR,
     ATTR_ARIA_LABEL,
     ATTR_PLACEHOLDER,
+    ATTR_DATA_PREFIX,
     ATTR_ONCLICK,
     ATTR_ONCONTEXTMENU,
     ATTR_ONDBLCLICK,
@@ -142,6 +143,7 @@ typedef struct {
     Cstr role;
     Cstr checked;
     Cstr placeholder;
+    Cstr data_prefix;
     MouseEvents mouse_events;
 } Modifier;
 
