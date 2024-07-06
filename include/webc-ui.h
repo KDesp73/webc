@@ -261,6 +261,14 @@ WEBCAPI void WEBC_DaisyTextInput(char** buffer, int password, Cstr placeholder, 
  */
 WEBCAPI void WEBC_DaisyCode(char** buffer, Cstr color, CodeLine code[], size_t count);
 
+/**
+ * https://daisyui.com/components/modal/
+ *
+ * call <id>.showModal() to open the dialog
+ * call <id>.close() to close it
+ */
+WEBCAPI void WEBC_DaisyModal(char** buffer, Cstr id, Cstr title, Cstr content);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus

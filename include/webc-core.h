@@ -406,6 +406,10 @@ WEBCAPI void WEBC_ButtonStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_ButtonEnd(char** buffer);
 WEBCAPI void WEBC_LabelStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_LabelEnd(char** buffer);
+WEBCAPI void WEBC_DialogStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_DialogEnd(char** buffer);
+WEBCAPI void WEBC_FormStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_FormEnd(char** buffer);
 
 // TODO: maybe add more Start-End pair for easier use
 
