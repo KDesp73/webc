@@ -24,4 +24,6 @@ WEBCAPI void WEBC_DaisyCode(char** buffer, Cstr color, CodeLine code[], size_t c
             free(code_str);
         }
     WEBC_DivEnd(buffer);
+
+    free(class);
 }
