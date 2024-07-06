@@ -234,7 +234,15 @@ WEBCAPI void WEBC_DaisyDropdown(char** buffer, Cstr title, NavLink items[], size
  */
 WEBCAPI void WEBC_DaisyLoading(char** buffer, LoadingType type, Cstr size);
 
+/**
+ * https://daisyui.com/components/file-input/
+ */
 WEBCAPI void WEBC_DaisyFileInput(char** buffer, Cstr color);
+
+/**
+ * https://daisyui.com/components/indicator/
+ */
+WEBCAPI void WEBC_DaisyIndicator(char** buffer, Cstr text, BlockContents toplaceon);
 
 // #endif // DAISY_UI
 
