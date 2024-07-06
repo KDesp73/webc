@@ -318,6 +318,11 @@ WEBCAPI void WEBC_DaisySelect(char** buffer, Cstr title, char* options[], size_t
  */
 WEBCAPI void WEBC_DaisyTextarea(char** buffer, Cstr placeholder, Cstr color, Cstr size);
 
+/**
+ * https://daisyui.com/components/theme-controller/
+ */
+WEBCAPI void WEBC_DaisyThemeController(char** buffer);
+
 // #endif // DAISY_UI
 
 #ifdef __cplusplus
