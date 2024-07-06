@@ -25,7 +25,7 @@
 /**
  * @file webc-ui.h
  * @author KDesp73 (Konstantinos Despoinidis)
- * @version 0.0.1
+ * @version 0.0.2
  */
 
 #ifndef WEBCUI_H
@@ -127,6 +127,15 @@ typedef struct {
     Cstr target;
 } NavLink;
 
+typedef enum {
+    LOADING_SPINNER,
+    LOADING_DOTS,
+    LOADING_RING,
+    LOADING_BALL,
+    LOADING_BAR,
+    LOADING_INFINITY
+} LoadingType;
+
 // ############ UI Elements ############ //
 
 // #ifdef DAISY_UI
@@ -160,8 +169,6 @@ WEBCAPI void WEBC_DaisyAvatar(char** buffer, AvatarType type, Cstr img_src, Cstr
  * https://daisyui.com/components/badge/
  *
  * See colors at: https://daisyui.com/docs/colors/
- *
- * Example: WEBC_DaisyBadge(&buffer, BADGE_DEFAULT, "primary", "Example");
  */
 WEBCAPI void WEBC_DaisyBadge(char** buffer, BadgeType type, Cstr color, Cstr text);
 
@@ -219,6 +226,13 @@ WEBCAPI void WEBC_DaisyNavbarSidebar(
  * https://daisyui.com/components/dropdown/
  */
 WEBCAPI void WEBC_DaisyDropdown(char** buffer, Cstr title, NavLink items[], size_t count);
+
+/**
+ * https://daisyui.com/components/loading/
+ *
+ * size: [xs | sm | md | lg]
+ */
+WEBCAPI void WEBC_DaisyLoading(char** buffer, LoadingType type, Cstr size);
 
 // #endif // DAISY_UI
 
