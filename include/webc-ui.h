@@ -141,6 +141,10 @@ typedef struct {
     Cstr code;
 } CodeLine;
 
+// ############ Utils ############ //
+
+void append_class_attr(char** class, Cstr attr);
+
 // ############ UI Elements ############ //
 
 // #ifdef DAISY_UI
@@ -336,7 +340,7 @@ WEBCAPI void WEBC_DaisyToggle(char** buffer, int checked, Cstr color, Cstr size)
 /**
  * https://daisyui.com/components/tooltip/
  */
-WEBCAPI void WEBC_DaisyTooltip(char** buffer, Cstr tooltip, Cstr location, int open, Cstr color, BlockContents toplaceon)
+WEBCAPI void WEBC_DaisyTooltip(char** buffer, Cstr tooltip, Cstr location, int open, Cstr color, BlockContents toplaceon);
 
 // #endif // DAISY_UI
 
