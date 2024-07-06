@@ -78,6 +78,7 @@ typedef enum {
     ATTR_ARIA_LABEL,
     ATTR_PLACEHOLDER,
     ATTR_DATA_PREFIX,
+    ATTR_MAX,
     ATTR_ONCLICK,
     ATTR_ONCONTEXTMENU,
     ATTR_ONDBLCLICK,
@@ -141,6 +142,7 @@ typedef struct {
     Cstr aria_label;
     Cstr name;
     Cstr role;
+    Cstr max;
     Cstr checked;
     Cstr placeholder;
     Cstr data_prefix;

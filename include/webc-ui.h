@@ -271,8 +271,19 @@ WEBCAPI void WEBC_DaisyModal(char** buffer, Cstr id, Cstr title, Cstr content);
 
 /**
  * https://daisyui.com/components/pagination/
+ *
+ * @param from Lower limit
+ * @param to Upper limit (non inclusive)
+ * @param checked Initial active index (from <= checked < to)
  */
 WEBCAPI void WEBC_DaisyPagination(char** buffer, size_t from, size_t to, size_t checked);
+
+/**
+ * https://daisyui.com/components/progress/
+ *
+ * Set max to 0 to enable indeterminate progress
+ */
+WEBCAPI void WEBC_DaisyProgress(char** buffer, size_t width, Cstr color, size_t value, size_t max);
 
 // #endif // DAISY_UI
 

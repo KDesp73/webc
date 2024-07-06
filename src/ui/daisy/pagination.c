@@ -1,9 +1,11 @@
 #include "webc-core.h"
 #include "webc-ui.h"
 
-
 WEBCAPI void WEBC_DaisyPagination(char** buffer, size_t from, size_t to, size_t checked)
 {
+    assert(from < to);
+    assert(from <= checked && checked < to);
+
     WEBC_DivStart(buffer, CLASS("join"));
         for(size_t i = from; i < to; ++i){
             char* index = clib_format_text("%zu", i);
