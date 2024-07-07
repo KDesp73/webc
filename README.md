@@ -82,6 +82,13 @@ See [docs/examples/](./docs/examples/core.md)
 
 ![image](https://github.com/KDesp73/webc/assets/63654361/bc6c94b0-56ee-427d-be43-56f259deeea5)
 
+## UI
+
+Currently webc supports the [DaisyUI](https://daisyui.com) ui library.
+
+Check support [here](./docs/DaisyUiSupport.md)
+
+Feel free to contribute by implementing the missing or partially supported components
 
 ## Documentation
 

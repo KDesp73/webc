@@ -549,13 +549,19 @@ WEBCAPI void WEBC_Video(char** buffer, AttributeList attributes, BlockContents c
 WEBCAPI void WEBC_Wbr(char** buffer, AttributeList attributes, Cstr text);
 
 /* 
-The following macros are used to append the html tags that don't require closing to the buffer
+The following macros are used to append the html tags that don't use tags
 */
 
 #define WEBC_PlainText(buffer, text) \
     WEBC_AppendLn(buffer, text)
 #define WEBC_Javascript(buffer, text) \
     WEBC_PlainText(buffer, text)
+#define WEBC_Comment(buffer, text) \
+    do { \
+        char* comment = clib_format_text("<!--%s-->"); \
+        WEBC_AppendLn(buffer, comment); \
+        free(comment); \
+    } while(0);
 
 /*
 Specific Heading elements
