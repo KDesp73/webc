@@ -8,6 +8,7 @@ WEBCAPI void WEBC_DaisyModal(char** buffer, Cstr id, Cstr title, Cstr content)
         .class = "modal",
         .id = (id != NULL) ? id : "my_modal"
     };
+
     WEBC_DialogStart(buffer, WEBC_UseModifier(dialog_modifier));
         WEBC_DivStart(buffer, CLASS("modal-box"));
             WEBC_H3(buffer, CLASS("text-lg font-bold"), title);

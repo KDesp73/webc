@@ -201,7 +201,7 @@ WEBCAPI void WEBC_DaisyChatBubble(char** buffer, ChatBubbleType type, ChatBubble
 WEBCAPI void WEBC_DaisyCollapse(char** buffer, Cstr title, Cstr contents);
 
 /**
- * https://daisyui.com.components/alert/
+ * https://daisyui.com/components/alert/
  */
 WEBCAPI void WEBC_DaisyAlert(char** buffer, AlertType type, Cstr text);
 
@@ -270,6 +270,7 @@ WEBCAPI void WEBC_DaisyCode(char** buffer, Cstr color, CodeLine code[], size_t c
  *
  * call <id>.showModal() to open the dialog
  * call <id>.close() to close it
+ * In case if NULL id, id is set to "my_modal"
  */
 WEBCAPI void WEBC_DaisyModal(char** buffer, Cstr id, Cstr title, Cstr content);
 

@@ -345,7 +345,6 @@ CLIBAPI int clib_menu(Cstr title, int color, ClibPrintOptionFunc print_option, C
 // START [IMPLEMENTATIONS] START //
 #ifdef CLIB_IMPLEMENTATION
 
-// Memory leak
 CLIBAPI char* clib_format_text(const char *format, ...) {
     va_list args;
     va_start(args, format);

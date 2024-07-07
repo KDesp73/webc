@@ -8,7 +8,7 @@ WEBCAPI void WEBC_DaisyProgress(char** buffer, size_t width, Cstr color, size_t 
 
     if(color != NULL){
         char* c = clib_format_text(" progress-%s", color);
-        WEBC_Append(&class, c);
+        WEBC_Append(&class, c); // Memory leak???
         free(c);
     }
 

@@ -8,21 +8,15 @@ WEBCAPI void WEBC_DaisyRadio(char** buffer, Cstr group_name, Cstr color, int che
 
     char* class = clib_format_text("radio");
     
-    if(color != NULL){
-        char* c = clib_format_text(" radio-%s", color);
-        WEBC_Append(&class, c);
-        free(c);
-    }
+    append_class_attr(&class, color);
 
     Modifier mod = {
         .type = "radio",
         .name = group_name,
-        .class = class
+        .class = class,
+        .checked = (checked) ? "checked" : NULL
     };
 
-    if(checked){
-        mod.checked = "checked";
-    }
 
     WEBC_Input(buffer, WEBC_UseModifier(mod));
     free(class);

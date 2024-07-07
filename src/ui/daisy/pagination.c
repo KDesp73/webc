@@ -14,11 +14,8 @@ WEBCAPI void WEBC_DaisyPagination(char** buffer, size_t from, size_t to, size_t 
                 .type = "radio",
                 .name = "options",
                 .aria_label = index,
+                .checked = (i == checked) ? "checked" : NULL
             };
-
-            if(i == checked){
-                mod.checked = "checked";
-            }
 
             WEBC_Input(buffer, WEBC_UseModifier(mod));
             free(index);
