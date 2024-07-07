@@ -1,4 +1,5 @@
 #include "webc-core.h"
+#include <time.h>
 #define DAISY_UI
 #include "webc-ui.h"
 
@@ -65,7 +66,8 @@ WEBCAPI void WEBC_DaisyCarousel(char** buffer, CarouselType type, size_t width, 
             }
 
             WEBC_DivStart(buffer, WEBC_UseModifier(item_modifier));
-            if(id != NULL) free(id);
+                if(id != NULL) free(id);
+
                 Modifier img_modifier = {
                     .src = items[i].img_src, 
                     .alt = items[i].img_alt

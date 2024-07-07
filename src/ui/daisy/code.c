@@ -4,6 +4,11 @@
 
 WEBCAPI void WEBC_DaisyCode(char** buffer, Cstr color, CodeLine code[], size_t count)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyCode", SECURE_STR(color));
+        return;
+    }
+
     char* class = clib_format_text("mockup-code");
     if(color != NULL){
         char* color_bg = clib_format_text(" bg-%s", color);

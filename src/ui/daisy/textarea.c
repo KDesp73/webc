@@ -4,6 +4,15 @@
 
 WEBCAPI void WEBC_DaisyTextarea(char** buffer, Cstr placeholder, Cstr color, Cstr size)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyTextarea", SECURE_STR(color));
+        return;
+    }
+    if(!is_valid_daisy_size(size)){
+        ERRO("Invalid DaisyUI size: %s at DaisyTextarea", SECURE_STR(size));
+        return;
+    }
+
     char* class = clib_format_text("textarea");
 
     if(color != NULL) {

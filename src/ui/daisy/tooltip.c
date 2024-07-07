@@ -3,6 +3,11 @@
 
 WEBCAPI void WEBC_DaisyTooltip(char** buffer, Cstr tooltip, Cstr location, int open, Cstr color, BlockContents toplaceon)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyTooltip", SECURE_STR(color));
+        return;
+    }
+
     assert(toplaceon != NULL);
     char* class = clib_format_text("tooltip");
 

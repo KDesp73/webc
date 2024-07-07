@@ -92,6 +92,6 @@ WEBCAPI void WEBC_DaisyAlert(char** buffer, AlertType type, Cstr text)
 
     WEBC_DivStart(buffer, WEBC_UseModifier((Modifier) {.role = "alert", .class = alert_class}));
         WEBC_PlainText(buffer, svg);
-        WEBC_Span(buffer, NO_ATTRIBUTES, text);
+        WEBC_Span(buffer, NO_ATTRIBUTES, (text == NULL) ? "" : text);
     WEBC_DivEnd(buffer);
 }

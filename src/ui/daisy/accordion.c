@@ -5,14 +5,21 @@
 
 WEBCAPI void WEBC_DaisyAccordion(char** buffer, Accordion accordion, int open)
 {
+    if(accordion.title == NULL){
+        ERRO("accordion.title is NULL in DaisyAccordion");
+        return;
+    }
+
+    if(accordion.content == NULL){
+        ERRO("accordion.content is NULL in DaisyAccordion");
+        return;
+    }
+
     Modifier input_modifier = {
         .type = "radio",
-        .name = "my-accordion-2"
+        .name = "my-accordion-2",
+        .checked = (open) ? "checked" : NULL
     };
-
-    if(open){
-        input_modifier.checked = "checked";
-    }
 
     WEBC_DivStart(buffer, CLASS("collapse collapse-arrow bg-base-200"));
         WEBC_Input(buffer, WEBC_UseModifier(input_modifier));

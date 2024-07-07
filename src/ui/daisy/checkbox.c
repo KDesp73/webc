@@ -4,6 +4,11 @@
 
 WEBCAPI void WEBC_DaisyCheckbox(char** buffer, Cstr label, Cstr color)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyCheckbox", SECURE_STR(color));
+        return;
+    }
+
     char* class = clib_format_text("checkbox");
     if(color != NULL){
         char* c = clib_format_text(" checkbox-%s", color);

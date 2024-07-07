@@ -4,6 +4,11 @@
 
 WEBCAPI void WEBC_DaisyToast(char** buffer, Cstr text, Cstr color)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyToast", SECURE_STR(color));
+        return;
+    }
+
     char* class = clib_format_text("alert");
     append_class_attr(&class, color);
 

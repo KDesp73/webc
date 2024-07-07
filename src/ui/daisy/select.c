@@ -4,6 +4,11 @@
 
 WEBCAPI void WEBC_DaisySelect(char** buffer, Cstr title, char* options[], size_t count, Cstr color)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisySelect", SECURE_STR(color));
+        return;
+    }
+
     char* class = clib_format_text("select w-full max-w-xs");
 
     if(color != NULL) {

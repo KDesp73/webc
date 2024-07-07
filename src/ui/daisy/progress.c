@@ -4,6 +4,11 @@
 
 WEBCAPI void WEBC_DaisyProgress(char** buffer, size_t width, Cstr color, size_t value, size_t max)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyProgress", SECURE_STR(color));
+        return;
+    }
+
     char* class = clib_format_text("progress w-%zu", width);
 
     if(color != NULL){

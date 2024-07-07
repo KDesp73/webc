@@ -3,7 +3,10 @@
 
 WEBCAPI void WEBC_DaisyLoading(char** buffer, LoadingType type, Cstr size)
 {
-    assert(size != NULL);
+    if(!is_valid_daisy_size(size)){
+        ERRO("Invalid DaisyUI size: %s", SECURE_STR(size));
+        return;
+    }
 
     char* loading = NULL;
     switch (type) {

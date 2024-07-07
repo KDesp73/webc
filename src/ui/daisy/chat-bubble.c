@@ -20,6 +20,11 @@ int is_header_footer_ready(ChatBubbleType type, ChatBubble bubble)
 
 WEBCAPI void WEBC_DaisyChatBubble(char** buffer, ChatBubbleType type, ChatBubble bubble, int left)
 {
+    if(!is_valid_daisy_color(bubble.color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyChatBubble", SECURE_STR(bubble.color));
+        return;
+    }
+
     char* bubble_class = NULL;
     bubble_class = clib_format_text("chat chat-%s", (left) ? "start" : "end");
 

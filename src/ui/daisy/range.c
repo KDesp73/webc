@@ -4,6 +4,15 @@
 
 WEBCAPI void WEBC_DaisyRange(char** buffer, size_t min, size_t max, size_t value, size_t step, Cstr size, Cstr color)
 {
+    if(!is_valid_daisy_color(color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyRange", SECURE_STR(color));
+        return;
+    }
+    if(!is_valid_daisy_size(size)){
+        ERRO("Invalid DaisyUI size: %s at DaisyRange", SECURE_STR(size));
+        return;
+    }
+    
     char* class = clib_format_text("range");
 
     if(color != NULL) {

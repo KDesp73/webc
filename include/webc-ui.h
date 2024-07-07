@@ -39,6 +39,34 @@
 extern "C" {
 #endif
 
+// ############ Colors ############ //
+
+#define DAISY_COLOR_PRIMARY "primary"
+#define DAISY_COLOR_PRIMARY_CONTENT "primary-content"
+#define DAISY_COLOR_SECONDARY "secondary"
+#define DAISY_COLOR_SECONDARY_CONTENT "secondary-content"
+#define DAISY_COLOR_ACCENT "accent"
+#define DAISY_COLOR_ACCENT_CONTENT "accent-content"
+#define DAISY_COLOR_NEUTRAL "neutral"
+#define DAISY_COLOR_NEUTRAL_CONTENT "neutral-content"
+#define DAISY_COLOR_BASE_100 "base-100"
+#define DAISY_COLOR_BASE_200 "base-200"
+#define DAISY_COLOR_BASE_300 "base-300"
+#define DAISY_COLOR_INFO "info"
+#define DAISY_COLOR_INFO_CONTENT "info-content"
+#define DAISY_COLOR_SUCCESS "success"
+#define DAISY_COLOR_SUCCESS_CONTENT "success-content"
+#define DAISY_COLOR_WARNING "warning"
+#define DAISY_COLOR_WARNING_CONTENT "warning-content"
+#define DAISY_COLOR_ERROR "error"
+#define DAISY_COLOR_ERROR_CONTENT "error-content"
+
+#define DAISY_SIZE_XS "xs"
+#define DAISY_SIZE_SM "sm"
+#define DAISY_SIZE_MD "md"
+#define DAISY_SIZE_LG "lg"
+
+
 // ############ Types ############ //
 
 typedef struct {
@@ -143,6 +171,9 @@ typedef struct {
 
 // ############ Utils ############ //
 
+#define SECURE_STR(s) ((s == NULL) ? "NULL" : s)
+int is_valid_daisy_size(Cstr size);
+int is_valid_daisy_color(Cstr color);
 void append_class_attr(char** class, Cstr attr);
 
 // ############ UI Elements ############ //

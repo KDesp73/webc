@@ -4,6 +4,11 @@
 
 WEBCAPI void WEBC_DaisyButton(char** buffer, ButtonType type, Button button)
 {
+    if(!is_valid_daisy_color(button.color)){
+        ERRO("Invalid DaisyUI color: %s at DaisyButton", SECURE_STR(button.color));
+        return;
+    }
+
     char* class = NULL;
     switch (type) {
         case BUTTON_DEFAULT:
