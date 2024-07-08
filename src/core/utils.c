@@ -79,7 +79,7 @@ WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
             ERRO("Couldn't get url: %s", path);
         }
     } else {
-        file = clib_read_file(path);
+        file = clib_read_file(path, "r");
 
         if(file == NULL){
             ERRO("Couldn't read file: %s", path);

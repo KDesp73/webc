@@ -1,65 +1,70 @@
+#include "extern/httpd.h"
 #include "webc-actions.h"
 #include "webc-server.h"
 
-struct server_t setup(int port)
+server_t setup(int port, Cstr root)
 {
-	static struct server_t server;
+	static server_t server;
 	const int reuse = 1;
 
 	memset(&server, 0, sizeof(server));
-	server.sock = -1;
+	server.socket = -1;
 
-	server.sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (server.sock < 0) {
+	server.socket = socket(AF_INET, SOCK_STREAM, 0);
+	if (server.socket < 0) {
 		perror("socket");
 		exit(1);
 	}
+
+    server.root = root;
 
 	memset(&server.addr, 0, sizeof(server.addr));
 	server.addr.sin_family = AF_INET;
 	server.addr.sin_port = htons(port);
 	server.addr.sin_addr.s_addr = htonl(INADDR_ANY);
-	if (bind(server.sock, (const struct sockaddr *)&server.addr, sizeof(server.addr)) < 0) {
+	if (bind(server.socket, (const struct sockaddr *)&server.addr, sizeof(server.addr)) < 0) {
 		perror("bind");
 		exit(1);
 	}
 
-	if (setsockopt(server.sock, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse)) < 0) {
+	if (setsockopt(server.socket, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse)) < 0) {
 		perror("setsockopt");
 		exit(1);
 	}
 
-	if (listen(server.sock, 2) < 0) {
+	if (listen(server.socket, 2) < 0) {
 		perror("listen");
 		exit(1);
 	}
 
-	server.func_bad_request = request_bad;
+    server.middleware = NULL;
+
+    // Add more response methods to server
 
     return server;
 }
 
 WEBCAPI int WEBC_ServeExportedRoot(int port, Cstr root)
 {
-    struct server_t server = setup(port);
-	server.func_request.func_request_root= request_response;
+    server_t server = setup(port, root);
+	server.response_func = response;
 
-	return run_server(&server, root);
+	return run_server(server);
 }
 
 WEBCAPI int WEBC_ServeExported(int port, Tree tree)
 {
-    struct server_t server = setup(port);
-	server.func_request.func_request_root= request_response;
+    server_t server = setup(port, tree.root);
+	server.response_func = response;
 
-	return run_server(&server, tree.root);
+	return run_server(server);
 }
 
 
 WEBCAPI int WEBC_ServeTree(int port, Tree tree)
 {
-    struct server_t server = setup(port);
-	server.func_request.func_request_tree = request_response_tree;
+    server_t server = setup(port, tree.root);
+	server.response_func = response;
     
-	return run_server_tree(&server, tree);
+	return run_server_tree(server, tree);
 }
