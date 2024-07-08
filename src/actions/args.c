@@ -15,7 +15,7 @@ WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
 
     WebcAction action = {0};
 
-    CliArguments args = clib_make_cli_arguments(8,
+    CliArguments args = clib_make_cli_arguments(9,
         clib_create_argument('h', "help", "Prints this message", no_argument),
         clib_create_argument('v', "version", "Prints the version of the library", no_argument),
         clib_create_argument('e', "export", "Set action as EXPORT", no_argument),
@@ -23,12 +23,13 @@ WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
         clib_create_argument('d', "serve-dynamic", "Set action as SERVE_DYNAMIC", no_argument),
         clib_create_argument('S', "serve-exported-static", "Set action as SERVE_EXPORTED_STATIC", no_argument),
         clib_create_argument('p', "port", "Set port", required_argument),
-        clib_create_argument('r', "root", "Set root", required_argument)
+        clib_create_argument('r', "root", "Set root", required_argument),
+        clib_create_argument('i', "ip", "Set ip address", required_argument)
     );
 
     struct option* opts = clib_get_options(args);
 
-    char* usage = clib_format_text("%s [-h | -v] -e [-s | -S | -d] -p <port> -r <root>", argv[0]);
+    char* usage = clib_format_text("%s [-h | -v] -e [-s | -S | -d] -p <port> -r <root> -i <ip>", argv[0]);
     char* format = clib_generate_cli_format_string(args);
     int opt;
     while((opt = getopt_long(argc, argv, format, opts, NULL)) != -1){
@@ -59,11 +60,14 @@ WEBCAPI WebcAction WEBC_ParseCliArgs(int argc, char** argv)
             case 'r':
                 action.root = optarg;
                 break;
+            case 'i':
+                action.ip = optarg;
+                break;
             default:
                 exit(1);
         }
-
     }
+
     free(usage);
     free(format);
     free(opts);
@@ -79,6 +83,11 @@ void siginthandler(int params){
 
 WEBCAPI void WEBC_HandleAction(WebcAction action, Tree tree)
 {
+    char* ip = action.ip;
+    if(ip == NULL){
+        ip = "127.0.0.1";
+    }
+
     if(action.export){
         WEBC_ExportTree(tree);
     } 
@@ -88,19 +97,19 @@ WEBCAPI void WEBC_HandleAction(WebcAction action, Tree tree)
             PANIC("port argument not set");
         }
         signal(SIGINT, siginthandler);
-        INFO("Server started at port %d...", action.port);
+        INFO("Server started at %s:%d...", ip, action.port);
         INFO("Press Ctrl+C to stop");
     }
 
     if(action.serve_static){
-        WEBC_ServeTree(action.port, tree);     
+        WEBC_ServeTree(ip, action.port, tree);     
     } else if(action.serve_dynamic){
         PANIC("ACTION_SERVE_DYNAMIC is not implemented yet");
     } else if(action.serve_exported_static){
         if(action.root != NULL){
-            WEBC_ServeExportedRoot(action.port, action.root);
+            WEBC_ServeExportedRoot(ip, action.port, action.root);
         } else {
-            WEBC_ServeExported(action.port, tree);
+            WEBC_ServeExported(ip, action.port, tree);
         }
     }
 

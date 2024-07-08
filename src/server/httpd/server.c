@@ -20,8 +20,9 @@ HTTPDAPI int check_server(server_t server)
 
 void log_reguest(request_t req)
 {
-    printf("[%s] %s\n", req.method, req.path);
+    fprintf(stderr, "[%s] %s\n", req.method, req.path);
 }
+
 typedef struct {
     server_t server;
     int client_socket;
@@ -38,7 +39,7 @@ void* handle_request(void* arg)
 
     request_t parsed_request = parse_request(request_str);
 
-    log_reguest(parsed_request);
+    log_reguest(parsed_request); // TODO: on a seperate thread
 
     response_t response = server.response_func(parsed_request, server.root);
 
@@ -86,3 +87,52 @@ HTTPDAPI int run_server(server_t server)
     close(server.socket);
     return status;
 }
+
+HTTPDAPI server_t server_init(const char* ip, int port, const char* root)
+{
+    server_t server;
+    const int reuse = 1;
+
+    memset(&server, 0, sizeof(server));
+    server.socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server.socket < 0) {
+        perror("socket");
+        exit(1);
+    }
+
+    if (ip == NULL) {
+        server.ip = strdup("127.0.0.1"); // Allocate memory and copy the string
+    } else {
+        server.ip = strdup(ip); // Allocate memory and copy the string
+    }
+
+    server.root = root;
+
+    memset(&server.addr, 0, sizeof(server.addr));
+    server.addr.sin_family = AF_INET;
+    server.addr.sin_port = htons(port);
+    server.addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    inet_pton(AF_INET, server.ip, &server.addr.sin_addr);
+
+    if (bind(server.socket, (const struct sockaddr *)&server.addr, sizeof(server.addr)) < 0) {
+        perror("bind");
+        exit(1);
+    }
+
+    if (setsockopt(server.socket, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse)) < 0) {
+        perror("setsockopt");
+        exit(1);
+    }
+
+    if (listen(server.socket, 2) < 0) {
+        perror("listen");
+        exit(1);
+    }
+
+    server.middleware = NULL;
+
+    // Add more response methods to server
+
+    return server;
+}
+

@@ -48,7 +48,7 @@ extern "C" {
  *
  * @return int Success code
  */
-WEBCAPI int WEBC_ServeExported(int port, Tree tree);
+WEBCAPI int WEBC_ServeExported(Cstr ip, int port, Tree tree);
 
 /**
  * Serves a physical file tree starting from the root
@@ -58,7 +58,7 @@ WEBCAPI int WEBC_ServeExported(int port, Tree tree);
  *
  * @return int Success code
  */
-WEBCAPI int WEBC_ServeExportedRoot(int port, Cstr root);
+WEBCAPI int WEBC_ServeExportedRoot(Cstr ip, int port, Cstr root);
 
 /**
  * Serves a the virtual tree created by the user without exporting it
@@ -68,7 +68,7 @@ WEBCAPI int WEBC_ServeExportedRoot(int port, Cstr root);
  *
  * @return int Success code
  */
-WEBCAPI int WEBC_ServeTree(int port, Tree tree);
+WEBCAPI int WEBC_ServeTree(Cstr ip, int port, Tree tree);
 
 // HTTPD Extensions
 int response_tree(int sock, const request_t req, Tree tree);

@@ -73,6 +73,7 @@ typedef struct {
 
 typedef struct {
 	int socket;
+    char* ip;
     int port;
     const char* root;
 	struct sockaddr_in addr;
@@ -98,6 +99,7 @@ HTTPDAPI response_header_t header_content(Cstr content, Cstr type, size_t code);
 HTTPDAPI response_header_t header_path(Cstr path, size_t code);
 HTTPDAPI char* url_to_path(const char* url, const char* root);
 HTTPDAPI void clean_response(response_t* response);
+HTTPDAPI server_t server_init(const char* ip, int port, const char* root);
 
 #ifdef HTTPD_IMPLEMENTATION
 

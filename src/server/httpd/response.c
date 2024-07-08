@@ -38,6 +38,23 @@ char* ErrorPage(size_t code)
     char* buffer = NULL;
 
     WEBC_HtmlStart(&buffer, "en");
+        char* css =
+        "body {"
+            "font-family: Arial, sans-serif;"
+            "background-color: #f0f0f0;"
+            "color: #333;"
+            "text-align: center;"
+            "padding: 50px;"
+        "}"
+        ""
+        "h2 {"
+            "font-size: 2em;"
+            "color: #333;"
+            "margin-bottom: 20px;"
+        "}";
+        WEBC_StyleStart(&buffer);
+            WEBC_PlainText(&buffer, css);
+        WEBC_StyleEnd(&buffer);
         WEBC_BodyStart(&buffer);
             char* text = clib_format_text("%zu %s", code, status_message(code));
             WEBC_H2(&buffer, NO_ATTRIBUTES, text);

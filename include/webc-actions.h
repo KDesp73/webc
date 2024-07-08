@@ -46,6 +46,7 @@ typedef struct {
     Bool serve_exported_static;
     int port;
     char* root;
+    char* ip;
 } WebcAction;
 
 typedef struct {
