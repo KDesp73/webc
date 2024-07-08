@@ -10,19 +10,24 @@ Y88b       d88P     d88P"       d88P
   Y88b   d88P       Y88b.     d88P         
    Y88b d88P         "Y8888P d88P          
 ```
-
 Write and deploy websites using the C Programming Language.
 
 
 <!--toc:start-->
 - [Usage](#usage)
-    - [Build the library for Linux](#build-the-library-for-linux)
-    - [Link the library to your project](#link-the-library-to-your-project)
+- [Build the library](#build-the-library)
+- [Install the library](#install-the-library)
+    - [Linux](#linux)
+    - [Windows](#windows)
+- [Link the library to your project](#link-the-library-to-your-project)
 - [Examples](#examples)
 - [Templates](#templates)
+- [UI](#ui)
 - [Documentation](#documentation)
+- [Contributing](#contributing)
 - [LICENSE](#license)
 <!--toc:end-->
+
 
 > [!WARNING]
 > This C library is in the early stages of development and is not yet ready for production use. 
