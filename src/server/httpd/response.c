@@ -106,6 +106,7 @@ HTTPDAPI response_t response(request_t request, const char* root)
         };
     } else {
         if(is_image_file(path)){
+            INFO("%s is image", path);
             response = (response_t){
                 .header = header_path(path, 200),
                 .content = read_image(path)
