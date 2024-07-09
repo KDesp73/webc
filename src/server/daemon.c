@@ -47,12 +47,6 @@ void daemonize(void)
         exit(EXIT_SUCCESS);
     }
 
-    // Change the working directory to root
-    // if (chdir("/") < 0) {
-    //     perror("chdir failed");
-    //     exit(EXIT_FAILURE);
-    // }
-
     // Set the file mode creation mask to 0
     umask(0);
 
@@ -118,6 +112,7 @@ void start(WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree) {
         }
     }
 
+    INFO("Daemon running...");
     daemonize();
 
     // Write the PID file
@@ -145,7 +140,8 @@ void stop(){
     char* pid_str = clib_read_file(PID_PATH, "r");
     if(pid_str != NULL) strip_whitespace(pid_str);
     if(!valid_pid(pid_str)){
-        PANIC("Httpd server daemon is not active");
+        ERRO("Httpd server daemon is not active");
+        return;
     }
 
     INFO("Stopping daemon...");
