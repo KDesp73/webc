@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -ggdb -fPIC -Iinclude -O0 -g3
+CFLAGS = -Wall -ggdb -fPIC -Iinclude -O0 -g3 -DDEBUG
 LDFLAGS = -Llib/ -lcmark
 
 ifeq ($(OS),Windows_NT)

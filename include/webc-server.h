@@ -40,6 +40,11 @@
 extern "C" {
 #endif
 
+typedef union {
+    int (*serve_tree)(Cstr, int, Tree);
+    int (*serve_root)(Cstr, int, Cstr); 
+} WEBCServe;
+
 /**
  * Serves the physical file tree exported from this program starting from the root
  *
@@ -69,6 +74,11 @@ WEBCAPI int WEBC_ServeExportedRoot(Cstr ip, int port, Cstr root);
  * @return int Success code
  */
 WEBCAPI int WEBC_ServeTree(Cstr ip, int port, Tree tree);
+
+/**
+ * Make any of the serve methods a daemon
+ */
+WEBCAPI void WEBC_Daemon(DaemonAction action, WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree);
 
 // HTTPD Extensions
 int response_tree(int sock, const request_t req, Tree tree);

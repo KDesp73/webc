@@ -1,5 +1,6 @@
 #include "extern/httpd.h"
 #include "webc-core.h"
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -68,6 +69,7 @@ char* ErrorPage(size_t code)
 HTTPDAPI void clean_response(response_t* response)
 {
     free(response->content);
+    free(response);
 }
 
 char* read_image(const char *file_path) 
@@ -109,31 +111,56 @@ int is_image_file(const char *file_path)
     return 0;
 }
 
-HTTPDAPI response_t response(request_t request, const char* root)
+HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t code)
+{
+    if(path == NULL){
+        if(content == NULL || type == NULL){
+            PANIC("When path is NULL, content and type must be set");
+        }
+    }
+
+    if(content == NULL || type == NULL){
+        if(path == NULL){
+            PANIC("When content and/or type are NULL, path must be set");
+        }
+    }
+
+    response_t* response = malloc(sizeof(response_t));
+
+    
+    if(path == NULL){
+        response->header = header_content(content, type, code);
+        response->content = strdup(content);
+    } else {
+        response->header = header_path(path, code);
+        if(is_image_file(path)){
+            response->content = read_image(path);
+        } else {
+            response->content = clib_read_file(path, "r");
+        }
+    }
+    
+    return response;
+}
+
+response_t* error_response(size_t code)
+{
+    char* page_404 = ErrorPage(code);
+    response_t* response = new_response(NULL, page_404, "text/html", code);
+    free(page_404);
+    return response;
+}
+
+HTTPDAPI response_t* response(request_t request, const char* root)
 {
     char* path = url_to_path(request.path, root);
 
-    response_t response;
+    response_t* response = NULL;
 
-    char* page_404 = ErrorPage(404);
     if(!clib_file_exists(path)){
-        response = (response_t) {
-            .header = header_content(page_404, "text/html", 404),
-            .content = page_404
-        };
+        response = error_response(404);
     } else {
-        if(is_image_file(path)){
-            INFO("%s is image", path);
-            response = (response_t){
-                .header = header_path(path, 200),
-                .content = read_image(path)
-            };
-        } else {
-            response = (response_t){
-                .header = header_path(path, 200),
-                .content = clib_read_file(path, "r")
-            };
-        }
+        response = new_response(path, NULL, NULL, 200);
     }
 
     free(path);

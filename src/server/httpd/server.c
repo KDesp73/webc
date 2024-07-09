@@ -39,18 +39,18 @@ void* handle_request(void* arg)
 
     request_t parsed_request = parse_request(request_str);
 
-    log_reguest(parsed_request); // TODO: on a seperate thread
+    // log_reguest(parsed_request); // TODO: on a seperate thread
 
-    response_t response = server.response_func(parsed_request, server.root);
+    response_t* response = server.response_func(parsed_request, server.root);
 
     if(server.middleware != NULL){
-        if(!server.middleware(&response, parsed_request)){
+        if(!server.middleware(response, parsed_request)){
             // Log error message
         }
     }
 
-    char* res_str = (char*) response_str(response);
-    // clean_response(&response);
+    char* res_str = (char*) response_str(*response);
+    clean_response(response);
 
     send(client_socket, res_str, strlen(res_str), 0);
 
