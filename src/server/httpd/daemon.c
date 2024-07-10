@@ -77,6 +77,7 @@ void start_daemon(server_t server){
             WARN("Httpd server daemon is active. Restarting...");
             restart_daemon(server);
         }
+        free(old_pid);
     }
 
     daemonize();

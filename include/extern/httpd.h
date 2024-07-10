@@ -39,8 +39,6 @@
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
-/* ########## Includes ########## */
-
 #define CLIB_IMPLEMENTATION
 #include "clib.h"
 #include <arpa/inet.h>
@@ -57,8 +55,6 @@
 #define MAX_REQUEST_SIZE 1024
 #define MAX_PATH_LENGTH 256
 #define PID_PATH clib_format_text("%s/.local/state/webc-daemon.pid", getenv("HOME")) // For daemon
-
-/* ########## Types ########## */
 
 typedef char string[256] ;
 
@@ -113,9 +109,6 @@ typedef enum {
     DAEMON_RESTART
 } DaemonAction;
 
-/* ########## Declarations ########## */
-
-
 HTTPDAPI char* url_to_path(const char* url, const char* root);
 HTTPDAPI const char* content_type(const char* path);
 HTTPDAPI const char* current_date();
@@ -133,6 +126,7 @@ HTTPDAPI response_t* response(request_t request, const char* root);
 HTTPDAPI server_t server_init(const char* ip, int port, const char* root);
 HTTPDAPI void clean_response(response_t* response);
 HTTPDAPI void daemonize(void);
+HTTPDAPI response_t* error_response(size_t code);
 
 #ifdef HTTPD_IMPLEMENTATION
 

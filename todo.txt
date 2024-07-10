@@ -4,7 +4,6 @@ TODO: blog template (github discussion integration)
 TODO: add SEO options
 TODO: better css for templates (help)
 TODO: better template naming
-TODO: make server a daemon (optionally)
 TODO: daisy ui implementation documentation
 DONE: single header file for easier use
 DONE: add all the existing html tags
@@ -16,3 +15,4 @@ DONE: markdown renderer
 DONE: Project website using the project itself
 DONE: fix server issues
 DONE: daisy ui check method inputs
+DONE: make server a daemon (optionally)

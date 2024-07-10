@@ -126,7 +126,7 @@ HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t cod
     return response;
 }
 
-response_t* error_response(size_t code)
+HTTPDAPI response_t* error_response(size_t code)
 {
     char* page_404 = ErrorPage(code);
     response_t* response = new_response(NULL, page_404, "text/html", code);
