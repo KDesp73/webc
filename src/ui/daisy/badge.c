@@ -13,11 +13,7 @@ WEBCAPI void WEBC_DaisyBadge(char** buffer, BadgeType type, Cstr color, Cstr tex
 
     char* badge_class = clib_format_text("badge");
 
-    if(color != NULL){
-        char* color_str = clib_format_text(" badge-%s", color);
-        WEBC_Append(&badge_class, color_str);
-        free(color_str);
-    }
+    append_class_attr(&badge_class, color);
 
     if(type == BADGE_OUTLINE){
         WEBC_Append(&badge_class, " badge-outline");

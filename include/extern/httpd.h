@@ -1,592 +1,136 @@
-/*
- * Copyright (c) 2016, Mario Konrad
- * All rights reserved.
- * License: BSD (4 clause), see README.md
+/**
+ * MIT License
+ * 
+ * Copyright (c) 2024 Konstantinos Despoinidis 
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * @file httpd.h
+ * @version v0.0.1
+ * @author KDesp73 (Konstantinos Despoinidis)
  */
 
 #ifndef HTTPD_H
 #define HTTPD_H
 
-#include "webc-actions.h"
 #ifndef HTTPDAPI
-    #define HTTPDAPI static
+    #define HTTPDAPI extern
 #endif // HTTPDAPI
 
 #ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
-/* ########## Includes ########## */
-
 #define CLIB_IMPLEMENTATION
 #include "clib.h"
-#include <sys/socket.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include <arpa/inet.h>
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <stdio.h>
-#include <ctype.h>
-#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-/* ########## Types ########## */
+#define SERVER_NAME "httpd server"
+#define SUCCESS 0
+#define FAILURE 1
+#define MAX_REQUEST_SIZE 1024
+#define MAX_PATH_LENGTH 256
+#define PID_PATH clib_format_text("%s/.local/state/webc-daemon.pid", getenv("HOME")) // For daemon
 
-#define UNUSED(arg)  ((void)arg)
+typedef char string[256] ;
 
-struct query_t {
-	char val[24];
-};
+typedef struct {
+    size_t status_code;
+    string Content_Type;
+    size_t Content_Length;
+    string Date;
+    string Connection;
+    string Cache_Control;
+    string Server;
+    string ETag;
+    string Last_Modified;
+} response_header_t;
 
-struct header_property_t {
-	char key[32];
-	char value[128];
-};
+typedef struct {
+    response_header_t header;
+    char* content;
+} response_t;
 
-struct request_t {
-	char method[8];
-	char protocol[12];
-	char url[128];
+typedef struct {
+    string Host;
+    string User_Agent;
+    string Accept;
+    string Accept_Encoding;
+    string Connection;
+    string Cache_Control;
+    string Authorization;
+    string Cookie;
+} request_header_t;
 
-	/* query data, very constrained regarding memory resources */
-	size_t nquery; /* number of queries */
-	struct query_t query[8];
-	int content_length;
-};
+typedef struct {
+    request_header_t header;
+    string method;
+    string path;
+} request_t;
 
-struct response_t {
-	char head[2048];
-};
-
-typedef union {
-	int (*func_request_root)(int, const struct request_t *, const char*);
-	int (*func_request_tree)(int, const struct request_t *, Tree);
-} request_functiont_t;
-
-struct server_t {
-	int sock;
+typedef struct {
+	int socket;
+    char* ip;
+    int port;
+    const char* root;
 	struct sockaddr_in addr;
 
-	int (*func_bad_request)(int, const struct request_t *);
-    request_functiont_t func_request;
-};
+	response_t* (*response_func)(const request_t, const char*);
+    int (*middleware)(response_t*, const request_t);
+} server_t;
 
-struct client_t {
-	int sock;
-	struct sockaddr_in addr;
-	socklen_t len;
-};
+typedef enum {
+    DAEMON_START,
+    DAEMON_STOP,
+    DAEMON_RESTART
+} DaemonAction;
 
-
-/* ########## Declarations ########## */
-
+HTTPDAPI char* url_to_path(const char* url, const char* root);
+HTTPDAPI const char* content_type(const char* path);
+HTTPDAPI const char* current_date();
+HTTPDAPI const char* response_str(response_t response);
+HTTPDAPI const char* status_message(size_t status_code);
+HTTPDAPI int check_server(server_t server);
 HTTPDAPI int has_file_extension(const char *path);
 HTTPDAPI int is_index_html_needed(const char *url);
-HTTPDAPI int str_append(char * s, size_t len, char c);
-HTTPDAPI int method_append(struct request_t * r, char c);
-HTTPDAPI int protocol_append(struct request_t * r, char c);
-HTTPDAPI void request_clear(struct request_t * r);
-HTTPDAPI int url_append(struct request_t * r, char c);
-HTTPDAPI int query_append(struct request_t * r, char c);
-HTTPDAPI int query_next(struct request_t * r);
-HTTPDAPI void clear(char * s, size_t len);
-HTTPDAPI void clear_header_property(struct header_property_t * prop);
-HTTPDAPI int append(char * s, size_t len, char c);
-HTTPDAPI int parse(int client_sock, struct request_t * r);
-HTTPDAPI int request_bad(int sock, const struct request_t * req);
-HTTPDAPI void response_init(struct response_t * res);
-HTTPDAPI int response_append_content_type(struct response_t * res, const char * mime);
-HTTPDAPI int response_append(struct response_t * res, const char * text, size_t len);
-HTTPDAPI int response_append_no_cache(struct response_t * res);
-HTTPDAPI int response_append_connection_keep_alive(struct response_t * res);
-HTTPDAPI int response_append_header_start(struct response_t * res);
-HTTPDAPI int response_append_header_end(struct response_t * res);
-HTTPDAPI int send_header_mime(int sock, const char * mime);
-HTTPDAPI int request_send_file(int sock, const struct request_t * req, const char * filename);
-HTTPDAPI int request_response(int sock, const struct request_t * req, const char* root);
-HTTPDAPI void print_req(int rc, struct request_t * r);
-HTTPDAPI int run_server(struct server_t * server, const char* root);
-
-static const char * NOT_FOUND_RESPONSE =
-    "HTTP/1.1 404 Not Found\r\n"
-    "Content-Type: text/html\r\n"
-    "Connection: keep-alive\r\n"
-    "\r\n"
-    "<html><body>404 Not Found</body></html>\r\n"; // TODO: Better 404 Page (and error pages in general)
+HTTPDAPI int run_daemon(DaemonAction action, server_t server);
+HTTPDAPI int run_server(server_t server);
+HTTPDAPI request_t parse_request(Cstr request_str);
+HTTPDAPI response_header_t header_content(Cstr content, Cstr type, size_t code);
+HTTPDAPI response_header_t header_path(Cstr path, size_t code);
+HTTPDAPI response_t* response(request_t request, const char* root);
+HTTPDAPI server_t server_init(const char* ip, int port, const char* root);
+HTTPDAPI void clean_response(response_t* response);
+HTTPDAPI void daemonize(void);
+HTTPDAPI response_t* error_response(size_t code);
 
 #ifdef HTTPD_IMPLEMENTATION
 
-HTTPDAPI int str_append(char * s, size_t len, char c)
-{
-	size_t l = strlen(s);
-	if (l < len) {
-		s[l]= c;
-		return 0;
-	}
-	return -1;
-}
-
-HTTPDAPI int method_append(struct request_t * r, char c)
-{
-	return str_append(r->method, sizeof(r->method)-1, c);
-}
-
-HTTPDAPI int protocol_append(struct request_t * r, char c)
-{
-	return str_append(r->protocol, sizeof(r->protocol)-1, c);
-}
-
-HTTPDAPI void request_clear(struct request_t * r)
-{
-	memset(r, 0, sizeof(struct request_t));
-}
-
-HTTPDAPI int url_append(struct request_t * r, char c)
-{
-	return str_append(r->url, sizeof(r->url)-1, c);
-}
-
-HTTPDAPI int query_append(struct request_t * r, char c)
-{
-	if (r->nquery >= sizeof(r->query) / sizeof(struct query_t))
-		return -1;
-	return str_append(r->query[r->nquery].val, sizeof(r->query[r->nquery].val)-1, c);
-}
-
-HTTPDAPI int query_next(struct request_t * r)
-{
-	if (r->nquery >= sizeof(r->query) / sizeof(struct query_t))
-		return -1;
-	r->nquery++;
-	return 0;
-}
-
-HTTPDAPI void clear(char * s, size_t len)
-{
-	memset(s, 0, len);
-}
-
-HTTPDAPI void clear_header_property(struct header_property_t * prop)
-{
-	clear(prop->key, sizeof(prop->key));
-	clear(prop->value, sizeof(prop->value));
-}
-
-HTTPDAPI int append(char * s, size_t len, char c)
-{
-	return str_append(s, len, c);
-}
-
-/**
- * Parses received data from \c client_sock and sets corresponding
- * fields of the specified request data structure.
- *
- * \param[in] client_sock Client socket to read data from.
- * \param[out] r The request data structure to fill.
- * \return \c 0 on success, the negative state number in which the
- *   error ocurred.
- */
-HTTPDAPI int parse(int client_sock, struct request_t * r)
-{
-	int state = 0; /* state machine */
-	int read_next = 1; /* indicator to read data */
-	char c = 0; /* current character */
-	char buffer[16]; /* receive buffer */
-	int buffer_index = sizeof(buffer); /* index within the buffer */
-	int content_length = -1; /* used only in POST requests */
-	struct header_property_t prop; /* temporary space to hold header key/value properties*/
-
-	request_clear(r);
-	clear_header_property(&prop);
-	while (client_sock >= 0) {
-
-		/* read data */
-		if (read_next) {
-
-			/* read new data, buffers at a time */
-			if (buffer_index >= (int)sizeof(buffer)) {
-				int rc;
-
-				memset(buffer, 0, sizeof(buffer));
-				rc = read(client_sock, buffer, sizeof(buffer));
-				if (rc < 0)
-					return -99; /* read error */
-				if (rc == 0)
-					return 0; /* no data read */
-				buffer_index = 0;
-			}
-			c = buffer[buffer_index];
-			++buffer_index;
-
-			/* state management */
-			read_next = 0;
-		}
-
-		/* execute state machine */
-		switch (state) {
-			case 0: /* kill leading spaces */
-				if (isspace(c)) {
-					read_next = 1;
-				} else {
-					state = 1;
-				}
-				break;
-			case 1: /* method */
-				if (isspace(c)) {
-					state = 2;
-				} else {
-					if (method_append(r, c))
-						return -state;
-					read_next = 1;
-				}
-				break;
-			case 2: /* kill spaces */
-				if (isspace(c)) {
-					read_next = 1;
-				} else {
-					state = 3;
-				}
-				break;
-			case 3: /* url */
-				if (isspace(c)) {
-					state = 5;
-				} else if (c == '?') {
-					read_next = 1;
-					state = 4;
-				} else {
-					if (url_append(r, c))
-						return -state;
-					read_next = 1;
-				}
-				break;
-			case 4: /* queries */
-				if (isspace(c)) {
-					if (query_next(r))
-						return -state;
-					state = 5;
-				} else if (c == '&') {
-					if (query_next(r))
-						return -state;
-					read_next = 1;
-				} else {
-					if (query_append(r, c))
-						return -state;
-					read_next = 1;
-				}
-				break;
-			case 5: /* kill spaces */
-				if (isspace(c)) {
-					read_next = 1;
-				} else {
-					state = 6;
-				}
-				break;
-			case 6: /* protocol */
-				if (isspace(c)) {
-					state = 7;
-				} else {
-					if (protocol_append(r, c))
-						return -state;
-					read_next = 1;
-				}
-				break;
-			case 7: /* kill spaces */
-				if (isspace(c)) {
-					read_next = 1;
-				} else {
-					clear_header_property(&prop);
-					state = 8;
-				}
-				break;
-			case 8: /* header line key */
-				if (c == ':') {
-					state = 9;
-					read_next = 1;
-				} else {
-					if (append(prop.key, sizeof(prop.key)-1, c))
-						return -state;
-					read_next = 1;
-				}
-				break;
-			case 9: /* kill spaces */
-				if (isspace(c)) {
-					read_next = 1;
-				} else {
-					state = 10;
-				}
-				break;
-			case 10: /* header line value */
-				if (c == '\r') {
-					if (strcmp("Content-Length", prop.key) == 0)
-						content_length = strtol(prop.value, 0, 0);
-					clear_header_property(&prop);
-					state = 11;
-					read_next = 1;
-				} else {
-					if (append(prop.value, sizeof(prop.value)-1, c))
-						return -state;
-					read_next = 1;
-				}
-				break;
-			case 11:
-				if (c == '\n') {
-					read_next = 1;
-				} else if (c == '\r') {
-					state = 12;
-					read_next = 1;
-				} else {
-					state = 8;
-				}
-				break;
-			case 12: /* end of header */
-				if (c == '\n') {
-					if (content_length > 0) {
-						state = 13;
-						read_next = 1;
-					} else {
-						return 0; /* end of header, no content => end of request */
-					}
-				} else {
-					state = 8;
-				}
-				break;
-			case 13: /* content (POST queries) */
-				if (c == '&') {
-					if (query_next(r))
-						return -state;
-					read_next = 1;
-				} else if (c == '\r') {
-					if (query_next(r))
-						return -state;
-					read_next = 1;
-				} else if (c == '\n') {
-					read_next = 1;
-				} else if (c == '\0') {
-					if (query_next(r))
-						return -state;
-					return 0; /* end of content */
-				} else {
-					if (query_append(r, c))
-						return -state;
-					read_next = 1;
-				}
-				break;
-		}
-	}
-	return -99;
-}
-
-
-HTTPDAPI void print_req(int rc, struct request_t * r)
-{
-	size_t i;
-	if (rc) {
-		printf("\nERROR: invalid request: %d", rc);
-	} else {
-		printf("MET:[%s]\n", r->method);
-		printf("PRT:[%s]\n", r->protocol);
-		printf("URL:[%s]\n", r->url);
-		for (i = 0; i < r->nquery; ++i) printf("QRY:[%s]\n", r->query[i].val);
-	}
-	printf("\n");
-}
-
-HTTPDAPI int run_server(struct server_t * server, const char* root)
-{
-	struct client_t client;
-	struct request_t r;
-	int rc;
-
-	for (;;) {
-		client.sock = -1;
-		client.len = sizeof(client.addr);
-
-		client.sock = accept(server->sock, (struct sockaddr *)&client.addr, &client.len);
-		if (client.sock < 0)
-			return -1;
-		rc = parse(client.sock, &r);
-		print_req(rc, &r);
-		if (rc == 0) {
-			if (server->func_request.func_request_root)
-				server->func_request.func_request_root(client.sock, &r, root);
-		} else {
-			if (server->func_bad_request)
-				server->func_bad_request(client.sock, &r);
-		}
-		shutdown(client.sock, SHUT_WR);
-		close(client.sock);
-	}
-}
-
-HTTPDAPI int request_bad(int sock, const struct request_t * req)
-{
-	static const char * RESPONSE =
-		"HTTP/1.1 400 Bad Request\r\n"
-		"Content-Type: text/html\r\n"
-		"Pragma: no-cache\r\n"
-		"Cache-Control: no-cache\r\n"
-		"Connection: keep-alive\r\n"
-		"\r\n"
-		"<html><body>Bad Request</body></html>\r\n";
-
-	int length = 0;
-
-	UNUSED(req);
-
-	length = strlen(RESPONSE);
-	return write(sock, RESPONSE, length) == length ? 0 : -1;
-}
-
-HTTPDAPI void response_init(struct response_t * res)
-{
-	memset(res->head, 0, sizeof(res->head));
-}
-
-HTTPDAPI int response_append_content_type(struct response_t * res, const char * mime)
-{
-	static const char * TEXT = "Content-Type: ";
-
-	if (strlen(res->head) > (sizeof(res->head) - strlen(TEXT) - strlen(mime) - 2))
-		return -1;
-	strcat(res->head, TEXT);
-	strcat(res->head, mime);
-	strcat(res->head, "\r\n");
-	return 0;
-}
-
-HTTPDAPI int response_append(struct response_t * res, const char * text, size_t len)
-{
-	const size_t n = sizeof(res->head) - strlen(res->head);
-	if (len > n)
-		return -1;
-	strncat(res->head, text, n);
-	return 0;
-}
-
-HTTPDAPI int response_append_no_cache(struct response_t * res)
-{
-	static const char * TEXT =
-		"Pragma: no-cache\r\n"
-		"Cache-Control: no-cache\r\n";
-	return response_append(res, TEXT, strlen(TEXT));
-}
-
-HTTPDAPI int response_append_connection_keep_alive(struct response_t * res)
-{
-	static const char * TEXT = "Connection: keep-alive\r\n";
-	return response_append(res, TEXT, strlen(TEXT));
-}
-
-HTTPDAPI int response_append_header_start(struct response_t * res)
-{
-	static const char * TEXT = "HTTP/1.1 200 OK\r\n";
-	return response_append(res, TEXT, strlen(TEXT));
-}
-
-HTTPDAPI int response_append_header_end(struct response_t * res)
-{
-	static const char * TEXT = "\r\n";
-	return response_append(res, TEXT, strlen(TEXT));
-}
-
-HTTPDAPI int send_header_mime(int sock, const char * mime)
-{
-	int len;
-	struct response_t res;
-
-	response_init(&res);
-	response_append_header_start(&res);
-	response_append_content_type(&res, mime);
-	response_append_no_cache(&res);
-	response_append_connection_keep_alive(&res);
-	response_append_header_end(&res);
-
-	len = (int)strlen(res.head);
-	return write(sock, res.head, len) == len ? 0 : -1;
-}
-
-HTTPDAPI int request_send_file(int sock, const struct request_t * req, const char * filename)
-{
-	int fd;
-	int rc;
-	char buf[256];
-
-	UNUSED(req);
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return -1;
-
-	if (send_header_mime(sock, "text/html") >= 0) {
-		for (;;) {
-			rc = read(fd, buf, sizeof(buf));
-			if (rc <= 0) break;
-			rc = write(sock, buf, rc);
-			if (rc < 0) break;
-		}
-	}
-	close(fd);
-	return 0;
-}
-
-HTTPDAPI int has_file_extension(const char *path) 
-{
-    const char *extension = strrchr(path, '.');
-    
-    if (extension != NULL) {
-        if (*(extension + 1) != '\0') {
-            return true;
-        }
-    }
-    
-    return false;
-} 
-HTTPDAPI int is_index_html_needed(const char *url) 
-{
-    size_t url_len = strlen(url);
-    if (url_len == 0 || url[url_len - 1] == '/' || !has_file_extension(url)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-HTTPDAPI int request_response(int sock, const struct request_t * req, const char* root)
-{
-	int length = 0;
-
-	UNUSED(req);
-    Cstr file = clib_format_text("%s%s", root, req->url);
-
-    if(!clib_file_exists(file)){
-        length = strlen(NOT_FOUND_RESPONSE);
-        return (write(sock, NOT_FOUND_RESPONSE, length) == length) ? 0 : -1;
-    }
-    
-	if (is_index_html_needed(req->url)){
-        size_t url_len = strlen(req->url);
-        char* path = NULL;
-        if(req->url[url_len] == '/'){
-            path = clib_format_text("%s%s", file, "index.html");
-            free(file);
-            int code = request_send_file(sock, req, path);
-            free(path);
-            return code;
-        } else {
-            path = clib_format_text("%s/%s", file, "index.html");
-            free(file);
-            int code = request_send_file(sock, req, path);
-            free(path);
-            return code;
-        }
-    }
-
-    char* url = clib_format_text("%s%s", root, req->url);
-    int code = request_send_file(sock, req, url);
-
-    free(file);
-    free(url);
-    return code;
-}
+    // TODO: make HTTPDAPI static / Make library header-only
 
 #endif // HTTPD_IMPLEMENTATION
 

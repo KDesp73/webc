@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -ggdb -fPIC -Iinclude -O0 -g3
+CFLAGS = -Wall -ggdb -fPIC -Iinclude -O0 -g3 -DDEBUG
 LDFLAGS = -Llib/ -lcmark
 
 ifeq ($(OS),Windows_NT)
@@ -41,8 +41,10 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)/output
 	mkdir -p $(OBJECTS_DIR)/core
 	mkdir -p $(OBJECTS_DIR)/ui
+	mkdir -p $(OBJECTS_DIR)/ui/daisy
 	mkdir -p $(OBJECTS_DIR)/actions
 	mkdir -p $(OBJECTS_DIR)/server
+	mkdir -p $(OBJECTS_DIR)/server/httpd
 
 $(OBJECTS_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	mkdir -p $(dir $@)

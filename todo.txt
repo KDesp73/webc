@@ -1,11 +1,9 @@
-TODO: fix server issues
 TODO: put logging on a seperate thread
 TODO: Middleware (Mokas)
 TODO: blog template (github discussion integration)
 TODO: add SEO options
 TODO: better css for templates (help)
 TODO: better template naming
-TODO: make server a daemon (optionally)
 DONE: single header file for easier use
 DONE: add all the existing html tags
 DONE: http server in C to handle both frontend and backend
@@ -16,3 +14,6 @@ DONE: markdown renderer
 DONE: Project website using the project itself
 DONE: daisy ui check method inputs
 DONE: daisy ui implementation documentation
+DONE: fix server issues
+DONE: daisy ui check method inputs
+DONE: make server a daemon (optionally)

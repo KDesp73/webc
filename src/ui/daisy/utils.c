@@ -11,7 +11,8 @@ void append_class_attr(char** class, Cstr attr)
 
 int is_valid_daisy_color(Cstr color)
 {
-    return color != NULL && (
+    if(color == NULL) return true;
+    return (
         strcmp(color, DAISY_COLOR_PRIMARY) == 0 ||
         strcmp(color, DAISY_COLOR_PRIMARY_CONTENT) == 0 ||
         strcmp(color, DAISY_COLOR_SECONDARY) == 0 ||
@@ -36,7 +37,8 @@ int is_valid_daisy_color(Cstr color)
 
 int is_valid_daisy_size(Cstr size)
 {
-    return size != NULL && (
+    if(size == NULL) return true;
+    return (
         strcmp(size, DAISY_SIZE_XS) == 0 ||
         strcmp(size, DAISY_SIZE_SM) == 0 ||
         strcmp(size, DAISY_SIZE_MD) == 0 ||

@@ -147,13 +147,23 @@ CLIBAPI void clib_safe_free(void **ptr);
 // FILES
 CLIBAPI void clib_create_file(const char *filename);
 CLIBAPI void clib_write_file(const char *filename, const char *data, Cstr mode);
-CLIBAPI char* clib_read_file(const char *filename);
+CLIBAPI char* clib_read_file(const char *filename, const char* mode);
 CLIBAPI void clib_delete_file(const char *filename);
 CLIBAPI void clib_append_file(const char *filename, const char *data);
 CLIBAPI void clib_copy_file(const char *source, const char *destination);
 CLIBAPI void clib_move_file(const char *source, const char *destination);
 CLIBAPI long clib_file_size(const char *filename);
 CLIBAPI int clib_file_exists(const char *filename);
+
+// STRINGS
+#define ITOA(s, i) sprintf(s, "%d", i);
+#define FTOA(s, f) sprintf(s, "%f", f);
+#define STR(x) #x
+CLIBAPI char* clib_format_text(const char *format, ...);
+CLIBAPI char* clib_buffer_init();
+CLIBAPI void clib_str_append_ln(char** buffer, Cstr text);
+CLIBAPI void clib_str_append(char** buffer, const char* text);
+CLIBAPI void clib_str_clean(char** buffer);
 
 // UTILS
 #define ARRAY_LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
@@ -176,10 +186,6 @@ CLIBAPI int clib_file_exists(const char *filename);
 #endif
 
 CLIBAPI int clib_eu_mod(int a, int b);
-#define ITOA(s, i) sprintf(s, "%d", i);
-#define FTOA(s, f) sprintf(s, "%f", f);
-#define STR(x) #x
-CLIBAPI char* clib_format_text(const char *format, ...);
 
 // CLI
 CLIBAPI char* clib_shift_args(int *argc, char ***argv);
@@ -344,6 +350,50 @@ CLIBAPI int clib_menu(Cstr title, int color, ClibPrintOptionFunc print_option, C
 
 // START [IMPLEMENTATIONS] START //
 #ifdef CLIB_IMPLEMENTATION
+CLIBAPI char* clib_buffer_init()
+{
+    char* buffer = (char*) malloc(1);
+    memset(buffer, 0, 1);
+
+    return buffer;
+}
+
+CLIBAPI void clib_str_append_ln(char** buffer, Cstr text)
+{
+    assert(buffer != NULL && *buffer != NULL);
+    assert(text != NULL);
+
+    Cstr new_text = clib_format_text("%s\n", text);
+    size_t new_size = strlen(*buffer) + strlen(new_text) + 1;
+    *buffer = (char*) realloc(*buffer, new_size);
+    if (*buffer == NULL) {
+        PANIC("Failed to reallocate memory");
+    }
+    strcat(*buffer, new_text);
+    free((char*) new_text);
+}
+
+CLIBAPI void clib_str_append(char** buffer, const char* text)
+{
+    assert(buffer != NULL && *buffer != NULL);
+    assert(text != NULL);
+
+    size_t current_size = strlen(*buffer);
+    size_t text_len = strlen(text);
+
+    *buffer = (char*) realloc(*buffer, current_size + text_len + 1);
+    if (*buffer == NULL) {
+        PANIC("Failed to reallocate memory");
+    }
+
+    strcat(*buffer, text);
+}
+
+CLIBAPI void clib_str_clean(char** buffer)
+{
+    free(*buffer);
+    *buffer = NULL;
+}
 
 CLIBAPI char* clib_format_text(const char *format, ...) {
     va_list args;
@@ -978,7 +1028,9 @@ CLIBAPI void clib_write_file(const char *filename, const char *data, Cstr mode) 
     if(
         strcmp(mode, "w") &&
         strcmp(mode, "w+") &&
+        strcmp(mode, "wb") &&
         strcmp(mode, "a") &&
+        strcmp(mode, "ab") &&
         strcmp(mode, "a+")
     ) {
         PANIC("Writing file using invalid mode: %s", mode);
@@ -997,8 +1049,8 @@ CLIBAPI void clib_write_file(const char *filename, const char *data, Cstr mode) 
     fclose(file);
 }
 
-CLIBAPI char* clib_read_file(const char *filename) {
-    FILE *file = fopen(filename, "r");
+CLIBAPI char* clib_read_file(const char *filename, const char* mode) {
+    FILE *file = fopen(filename, mode);
     if (file == NULL) {
         perror("Error opening file for reading");
         return NULL;

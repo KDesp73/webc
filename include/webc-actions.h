@@ -31,6 +31,7 @@
 #ifndef WEBCACTIONS_H
 #define WEBCACTIONS_H
 
+#include "extern/httpd.h"
 #define CLIB_IMPLEMENTATION
 #include "extern/clib.h"
 #include "webc-core.h"
@@ -44,8 +45,10 @@ typedef struct {
     Bool serve_static;
     Bool serve_dynamic;
     Bool serve_exported_static;
+    int daemon_action;
     int port;
     char* root;
+    char* ip;
 } WebcAction;
 
 typedef struct {

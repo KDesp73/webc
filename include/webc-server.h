@@ -40,6 +40,11 @@
 extern "C" {
 #endif
 
+typedef union {
+    int (*serve_tree)(Cstr, int, Tree);
+    int (*serve_root)(Cstr, int, Cstr); 
+} WEBCServe;
+
 /**
  * Serves the physical file tree exported from this program starting from the root
  *
@@ -48,7 +53,7 @@ extern "C" {
  *
  * @return int Success code
  */
-WEBCAPI int WEBC_ServeExported(int port, Tree tree);
+WEBCAPI int WEBC_ServeExported(Cstr ip, int port, Tree tree);
 
 /**
  * Serves a physical file tree starting from the root
@@ -58,7 +63,7 @@ WEBCAPI int WEBC_ServeExported(int port, Tree tree);
  *
  * @return int Success code
  */
-WEBCAPI int WEBC_ServeExportedRoot(int port, Cstr root);
+WEBCAPI int WEBC_ServeExportedRoot(Cstr ip, int port, Cstr root);
 
 /**
  * Serves a the virtual tree created by the user without exporting it
@@ -68,11 +73,16 @@ WEBCAPI int WEBC_ServeExportedRoot(int port, Cstr root);
  *
  * @return int Success code
  */
-WEBCAPI int WEBC_ServeTree(int port, Tree tree);
+WEBCAPI int WEBC_ServeTree(Cstr ip, int port, Tree tree);
+
+/**
+ * Make any of the serve methods a daemon
+ */
+WEBCAPI void WEBC_Daemon(DaemonAction action, WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree);
 
 // HTTPD Extensions
-int request_response_tree(int sock, const struct request_t* req, Tree tree);
-int run_server_tree(struct server_t * server, Tree tree);
+int response_tree(int sock, const request_t req, Tree tree);
+int run_server_tree(server_t server, Tree tree);
 
 #ifdef __cplusplus
 }
