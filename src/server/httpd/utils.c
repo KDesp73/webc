@@ -32,7 +32,10 @@ HTTPDAPI char* url_to_path(const char* url, const char* root)
         if(url[url_len - 1] == '/'){
             path = clib_format_text("%s%sindex.html", root, url);
         } else {
-            path = clib_format_text("%s/%s/index.html", root, url);
+            if(url[0] == '/')
+                path = clib_format_text("%s/%s/index.html", root, url);
+            else 
+                path = clib_format_text("%s%s/index.html", root, url);
         }
     } else {
         path = clib_format_text("%s%s", root, url);
@@ -40,3 +43,4 @@ HTTPDAPI char* url_to_path(const char* url, const char* root)
 
     return path;
 }
+

@@ -1028,7 +1028,9 @@ CLIBAPI void clib_write_file(const char *filename, const char *data, Cstr mode) 
     if(
         strcmp(mode, "w") &&
         strcmp(mode, "w+") &&
+        strcmp(mode, "wb") &&
         strcmp(mode, "a") &&
+        strcmp(mode, "ab") &&
         strcmp(mode, "a+")
     ) {
         PANIC("Writing file using invalid mode: %s", mode);

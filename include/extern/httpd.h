@@ -56,7 +56,7 @@
 #define FAILURE 1
 #define MAX_REQUEST_SIZE 1024
 #define MAX_PATH_LENGTH 256
-#define PID_PATH clib_format_text("%s/.local/state/webc-daemon.pid", getenv("HOME"))
+#define PID_PATH clib_format_text("%s/.local/state/webc-daemon.pid", getenv("HOME")) // For daemon
 
 /* ########## Types ########## */
 
@@ -132,6 +132,7 @@ HTTPDAPI response_header_t header_path(Cstr path, size_t code);
 HTTPDAPI response_t* response(request_t request, const char* root);
 HTTPDAPI server_t server_init(const char* ip, int port, const char* root);
 HTTPDAPI void clean_response(response_t* response);
+HTTPDAPI void daemonize(void);
 
 #ifdef HTTPD_IMPLEMENTATION
 

@@ -1,5 +1,7 @@
 #include "extern/httpd.h"
 #include "webc-core.h"
+#include <fcntl.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -34,6 +36,7 @@ HTTPDAPI const char* response_str(response_t response)
     return response_str;
 }
 
+// TODO: Should not use the webc library
 char* ErrorPage(size_t code)
 {
     char* buffer = NULL;
@@ -72,22 +75,7 @@ HTTPDAPI void clean_response(response_t* response)
     free(response);
 }
 
-char* read_image(const char *file_path) 
-{
-    FILE *file = fopen(file_path, "rb");
-
-    fseek(file, 0, SEEK_END);
-    size_t file_size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-
-    char *image_data = (char *)malloc(file_size);
-    fread(image_data, 1, file_size, file);
-    fclose(file);
-
-    return image_data;
-}
-
-int is_image_file(const char *file_path) 
+int is_image(const char *file_path) 
 {
     FILE *file = fopen(file_path, "rb");
     if (file == NULL) {
@@ -126,18 +114,13 @@ HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t cod
     }
 
     response_t* response = malloc(sizeof(response_t));
-
     
     if(path == NULL){
         response->header = header_content(content, type, code);
-        response->content = strdup(content);
+        response->content =  (char*) content;
     } else {
         response->header = header_path(path, code);
-        if(is_image_file(path)){
-            response->content = read_image(path);
-        } else {
-            response->content = clib_read_file(path, "r");
-        }
+        response->content = clib_read_file(path, "rb");
     }
     
     return response;
@@ -162,7 +145,11 @@ HTTPDAPI response_t* response(request_t request, const char* root)
     } else {
         response = new_response(path, NULL, NULL, 200);
     }
-
     free(path);
+
+    if(response == NULL){
+        response = error_response(500); // Internal Server Error
+    }
+
     return response;
 }
