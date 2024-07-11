@@ -15,13 +15,3 @@ HTTPDAPI request_t parse_request(Cstr request_str)
 
     return parsed_request;
 }
-
-int get_request(int socket, request_t* request)
-{
-    char request_str[MAX_REQUEST_SIZE];
-    ssize_t size = recv(socket, request_str, MAX_REQUEST_SIZE, 0);
-    
-    *request = parse_request(request_str);
-
-    return (size == 0) ? FAILURE : SUCCESS;
-}
