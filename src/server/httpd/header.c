@@ -3,7 +3,7 @@
 #include <time.h>
 
 
-HTTPDAPI const char* current_date()
+HTTPDAPI const char* current_date(void)
 {
     time_t rawtime;
     struct tm * timeinfo;
@@ -145,6 +145,7 @@ HTTPDAPI response_header_t header_content(Cstr content, Cstr type, size_t code)
     response_header_t header = {
         .status_code = code,
         .Server = SERVER_NAME,
+        .Content_Length = 0,
     };
 
     if(content != NULL)
@@ -154,4 +155,36 @@ HTTPDAPI response_header_t header_content(Cstr content, Cstr type, size_t code)
     strcpy(header.Content_Type, (type == NULL) ? "text/html" : type);
 
     return header;
+}
+
+
+void append_key(char** buffer, const char* key, const char* value)
+{
+    if(value == NULL) return;
+    if(key == NULL) return;
+    if(*buffer == NULL) return;
+
+    char* key_value = clib_format_text("%s: %s\r", key, value);
+    if(key_value == NULL) return;
+    clib_str_append_ln(buffer, key_value);
+    free(key_value);
+}
+
+HTTPDAPI char* header_str(response_header_t header)
+{
+    char* header_str = clib_format_text("HTTP/1.1 %zu %s\r\n", header.status_code, status_message(header.status_code));
+    
+    append_key(&header_str, "Server", header.Server);
+    append_key(&header_str, "Content-Type", header.Content_Type);
+    char* length = clib_format_text("%zu", header.Content_Length);
+    if(length != NULL){
+        append_key(&header_str, "Content-Length", length);
+        free(length);
+    }
+    append_key(&header_str, "Connection", header.Connection);
+    append_key(&header_str, "Date", header.Date);
+    clib_str_append(&header_str, "\r\n");
+    clib_str_append(&header_str, "\r\n");
+
+    return header_str;
 }
