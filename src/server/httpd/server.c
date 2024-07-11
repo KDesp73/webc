@@ -19,12 +19,12 @@ HTTPDAPI int check_server(server_t server)
     return SUCCESS;
 }
 
-void log_reguest(request_t req)
+HTTPDAPI void log_reguest(request_t req)
 {
     fprintf(stderr, "[%s] %s\n", req.method, req.path);
 }
 
-void log_response(response_t res)
+HTTPDAPI void log_response(response_t res)
 {
     fprintf(stderr, " -> %zu\n", res.header.status_code);
 }

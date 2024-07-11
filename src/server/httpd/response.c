@@ -86,7 +86,7 @@ int is_image(const char *file_path)
 }
 
 
-void make_chunks(response_t* response, size_t count)
+HTTPDAPI void make_chunks(response_t* response, size_t count)
 {
     response->chunks = (char**) malloc(count * sizeof(char*));
     response->chunk_sizes = (size_t*)malloc(count * sizeof(size_t));
@@ -169,13 +169,13 @@ HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t cod
 
 HTTPDAPI response_t* error_response(size_t code)
 {
-    char* page_404 = ErrorPage(code);
-    if(page_404 == NULL) {
-        page_404 = clib_format_text("<html><body><h1>%zu %s</h1></body></html>", code, status_message(code)); // fallback html
+    char* error_page = ErrorPage(code);
+    if(error_page == NULL) {
+        error_page = clib_format_text("<html><body><h1>%zu %s</h1></body></html>", code, status_message(code)); // fallback html
     }
 
-    response_t* response = new_response(NULL, page_404, "text/html", code);
-    free(page_404);
+    response_t* response = new_response(NULL, error_page, "text/html", code);
+    free(error_page);
     return response;
 }
 
