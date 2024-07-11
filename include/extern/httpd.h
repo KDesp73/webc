@@ -24,7 +24,7 @@
 
 /**
  * @file httpd.h
- * @version v0.0.1
+ * @version v0.0.3
  * @author KDesp73 (Konstantinos Despoinidis)
  */
 
@@ -321,7 +321,7 @@ HTTPDAPI void log_response(response_t res);
 
 #ifdef HTTPD_IMPLEMENTATION
 
-    // TODO: make HTTPDAPI static / Make library header-only
+// TODO: make HTTPDAPI static / Make library header-only
 
 #endif // HTTPD_IMPLEMENTATION
 

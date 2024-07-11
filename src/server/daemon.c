@@ -1,4 +1,5 @@
 #include "extern/httpd.h"
+#include "webc-actions.h"
 #include "webc-server.h"
 #include <ctype.h>
 #include <signal.h>
@@ -7,7 +8,7 @@
 #include <sys/stat.h>
 
 void start(WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree);
-void stop(void);
+void stop(Tree tree);
 void restart(WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree);
 
 int valid_pid(char* pid)
@@ -36,7 +37,8 @@ void strip_whitespace(char *str)
 }
 
 void start(WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree) {
-    if (clib_file_exists(PID_PATH)) {
+    char* path = PID_PATH;
+    if (clib_file_exists(path)) {
         char* old_pid = clib_read_file(PID_PATH, "r");
         if (old_pid != NULL) {
             strip_whitespace(old_pid);
@@ -55,7 +57,7 @@ void start(WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree) {
 
     // Write the PID file
     pid_t pid = getpid();
-    FILE *pid_file = fopen(PID_PATH, "w");
+    FILE *pid_file = fopen(path, "w");
     if (pid_file == NULL) {
         perror("fopen failed");
         exit(EXIT_FAILURE);
@@ -70,12 +72,16 @@ void start(WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree) {
         serve.serve_root(ip, port, root);
     }
 
+    free(path);
+
     _exit(EXIT_SUCCESS);
 }
 
 
-void stop(){
-    char* pid_str = clib_read_file(PID_PATH, "r");
+void stop(Tree tree)
+{
+    char* path = PID_PATH;
+    char* pid_str = clib_read_file(path, "r");
     if(pid_str != NULL) strip_whitespace(pid_str);
     if(!valid_pid(pid_str)){
         ERRO("Httpd server daemon is not active");
@@ -85,15 +91,17 @@ void stop(){
     INFO("Stopping daemon...");
     kill(atoi(pid_str), SIGTERM);    
 
-    char* command = clib_format_text("rm %s", PID_PATH);
+    char* command = clib_format_text("rm %s", path);
     clib_execute_command(command);
+    WEBC_CleanTree(tree);
 
     free(command);
+    free(path);
     free(pid_str);
 }
 
 void restart(WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree){
-    stop();
+    stop(tree);
     start(serve, ip, port, root, tree);
 }
 
@@ -104,7 +112,7 @@ WEBCAPI void WEBC_Daemon(DaemonAction action, WEBCServe serve, Cstr ip, int port
             start(serve, ip, port, root, tree);
             break;
         case DAEMON_STOP:
-            stop();
+            stop(tree);
             break;
         case DAEMON_RESTART:
             restart(serve, ip, port, root, tree);

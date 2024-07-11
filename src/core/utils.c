@@ -57,14 +57,10 @@ int is_url(const char *str)
 }
 
 int is_markdown_file(const char *path) {
-    const char *markdownExtension = ".md";
-    const char *fileExtension = strrchr(path, '.');
+    const char* markdown_extension = ".md";
+    const char* file_extension = strrchr(path, '.');
 
-    if (fileExtension != NULL && strcmp(fileExtension, markdownExtension) == 0) {
-        return 1; // It is a Markdown file
-    }
-
-    return 0; // It is not a Markdown file
+    return (file_extension != NULL && strcmp(file_extension, markdown_extension) == 0);
 }
 
 WEBCAPI void WEBC_IntegrateFile(char** buffer, Cstr path)
