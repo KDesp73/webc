@@ -1,5 +1,6 @@
 #include "extern/httpd.h"
 #include <pthread.h>
+#include <sys/socket.h>
 
 HTTPDAPI int check_server(server_t server)
 {
@@ -28,6 +29,24 @@ typedef struct {
     int client_socket;
 } thread_data_t;
 
+
+HTTPDAPI void send_response(response_t* response, int client_socket)
+{
+    char* header = header_str(response->header);
+    send(client_socket, header, strlen(header), 0);
+    free(header);
+
+    for(size_t i = 0; i < response->chunks_count; ++i){
+        if(response->chunks[i] == NULL) continue;
+
+        size_t bytes_sent = send(client_socket, response->chunks[i], response->chunk_sizes[i], 0);
+        if(bytes_sent != response->chunk_sizes[i]){
+            ERRO("Sent %zu bytes of chunk[%zu]'s %zu", bytes_sent, i, response->chunk_sizes[i]);
+        }
+            
+    }
+}
+
 void* handle_request(void* arg)
 {
     thread_data_t* thread_data = (thread_data_t*)arg;
@@ -49,10 +68,11 @@ void* handle_request(void* arg)
         }
     }
 
+    send_response(response, client_socket);
     char* res_str = (char*) response_str(*response);
-    clean_response(response);
-
-    send(client_socket, res_str, strlen(res_str), 0);
+    clib_write_file("response.txt", res_str, "w");
+    free(res_str);
+    free(response);
 
     shutdown(client_socket, SHUT_WR);
     close(client_socket);

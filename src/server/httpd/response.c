@@ -6,32 +6,13 @@
 #include <string.h>
 
 
-void append_key(char** buffer, const char* key, const char* value)
-{
-    if(value == NULL) return;
-    if(key == NULL) return;
-    if(*buffer == NULL) return;
-
-    char* key_value = clib_format_text("%s: %s\r", key, value);
-    clib_str_append_ln(buffer, key_value);
-    free(key_value);
-}
-
 HTTPDAPI const char* response_str(response_t response)
 {
-    char* response_str = clib_format_text("HTTP/1.1 %zu %s\r\n", response.header.status_code, status_message(response.header.status_code));
-    
-    append_key(&response_str, "Server", response.header.Server);
-    append_key(&response_str, "Content-Type", response.header.Content_Type);
-    char* length = clib_format_text("%zu", response.header.Content_Length);
-    append_key(&response_str, "Content-Length", length);
-    free(length);
-    append_key(&response_str, "Connection", response.header.Connection);
-    append_key(&response_str, "Date", response.header.Date);
+    char* response_str = header_str(response.header);
 
-    clib_str_append(&response_str, "\r\n");
-    clib_str_append(&response_str, "\r\n");
-    clib_str_append_ln(&response_str, response.content);
+    for(size_t i = 0; i < response.chunks_count; ++i){
+        clib_str_append_ln(&response_str, response.chunks[i]);
+    }
 
     return response_str;
 }
@@ -71,7 +52,12 @@ char* ErrorPage(size_t code)
 
 HTTPDAPI void clean_response(response_t* response)
 {
-    free(response->content);
+    for(size_t i = 0; i < response->chunks_count; ++i){
+        if(response->chunks[i] != NULL)
+            free(response->chunks[i]);
+    }
+    free(response->chunk_sizes);
+    free(response->chunks);
     free(response);
 }
 
@@ -99,6 +85,75 @@ int is_image(const char *file_path)
     return 0;
 }
 
+HTTPDAPI void append_chunk(response_t* response, char* chunk) 
+{
+    size_t new_num_chunks = response->chunks_count + 1;
+
+    if (response->chunks == NULL) {
+        response->chunks = (char**)malloc(sizeof(char*));
+        response->chunk_sizes = (size_t*)malloc(sizeof(size_t));
+    } else {
+        response->chunks = (char**)realloc(response->chunks, new_num_chunks * sizeof(char*));
+        response->chunk_sizes = (size_t*)realloc(response->chunk_sizes, new_num_chunks * sizeof(size_t));
+    }
+
+    response->chunks[new_num_chunks - 1] = (char*)malloc(strlen(chunk) + 1); // +1 for null terminator
+    if (response->chunks[new_num_chunks - 1] == NULL) {
+        perror("Error allocating memory for chunk");
+        exit(1);
+    }
+    strcpy(response->chunks[new_num_chunks - 1], chunk);
+    response->chunk_sizes[new_num_chunks - 1] = strlen(chunk);
+
+    response->chunks_count = new_num_chunks;
+}
+
+void make_chunks(response_t* response, size_t count)
+{
+    response->chunks = (char**) malloc(count * sizeof(char*));
+    response->chunk_sizes = (size_t*)malloc(count * sizeof(size_t));
+    response->chunks_count = count;
+}
+
+HTTPDAPI void read_content(response_t* response, const char* path) 
+{
+    FILE* file = fopen(path, "rb");
+    if (!file) {
+        perror("Error opening file");
+        exit(1);
+    }
+
+    fseek(file, 0, SEEK_END);
+    size_t file_size = ftell(file);
+    rewind(file);
+
+    size_t num_chunks = (file_size + CHUNK_SIZE - 1) / CHUNK_SIZE;
+    DEBU("chunks_count: %zu", num_chunks);
+    make_chunks(response, num_chunks);
+
+    for (size_t i = 0; i < num_chunks; i++) {
+        response->chunks[i] = (char*)malloc(CHUNK_SIZE);
+        response->chunk_sizes[i] = fread(response->chunks[i], 1, CHUNK_SIZE, file);
+        DEBU("size[%zu]: %zu", i, response->chunk_sizes[i]);
+    }
+
+    // Check if the total bytes read match the file size
+    size_t total_bytes_read = 0;
+    for (size_t i = 0; i < num_chunks; i++) {
+        total_bytes_read += response->chunk_sizes[i];
+    }
+
+    if (total_bytes_read < file_size) {
+        size_t remaining_bytes = file_size - total_bytes_read;
+        response->chunks[num_chunks - 1] = (char*)realloc(response->chunks[num_chunks - 1], remaining_bytes);
+        size_t bytes_read_last_chunk = fread(response->chunks[num_chunks - 1], 1, remaining_bytes, file);
+        response->chunk_sizes[num_chunks - 1] = bytes_read_last_chunk;
+    }
+
+    fclose(file);
+}
+
+
 HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t code)
 {
     if(path == NULL){
@@ -117,10 +172,11 @@ HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t cod
     
     if(path == NULL){
         response->header = header_content(content, type, code);
-        response->content =  (char*) content;
+        append_chunk(response, (char*) content);
     } else {
         response->header = header_path(path, code);
-        response->content = clib_read_file(path, "rb");
+        read_content(response, path);
+        strcpy(response->header.Connection, "keep-alive");
     }
     
     return response;

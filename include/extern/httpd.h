@@ -54,6 +54,7 @@
 #define FAILURE 1
 #define MAX_REQUEST_SIZE 1024
 #define MAX_PATH_LENGTH 256
+#define CHUNK_SIZE 1024
 #define PID_PATH clib_format_text("%s/.local/state/webc-daemon.pid", getenv("HOME")) // For daemon
 
 typedef char string[256] ;
@@ -72,7 +73,9 @@ typedef struct {
 
 typedef struct {
     response_header_t header;
-    char* content;
+    char** chunks;
+    size_t* chunk_sizes;
+    size_t chunks_count;
 } response_t;
 
 typedef struct {
@@ -111,7 +114,7 @@ typedef enum {
 
 HTTPDAPI char* url_to_path(const char* url, const char* root);
 HTTPDAPI const char* content_type(const char* path);
-HTTPDAPI const char* current_date();
+HTTPDAPI const char* current_date(void);
 HTTPDAPI const char* response_str(response_t response);
 HTTPDAPI const char* status_message(size_t status_code);
 HTTPDAPI int check_server(server_t server);
@@ -127,6 +130,11 @@ HTTPDAPI server_t server_init(const char* ip, int port, const char* root);
 HTTPDAPI void clean_response(response_t* response);
 HTTPDAPI void daemonize(void);
 HTTPDAPI response_t* error_response(size_t code);
+HTTPDAPI void send_response(response_t* response, int client_socket);
+HTTPDAPI char* header_str(response_header_t header);
+HTTPDAPI void read_content(response_t* response, const char* path);
+HTTPDAPI void append_chunk(response_t* response, char* chunk);
+
 
 #ifdef HTTPD_IMPLEMENTATION
 
