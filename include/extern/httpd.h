@@ -55,7 +55,9 @@
 #define MAX_REQUEST_SIZE 1024
 #define MAX_PATH_LENGTH 256
 #define CHUNK_SIZE 1024
-#define PID_PATH clib_format_text("%s/.local/state/webc-daemon.pid", getenv("HOME")) // For daemon
+
+// For daemon (needs freeing)
+#define PID_PATH clib_format_text("%s/.local/state/webc-daemon.pid", getenv("HOME"))
 
 typedef char string[256] ;
 
