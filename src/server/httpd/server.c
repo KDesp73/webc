@@ -24,6 +24,11 @@ void log_reguest(request_t req)
     fprintf(stderr, "[%s] %s\n", req.method, req.path);
 }
 
+void log_response(response_t res)
+{
+    fprintf(stderr, " -> %zu\n", res.header.status_code);
+}
+
 typedef struct {
     server_t server;
     int client_socket;
@@ -58,7 +63,7 @@ void* handle_request(void* arg)
 
     request_t parsed_request = parse_request(request_str);
 
-    // log_reguest(parsed_request); // TODO: on a seperate thread
+    log_reguest(parsed_request); // TODO: on a seperate thread
 
     response_t* response = server.response_func(parsed_request, server.root);
 
@@ -69,9 +74,12 @@ void* handle_request(void* arg)
     }
 
     send_response(response, client_socket);
+    log_response(*response);
+#ifdef DEBUG
     char* res_str = (char*) response_str(*response);
     clib_write_file("response.txt", res_str, "w");
     free(res_str);
+#endif
     free(response);
 
     shutdown(client_socket, SHUT_WR);

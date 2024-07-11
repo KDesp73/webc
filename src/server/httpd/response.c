@@ -91,6 +91,12 @@ void make_chunks(response_t* response, size_t count)
     response->chunks = (char**) malloc(count * sizeof(char*));
     response->chunk_sizes = (size_t*)malloc(count * sizeof(size_t));
     response->chunks_count = count;
+
+    // 0-init
+    for(size_t i = 0; i < count; ++i){
+        response->chunks[i] = NULL;
+        response->chunk_sizes[i] = 0;
+    }
 }
 
 HTTPDAPI void read_content(response_t* response, const char* path) 
