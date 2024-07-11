@@ -85,28 +85,6 @@ int is_image(const char *file_path)
     return 0;
 }
 
-HTTPDAPI void append_chunk(response_t* response, char* chunk) 
-{
-    size_t new_num_chunks = response->chunks_count + 1;
-
-    if (response->chunks == NULL) {
-        response->chunks = (char**)malloc(sizeof(char*));
-        response->chunk_sizes = (size_t*)malloc(sizeof(size_t));
-    } else {
-        response->chunks = (char**)realloc(response->chunks, new_num_chunks * sizeof(char*));
-        response->chunk_sizes = (size_t*)realloc(response->chunk_sizes, new_num_chunks * sizeof(size_t));
-    }
-
-    response->chunks[new_num_chunks - 1] = (char*)malloc(strlen(chunk) + 1); // +1 for null terminator
-    if (response->chunks[new_num_chunks - 1] == NULL) {
-        perror("Error allocating memory for chunk");
-        exit(1);
-    }
-    strcpy(response->chunks[new_num_chunks - 1], chunk);
-    response->chunk_sizes[new_num_chunks - 1] = strlen(chunk);
-
-    response->chunks_count = new_num_chunks;
-}
 
 void make_chunks(response_t* response, size_t count)
 {
@@ -128,13 +106,11 @@ HTTPDAPI void read_content(response_t* response, const char* path)
     rewind(file);
 
     size_t num_chunks = (file_size + CHUNK_SIZE - 1) / CHUNK_SIZE;
-    DEBU("chunks_count: %zu", num_chunks);
     make_chunks(response, num_chunks);
 
     for (size_t i = 0; i < num_chunks; i++) {
         response->chunks[i] = (char*)malloc(CHUNK_SIZE);
         response->chunk_sizes[i] = fread(response->chunks[i], 1, CHUNK_SIZE, file);
-        DEBU("size[%zu]: %zu", i, response->chunk_sizes[i]);
     }
 
     // Check if the total bytes read match the file size
@@ -172,7 +148,10 @@ HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t cod
     
     if(path == NULL){
         response->header = header_content(content, type, code);
-        append_chunk(response, (char*) content);
+        make_chunks(response, 1);
+        response->chunks[0] = (char*) malloc(strlen(content)+1);
+        response->chunk_sizes[0] = strlen(content)+1;
+        strcpy(response->chunks[0], (char*) content);
     } else {
         response->header = header_path(path, code);
         read_content(response, path);
@@ -185,6 +164,10 @@ HTTPDAPI response_t* new_response(Cstr path, Cstr content, Cstr type, size_t cod
 HTTPDAPI response_t* error_response(size_t code)
 {
     char* page_404 = ErrorPage(code);
+    if(page_404 == NULL) {
+        page_404 = clib_format_text("<html><body><h1>%zu %s</h1></body></html>", code, status_message(code)); // fallback html
+    }
+
     response_t* response = new_response(NULL, page_404, "text/html", code);
     free(page_404);
     return response;

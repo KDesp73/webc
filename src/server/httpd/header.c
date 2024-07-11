@@ -145,6 +145,7 @@ HTTPDAPI response_header_t header_content(Cstr content, Cstr type, size_t code)
     response_header_t header = {
         .status_code = code,
         .Server = SERVER_NAME,
+        .Content_Length = 0,
     };
 
     if(content != NULL)
@@ -164,6 +165,7 @@ void append_key(char** buffer, const char* key, const char* value)
     if(*buffer == NULL) return;
 
     char* key_value = clib_format_text("%s: %s\r", key, value);
+    if(key_value == NULL) return;
     clib_str_append_ln(buffer, key_value);
     free(key_value);
 }
@@ -175,8 +177,10 @@ HTTPDAPI char* header_str(response_header_t header)
     append_key(&header_str, "Server", header.Server);
     append_key(&header_str, "Content-Type", header.Content_Type);
     char* length = clib_format_text("%zu", header.Content_Length);
-    append_key(&header_str, "Content-Length", length);
-    free(length);
+    if(length != NULL){
+        append_key(&header_str, "Content-Length", length);
+        free(length);
+    }
     append_key(&header_str, "Connection", header.Connection);
     append_key(&header_str, "Date", header.Date);
     clib_str_append(&header_str, "\r\n");
