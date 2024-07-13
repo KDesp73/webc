@@ -184,7 +184,6 @@ HTTPDAPI char* header_str(response_header_t header)
     append_key(&header_str, "Connection", header.Connection);
     append_key(&header_str, "Date", header.Date);
     clib_str_append(&header_str, "\r\n");
-    clib_str_append(&header_str, "\r\n");
 
     return header_str;
 }
