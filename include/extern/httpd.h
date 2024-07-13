@@ -75,9 +75,6 @@ typedef struct {
 
 typedef struct {
     response_header_t header;
-    char* content;
-    size_t size;
-
     char** chunks;
     size_t* chunk_sizes;
     size_t chunks_count;
