@@ -24,7 +24,7 @@
 
 /**
  * @file httpd.h
- * @version v0.0.3
+ * @version v0.0.4
  * @author KDesp73 (Konstantinos Despoinidis)
  */
 
