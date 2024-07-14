@@ -32,8 +32,8 @@
 #ifndef WEBC_TEMPLATE_SPP_H
 #define WEBC_TEMPLATE_SPP_H
 
-#include "webc-core.h"
-#include "webc-templates/template.h"
+#include "../webc-core.h"
+#include "./template.h"
 
 #ifdef __cplusplus
 extern "C" {

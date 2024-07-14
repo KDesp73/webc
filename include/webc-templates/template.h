@@ -31,7 +31,7 @@
 
 #ifndef WEBC_TEMPLATE_H
 #define WEBC_TEMPLATE_H
-#include "webc-core.h"
+#include "../webc-core.h"
 
 #ifdef __cplusplus
 extern "C" {

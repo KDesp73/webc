@@ -10,8 +10,8 @@ This template creates a Single Page Portfolio including the following sections:
 You can set your own style (check [spp-style.css](../../style/spp-style.css) for classnames)
 
 ```c
-#include "webc-actions.h"
-#include "webc-templates/spp.h"
+#include <webc/webc-actions.h>
+#include <webc/webc-templates/spp.h>
 
 int main(int argc, char** argv)
 {
@@ -125,5 +125,5 @@ int main(int argc, char** argv)
 Build with:
 
 ```bash
-cc -o spp ./src/main.c -Lpath/to/library -lwebc -Ipath/to/library/include
+cc -o spp ./src/main.c  -lwebc
 ```
