@@ -1,3 +1,4 @@
+#define HTTPD_IMPLEMENTATION
 #include "extern/httpd.h"
 #include "webc-actions.h"
 #include "webc-server.h"
