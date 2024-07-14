@@ -7,7 +7,7 @@ Check it out [here](https://github.com/KDesp73/webc-portfolio)
 ## Simple Usage
 
 ```c
-#include "webc-core.h"
+#include <webc/webc-core.h>
 
 int main(void)
 {
