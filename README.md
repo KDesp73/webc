@@ -57,7 +57,7 @@ make install
 ```
 #### Linux
 
-The `.so` and `.a` files are copied to the `/usr/local/lib/webc/` directory 
+The `.so` and `.a` files are copied to the `/usr/lib/` directory 
 
 Additionally the header files are copied to the `/usr/local/include/webc/` directory
 
@@ -65,13 +65,6 @@ Additionally the header files are copied to the `/usr/local/include/webc/` direc
 
 > [!NOTE]
 > Not implemented yet
-
-
-### Link the library to your project
-
-Add `-Lpath/to/library -lwebc` to your LDFLAGS
-
-Make sure you have the LD_LIBRARY_PATH environment variable set correctly by running `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/library` before running
 
 ## Examples
 

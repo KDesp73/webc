@@ -11,7 +11,7 @@ SRC_DIR = src
 INCLUDE_DIR = include
 BUILD_DIR = build
 OBJECTS_DIR = $(BUILD_DIR)/objects
-INSTALL_DIR = /usr/local/lib
+INSTALL_DIR = /usr/lib
 INCLUDE_INSTALL_DIR = /usr/local/include
 
 ifeq ($(OS),Windows_NT)
@@ -21,7 +21,7 @@ ifeq ($(OS),Windows_NT)
     STATIC_LIB_NAME = $(BUILD_DIR)\output\libwebc.lib
     INSTALL = install_windows
 else
-    INSTALL_DIR = /usr/local/lib/webc
+    INSTALL_DIR = /usr/lib/
     INCLUDE_INSTALL_DIR = /usr/local/include/webc
     DLL_NAME = $(BUILD_DIR)/output/webc.dll
     STATIC_LIB_NAME = $(BUILD_DIR)/output/libwebc.a
