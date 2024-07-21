@@ -81,7 +81,7 @@ WEBCAPI int WEBC_ServeTree(Cstr ip, int port, Tree tree);
 WEBCAPI void WEBC_Daemon(DaemonAction action, WEBCServe serve, Cstr ip, int port, Cstr root, Tree tree);
 
 // HTTPD Extensions
-int response_tree(int sock, const request_t req, Tree tree);
+response_t* response_tree(request_t request, Tree tree);
 int run_server_tree(server_t server, Tree tree);
 
 #ifdef __cplusplus

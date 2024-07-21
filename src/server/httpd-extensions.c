@@ -36,7 +36,7 @@ int find_route(Tree tree, const char* url) {
     return -1; // Not found
 }
 
-WEBCAPI int response_tree(int sock, const request_t req, Tree tree)
+WEBCAPI response_t* response_tree(request_t request, Tree tree)
 {
     PANIC("Not implemented yet");
 }
