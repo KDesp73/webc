@@ -290,6 +290,22 @@ WEBCAPI void WEBC_UlEnd(char** buffer)
     free(tag);
 }
 
+WEBCAPI void WEBC_LiStart(char** buffer, AttributeList attributes)
+{
+    Tag* tag = WEBC_MakeTag("li", attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_LiEnd(char** buffer)
+{
+    char* tag = WEBC_CLOSING_TAG("li");
+    WEBC_AppendLn(buffer, tag);
+    free(tag);
+}
+
 WEBCAPI void WEBC_Header(char **buffer, AttributeList attributes, BlockContents contents)
 {
     WEBC_BlockAttr(buffer, "header", attributes, contents);

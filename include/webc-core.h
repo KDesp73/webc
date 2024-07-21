@@ -412,6 +412,8 @@ WEBCAPI void WEBC_MainStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_MainEnd(char** buffer);
 WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_UlEnd(char** buffer);
+WEBCAPI void WEBC_LiStart(char** buffer, AttributeList attributes);
+WEBCAPI void WEBC_LiEnd(char** buffer);
 WEBCAPI void WEBC_FooterStart(char** buffer, AttributeList attributes);
 WEBCAPI void WEBC_FooterEnd(char** buffer);
 WEBCAPI void WEBC_ButtonStart(char** buffer, AttributeList attributes);
