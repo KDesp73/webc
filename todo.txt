@@ -1,9 +1,9 @@
-TODO: put logging on a seperate thread
 TODO: Middleware (Mokas)
 TODO: blog template (github discussion integration)
 TODO: add SEO options
 TODO: better css for templates (help)
 TODO: better template naming
+TODO: signify when free is the user's responsibility
 DONE: single header file for easier use
 DONE: add all the existing html tags
 DONE: http server in C to handle both frontend and backend

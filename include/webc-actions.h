@@ -60,6 +60,7 @@ typedef struct {
     Cstr root;
     Route** routes;
     size_t count;
+    size_t capacity;
 } Tree;
 
 /**
@@ -82,6 +83,24 @@ WEBCAPI Route* WEBC_MakeRoute(Cstr path, char* buffer);
  * @return Tree
  */
 WEBCAPI Tree WEBC_MakeTree(Cstr root, Route* first, ...);
+
+/**
+ * Allocates space for the Tree
+ *
+ * @param root The root of the tree (in case of serving without exporting it doesn't really matter)
+ * @param capacity The number of routes to allocate for
+ *
+ * @return Tree
+ */
+WEBCAPI Tree WEBC_AllocTree(Cstr root, size_t capacity);
+
+/**
+ * Appends a Route struct pointer to the tree
+ *
+ * @param tree The tree to append to
+ * @param route The new Route struct pointer
+ */
+WEBCAPI void WEBC_AddRoute(Tree* tree, Route* route);
 
 /**
  * Frees the memory allocated by a Route
