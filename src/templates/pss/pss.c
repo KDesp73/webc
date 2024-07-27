@@ -40,14 +40,14 @@ WEBCAPI char* WEBC_TemplateProjectShowcaseSite(ProjectShowcaseSite site)
             NULL
         );
 
-        WEBC_StyleStart(&buffer);
+        WEBC_StyleStart(&buffer, NO_ATTRIBUTES);
         if(site.style_path != NULL)
             WEBC_IntegrateFile(&buffer, site.style_path);
         else 
             WEBC_IntegrateFile(&buffer, "https://raw.githubusercontent.com/KDesp73/webc/main/style/pss-style.css");
         WEBC_StyleEnd(&buffer);
 
-        WEBC_BodyStart(&buffer);
+        WEBC_BodyStart(&buffer, NO_ATTRIBUTES);
             WEBC_MainStart(&buffer, NO_ATTRIBUTES);
                 WEBC_TemplateProjectShowcaseSiteFragment(&buffer, site);
                 WEBC_TemplateFooter(&buffer, site.author, site.year);

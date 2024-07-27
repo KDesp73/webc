@@ -21,14 +21,14 @@ char* WEBC_TemplateSinglePagePortfolio(SinglePagePortfolio portfolio)
             META_AUTHOR_TAG(portfolio.author), NULL
         );
 
-        WEBC_StyleStart(&buffer);
+        WEBC_StyleStart(&buffer, NO_ATTRIBUTES);
         if(portfolio.style_path != NULL)
             WEBC_IntegrateFile(&buffer, portfolio.style_path);
         else
             WEBC_IntegrateFile(&buffer, "https://raw.githubusercontent.com/KDesp73/webc/main/style/spp-style.css");
         WEBC_StyleEnd(&buffer);
 
-        WEBC_BodyStart(&buffer);
+        WEBC_BodyStart(&buffer, NO_ATTRIBUTES);
             WEBC_DivStart(&buffer, WEBC_UseModifier((Modifier) {.class = "sidebar"}));
                 WEBC_SideBar(&buffer, portfolio);
             WEBC_DivEnd(&buffer);

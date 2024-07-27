@@ -100,210 +100,856 @@ WEBCAPI void WEBC_HtmlStart(char**buffer, Cstr lang)
 
 WEBCAPI void WEBC_HtmlEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("html");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "html");
 }
 
-
-WEBCAPI void WEBC_BodyStart(char** buffer)
+WEBCAPI void WEBC_TagStart(char** buffer, Cstr tag_name, AttributeList attributes)
 {
-    char* tag = WEBC_OPENING_TAG("body");
+    Tag* tag = WEBC_MakeTag(tag_name, attributes);
+    char* tag_str = (char*) WEBC_TagToString(tag);
+    WEBC_AppendLn(buffer, tag_str);
+    WEBC_CleanTag(&tag);
+    free(tag_str);
+}
+
+WEBCAPI void WEBC_TagEnd(char** buffer, Cstr tag_name)
+{
+    char* tag = WEBC_CLOSING_TAG(tag_name);
     WEBC_AppendLn(buffer, tag);
     free(tag);
 }
 
+WEBCAPI void WEBC_BodyStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "body", attributes);
+}
 WEBCAPI void WEBC_BodyEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("body");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "body");
 }
-
-WEBCAPI void WEBC_ScriptStart(char** buffer)
+WEBCAPI void WEBC_AbbrStart(char** buffer, AttributeList attributes)
 {
-    char* tag = WEBC_OPENING_TAG("script");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagStart(buffer, "abbr", attributes);
 }
-
-WEBCAPI void WEBC_ScriptEnd(char** buffer)
+WEBCAPI void WEBC_AbbrEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("script");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "abbr");
 }
-
-WEBCAPI void WEBC_StyleStart(char** buffer)
+WEBCAPI void WEBC_AddressStart(char** buffer, AttributeList attributes)
 {
-    char* tag = WEBC_OPENING_TAG("style");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagStart(buffer, "address", attributes);
 }
-
-WEBCAPI void WEBC_StyleEnd(char** buffer)
+WEBCAPI void WEBC_AddressEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("style");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "address");
 }
-
+WEBCAPI void WEBC_AnchorStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "anchor", attributes);
+}
+WEBCAPI void WEBC_AnchorEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "anchor");
+}
+WEBCAPI void WEBC_AreaStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "area", attributes);
+}
+WEBCAPI void WEBC_AreaEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "area");
+}
+WEBCAPI void WEBC_ArticleStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "article", attributes);
+}
+WEBCAPI void WEBC_ArticleEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "article");
+}
+WEBCAPI void WEBC_AsideStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "aside", attributes);
+}
+WEBCAPI void WEBC_AsideEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "aside");
+}
+WEBCAPI void WEBC_AudioStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "audio", attributes);
+}
+WEBCAPI void WEBC_AudioEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "audio");
+}
+WEBCAPI void WEBC_BStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "B", attributes);
+}
+WEBCAPI void WEBC_BEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "B");
+}
+WEBCAPI void WEBC_BdiStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "bdi", attributes);
+}
+WEBCAPI void WEBC_BdiEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "bdi");
+}
+WEBCAPI void WEBC_BdoStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "bdo", attributes);
+}
+WEBCAPI void WEBC_BdoEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "bdo");
+}
+WEBCAPI void WEBC_BlockquoteStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "blockquote", attributes);
+}
+WEBCAPI void WEBC_BlockquoteEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "blockquote");
+}
+WEBCAPI void WEBC_BoldStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "bold", attributes);
+}
+WEBCAPI void WEBC_BoldEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "bold");
+}
+WEBCAPI void WEBC_BrStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "br", attributes);
+}
+WEBCAPI void WEBC_BrEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "br");
+}
+WEBCAPI void WEBC_ButtonStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "button", attributes);
+}
+WEBCAPI void WEBC_ButtonEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "button");
+}
+WEBCAPI void WEBC_CanvasStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "canvas", attributes);
+}
+WEBCAPI void WEBC_CanvasEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "canvas");
+}
+WEBCAPI void WEBC_CaptionStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "caption", attributes);
+}
+WEBCAPI void WEBC_CaptionEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "caption");
+}
+WEBCAPI void WEBC_CiteStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "cite", attributes);
+}
+WEBCAPI void WEBC_CiteEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "cite");
+}
+WEBCAPI void WEBC_CodeStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "code", attributes);
+}
+WEBCAPI void WEBC_CodeEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "code");
+}
+WEBCAPI void WEBC_ColStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "col", attributes);
+}
+WEBCAPI void WEBC_ColEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "col");
+}
+WEBCAPI void WEBC_ColgroupStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "colgroup", attributes);
+}
+WEBCAPI void WEBC_ColgroupEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "colgroup");
+}
+WEBCAPI void WEBC_DataStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "data", attributes);
+}
+WEBCAPI void WEBC_DataEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "data");
+}
+WEBCAPI void WEBC_DatalistStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "datalist", attributes);
+}
+WEBCAPI void WEBC_DatalistEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "datalist");
+}
+WEBCAPI void WEBC_DdStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "dd", attributes);
+}
+WEBCAPI void WEBC_DdEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "dd");
+}
+WEBCAPI void WEBC_DelStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "del", attributes);
+}
+WEBCAPI void WEBC_DelEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "del");
+}
+WEBCAPI void WEBC_DetailsStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "details", attributes);
+}
+WEBCAPI void WEBC_DetailsEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "details");
+}
+WEBCAPI void WEBC_DfnStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "dfn", attributes);
+}
+WEBCAPI void WEBC_DfnEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "dfn");
+}
+WEBCAPI void WEBC_DialogStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "dialog", attributes);
+}
+WEBCAPI void WEBC_DialogEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "dialog");
+}
 WEBCAPI void WEBC_DivStart(char** buffer, AttributeList attributes)
 {
-    Tag* tag = WEBC_MakeTag("div", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
+    WEBC_TagStart(buffer, "div", attributes);
 }
-
 WEBCAPI void WEBC_DivEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("div");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "div");
 }
-WEBCAPI void WEBC_MainStart(char** buffer, AttributeList attributes)
+WEBCAPI void WEBC_DlStart(char** buffer, AttributeList attributes)
 {
-    Tag* tag = WEBC_MakeTag("main", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
+    WEBC_TagStart(buffer, "dl", attributes);
 }
-
-WEBCAPI void WEBC_MainEnd(char** buffer)
+WEBCAPI void WEBC_DlEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("main");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "dl");
+}
+WEBCAPI void WEBC_DtStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "dt", attributes);
+}
+WEBCAPI void WEBC_DtEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "dt");
+}
+WEBCAPI void WEBC_EmStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "em", attributes);
+}
+WEBCAPI void WEBC_EmEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "em");
+}
+WEBCAPI void WEBC_EmbedStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "embed", attributes);
+}
+WEBCAPI void WEBC_EmbedEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "embed");
+}
+WEBCAPI void WEBC_FieldsetStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "fieldset", attributes);
+}
+WEBCAPI void WEBC_FieldsetEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "fieldset");
+}
+WEBCAPI void WEBC_FigcaptionStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "figcaption", attributes);
+}
+WEBCAPI void WEBC_FigcaptionEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "figcaption");
+}
+WEBCAPI void WEBC_FigureStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "figure", attributes);
+}
+WEBCAPI void WEBC_FigureEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "figure");
 }
 WEBCAPI void WEBC_FooterStart(char** buffer, AttributeList attributes)
 {
-    Tag* tag = WEBC_MakeTag("footer", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
+    WEBC_TagStart(buffer, "footer", attributes);
 }
-
 WEBCAPI void WEBC_FooterEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("footer");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "footer");
 }
-
-WEBCAPI void WEBC_ButtonStart(char** buffer, AttributeList attributes)
-{
-    Tag* tag = WEBC_MakeTag("button", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
-}
-
-WEBCAPI void WEBC_ButtonEnd(char** buffer)
-{
-    char* tag = WEBC_CLOSING_TAG("button");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
-}
-
-WEBCAPI void WEBC_LabelStart(char** buffer, AttributeList attributes)
-{
-    Tag* tag = WEBC_MakeTag("label", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
-}
-
-WEBCAPI void WEBC_LabelEnd(char** buffer)
-{
-    char* tag = WEBC_CLOSING_TAG("label");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
-}
-
-WEBCAPI void WEBC_DialogStart(char** buffer, AttributeList attributes)
-{
-    Tag* tag = WEBC_MakeTag("dialog", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
-}
-
-WEBCAPI void WEBC_DialogEnd(char** buffer)
-{
-    char* tag = WEBC_CLOSING_TAG("dialog");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
-}
-
 WEBCAPI void WEBC_FormStart(char** buffer, AttributeList attributes)
 {
-    Tag* tag = WEBC_MakeTag("form", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
+    WEBC_TagStart(buffer, "form", attributes);
 }
-
 WEBCAPI void WEBC_FormEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("form");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "form");
 }
-
-WEBCAPI void WEBC_SelectStart(char** buffer, AttributeList attributes)
+WEBCAPI void WEBC_HeaderStart(char** buffer, AttributeList attributes)
 {
-    Tag* tag = WEBC_MakeTag("select", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
+    WEBC_TagStart(buffer, "header", attributes);
 }
-
-WEBCAPI void WEBC_SelectEnd(char** buffer)
+WEBCAPI void WEBC_HeaderEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("select");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "header");
 }
-
-WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes)
+WEBCAPI void WEBC_HeadingStart(char** buffer, AttributeList attributes)
 {
-    Tag* tag = WEBC_MakeTag("ul", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
+    WEBC_TagStart(buffer, "heading", attributes);
 }
-
-WEBCAPI void WEBC_UlEnd(char** buffer)
+WEBCAPI void WEBC_HeadingEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("ul");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "heading");
 }
-
+WEBCAPI void WEBC_HgroupStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "hgroup", attributes);
+}
+WEBCAPI void WEBC_HgroupEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "hgroup");
+}
+WEBCAPI void WEBC_HrStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "hr", attributes);
+}
+WEBCAPI void WEBC_HrEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "hr");
+}
+WEBCAPI void WEBC_IStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "i", attributes);
+}
+WEBCAPI void WEBC_IEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "i");
+}
+WEBCAPI void WEBC_IframeStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "iframe", attributes);
+}
+WEBCAPI void WEBC_IframeEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "iframe");
+}
+WEBCAPI void WEBC_ImgStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "img", attributes);
+}
+WEBCAPI void WEBC_ImgEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "img");
+}
+WEBCAPI void WEBC_InputStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "input", attributes);
+}
+WEBCAPI void WEBC_InputEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "input");
+}
+WEBCAPI void WEBC_InsStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "ins", attributes);
+}
+WEBCAPI void WEBC_InsEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "ins");
+}
+WEBCAPI void WEBC_KbdStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "kbd", attributes);
+}
+WEBCAPI void WEBC_KbdEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "kbd");
+}
+WEBCAPI void WEBC_LabelStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "label", attributes);
+}
+WEBCAPI void WEBC_LabelEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "label");
+}
+WEBCAPI void WEBC_LegendStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "legend", attributes);
+}
+WEBCAPI void WEBC_LegendEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "legend");
+}
 WEBCAPI void WEBC_LiStart(char** buffer, AttributeList attributes)
 {
-    Tag* tag = WEBC_MakeTag("li", attributes);
-    char* tag_str = (char*) WEBC_TagToString(tag);
-    WEBC_AppendLn(buffer, tag_str);
-    WEBC_CleanTag(&tag);
-    free(tag_str);
+    WEBC_TagStart(buffer, "li", attributes);
 }
-
 WEBCAPI void WEBC_LiEnd(char** buffer)
 {
-    char* tag = WEBC_CLOSING_TAG("li");
-    WEBC_AppendLn(buffer, tag);
-    free(tag);
+    WEBC_TagEnd(buffer, "li");
+}
+WEBCAPI void WEBC_LinkStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "link", attributes);
+}
+WEBCAPI void WEBC_LinkEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "link");
+}
+WEBCAPI void WEBC_MainStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "main", attributes);
+}
+WEBCAPI void WEBC_MainEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "main");
+}
+WEBCAPI void WEBC_MapStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "map", attributes);
+}
+WEBCAPI void WEBC_MapEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "map");
+}
+WEBCAPI void WEBC_MarkStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "mark", attributes);
+}
+WEBCAPI void WEBC_MarkEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "mark");
+}
+WEBCAPI void WEBC_MenuStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "menu", attributes);
+}
+WEBCAPI void WEBC_MenuEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "menu");
+}
+WEBCAPI void WEBC_MeterStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "meter", attributes);
+}
+WEBCAPI void WEBC_MeterEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "meter");
+}
+WEBCAPI void WEBC_NavStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "nav", attributes);
+}
+WEBCAPI void WEBC_NavEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "nav");
+}
+WEBCAPI void WEBC_NoscriptStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "noscript", attributes);
+}
+WEBCAPI void WEBC_NoscriptEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "noscript");
+}
+WEBCAPI void WEBC_ObjectStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "object", attributes);
+}
+WEBCAPI void WEBC_ObjectEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "object");
+}
+WEBCAPI void WEBC_OlStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "ol", attributes);
+}
+WEBCAPI void WEBC_OlEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "ol");
+}
+WEBCAPI void WEBC_OptgroupStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "optgroup", attributes);
+}
+WEBCAPI void WEBC_OptgroupEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "optgroup");
+}
+WEBCAPI void WEBC_OptionStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "option", attributes);
+}
+WEBCAPI void WEBC_OptionEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "option");
+}
+WEBCAPI void WEBC_OutputStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "output", attributes);
+}
+WEBCAPI void WEBC_OutputEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "output");
+}
+WEBCAPI void WEBC_ParagraphStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "paragraph", attributes);
+}
+WEBCAPI void WEBC_ParagraphEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "paragraph");
+}
+WEBCAPI void WEBC_ParamStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "param", attributes);
+}
+WEBCAPI void WEBC_ParamEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "param");
+}
+WEBCAPI void WEBC_PictureStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "picture", attributes);
+}
+WEBCAPI void WEBC_PictureEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "picture");
+}
+WEBCAPI void WEBC_PreStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "pre", attributes);
+}
+WEBCAPI void WEBC_PreEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "pre");
+}
+WEBCAPI void WEBC_ProgressStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "progress", attributes);
+}
+WEBCAPI void WEBC_ProgressEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "progress");
+}
+WEBCAPI void WEBC_QStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "Q", attributes);
+}
+WEBCAPI void WEBC_QEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "Q");
+}
+WEBCAPI void WEBC_RpStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "rp", attributes);
+}
+WEBCAPI void WEBC_RpEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "rp");
+}
+WEBCAPI void WEBC_RtStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "rt", attributes);
+}
+WEBCAPI void WEBC_RtEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "rt");
+}
+WEBCAPI void WEBC_RubyStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "ruby", attributes);
+}
+WEBCAPI void WEBC_RubyEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "ruby");
+}
+WEBCAPI void WEBC_SStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "s", attributes);
+}
+WEBCAPI void WEBC_SEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "s");
+}
+WEBCAPI void WEBC_SampStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "samp", attributes);
+}
+WEBCAPI void WEBC_SampEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "samp");
+}
+WEBCAPI void WEBC_ScriptStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "script", attributes);
+}
+WEBCAPI void WEBC_ScriptEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "script");
+}
+WEBCAPI void WEBC_SearchStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "search", attributes);
+}
+WEBCAPI void WEBC_SearchEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "search");
+}
+WEBCAPI void WEBC_SectionStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "section", attributes);
+}
+WEBCAPI void WEBC_SectionEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "section");
+}
+WEBCAPI void WEBC_SelectStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "select", attributes);
+}
+WEBCAPI void WEBC_SelectEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "select");
+}
+WEBCAPI void WEBC_SmallStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "small", attributes);
+}
+WEBCAPI void WEBC_SmallEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "small");
+}
+WEBCAPI void WEBC_SourceStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "source", attributes);
+}
+WEBCAPI void WEBC_SourceEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "source");
+}
+WEBCAPI void WEBC_SpanStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "span", attributes);
+}
+WEBCAPI void WEBC_SpanEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "span");
+}
+WEBCAPI void WEBC_StrongStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "strong", attributes);
+}
+WEBCAPI void WEBC_StrongEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "strong");
+}
+WEBCAPI void WEBC_StyleStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "style", attributes);
+}
+WEBCAPI void WEBC_StyleEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "style");
+}
+WEBCAPI void WEBC_SubStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "sub", attributes);
+}
+WEBCAPI void WEBC_SubEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "sub");
+}
+WEBCAPI void WEBC_SummaryStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "summary", attributes);
+}
+WEBCAPI void WEBC_SummaryEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "summary");
+}
+WEBCAPI void WEBC_SupStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "sup", attributes);
+}
+WEBCAPI void WEBC_SupEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "sup");
+}
+WEBCAPI void WEBC_SvgStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "svg", attributes);
+}
+WEBCAPI void WEBC_SvgEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "svg");
+}
+WEBCAPI void WEBC_TableStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "table", attributes);
+}
+WEBCAPI void WEBC_TableEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "table");
+}
+WEBCAPI void WEBC_TbodyStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "tbody", attributes);
+}
+WEBCAPI void WEBC_TbodyEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "tbody");
+}
+WEBCAPI void WEBC_TdStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "td", attributes);
+}
+WEBCAPI void WEBC_TdEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "td");
+}
+WEBCAPI void WEBC_TemplateStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "template", attributes);
+}
+WEBCAPI void WEBC_TemplateEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "template");
+}
+WEBCAPI void WEBC_TextareaStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "textarea", attributes);
+}
+WEBCAPI void WEBC_TextareaEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "textarea");
+}
+WEBCAPI void WEBC_TfootStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "tfoot", attributes);
+}
+WEBCAPI void WEBC_TfootEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "tfoot");
+}
+WEBCAPI void WEBC_ThStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "th", attributes);
+}
+WEBCAPI void WEBC_ThEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "th");
+}
+WEBCAPI void WEBC_TheadStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "thead", attributes);
+}
+WEBCAPI void WEBC_TheadEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "thead");
+}
+WEBCAPI void WEBC_TimeStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "time", attributes);
+}
+WEBCAPI void WEBC_TimeEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "time");
+}
+WEBCAPI void WEBC_TrStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "tr", attributes);
+}
+WEBCAPI void WEBC_TrEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "tr");
+}
+WEBCAPI void WEBC_TrackStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "track", attributes);
+}
+WEBCAPI void WEBC_TrackEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "track");
+}
+WEBCAPI void WEBC_UStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "u", attributes);
+}
+WEBCAPI void WEBC_UEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "u");
+}
+WEBCAPI void WEBC_UlStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "ul", attributes);
+}
+WEBCAPI void WEBC_UlEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "ul");
+}
+WEBCAPI void WEBC_VarStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "var", attributes);
+}
+WEBCAPI void WEBC_VarEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "var");
+}
+WEBCAPI void WEBC_VideoStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "video", attributes);
+}
+WEBCAPI void WEBC_VideoEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "video");
+}
+WEBCAPI void WEBC_WbrStart(char** buffer, AttributeList attributes)
+{
+    WEBC_TagStart(buffer, "wbr", attributes);
+}
+WEBCAPI void WEBC_WbrEnd(char** buffer)
+{
+    WEBC_TagEnd(buffer, "wbr");
 }
 
 WEBCAPI void WEBC_Header(char **buffer, AttributeList attributes, BlockContents contents)
