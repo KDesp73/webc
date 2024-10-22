@@ -169,6 +169,11 @@ typedef struct {
     Cstr code;
 } CodeLine;
 
+typedef struct {
+    Cstr text;
+    Cstr github_link;
+} Footer;
+
 // ############ Utils ############ //
 
 #define SECURE_STR(s) ((s == NULL) ? "NULL" : s)
@@ -373,6 +378,9 @@ WEBCAPI void WEBC_DaisyToggle(char** buffer, int checked, Cstr color, Cstr size)
  * https://daisyui.com/components/tooltip/
  */
 WEBCAPI void WEBC_DaisyTooltip(char** buffer, Cstr tooltip, Cstr location, int open, Cstr color, BlockContents toplaceon);
+
+WEBCAPI void WEBC_DaisyFooter(char** buffer, Footer footer);
+
 
 // #endif // DAISY_UI
 

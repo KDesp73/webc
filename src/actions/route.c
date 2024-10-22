@@ -43,6 +43,7 @@ WEBCAPI Tree WEBC_MakeTree(Cstr root, Route* first, ...)
     }
     va_end(args);
 
+    result.count = result.count;
     result.routes = (Route**) malloc(sizeof(result.routes[0]) * result.count);
     if (result.routes == NULL) {
         PANIC("could not allocate memory: %s", strerror(errno));
@@ -59,4 +60,29 @@ WEBCAPI Tree WEBC_MakeTree(Cstr root, Route* first, ...)
     return result; 
 }
 
+WEBCAPI Tree WEBC_AllocTree(Cstr root, size_t capacity)
+{
+    Tree tree = {0};
+    tree.root = (char*) malloc(strlen(root));
+    strcpy((char*) tree.root, root);
+    tree.capacity = capacity;
+    tree.routes = (Route**) malloc(sizeof(tree.routes[0]) * capacity);
+
+    if (tree.routes == NULL) {
+        PANIC("could not allocate memory: %s", strerror(errno));
+    }
+    
+    return tree;
+}
+
+
+WEBCAPI void WEBC_AddRoute(Tree* tree, Route* route)
+{
+    if(tree->count >= tree->capacity) {
+        ERRO("Tree is at max capacity");
+        return;
+    }
+
+    tree->routes[tree->count++] = route;
+}
 

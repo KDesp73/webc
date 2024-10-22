@@ -35,22 +35,22 @@ WEBCAPI char* WEBC_TemplateProjectShowcaseSite(ProjectShowcaseSite site)
     char* buffer = NULL;
 
     WEBC_HtmlStart(&buffer, "en");
-        WEBC_Head(&buffer, site.title, 
-            META_AUTHOR_TAG(site.author),
+        WEBC_Head(&buffer, site.template.title, 
+            META_AUTHOR_TAG(site.template.author),
             NULL
         );
 
-        WEBC_StyleStart(&buffer);
-        if(site.style_path != NULL)
-            WEBC_IntegrateFile(&buffer, site.style_path);
+        WEBC_StyleStart(&buffer, NO_ATTRIBUTES);
+        if(site.template.style_path != NULL)
+            WEBC_IntegrateFile(&buffer, site.template.style_path);
         else 
             WEBC_IntegrateFile(&buffer, "https://raw.githubusercontent.com/KDesp73/webc/main/style/pss-style.css");
         WEBC_StyleEnd(&buffer);
 
-        WEBC_BodyStart(&buffer);
+        WEBC_BodyStart(&buffer, NO_ATTRIBUTES);
             WEBC_MainStart(&buffer, NO_ATTRIBUTES);
                 WEBC_TemplateProjectShowcaseSiteFragment(&buffer, site);
-                WEBC_TemplateFooter(&buffer, site.author, site.year);
+                WEBC_TemplateFooter(&buffer, site.template.author, site.template.year);
             WEBC_MainEnd(&buffer);
         WEBC_BodyEnd(&buffer);
     WEBC_HtmlEnd(&buffer);

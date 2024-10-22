@@ -23,50 +23,13 @@
  */
 
 /**
- * @file webc-templates/template.h
+ * @file webc-templates/markdown.h
  * @author KDesp73 (Konstantinos Despoinidis)
  * @version 0.0.1
  */
 
-
-#ifndef WEBC_TEMPLATE_H
-#define WEBC_TEMPLATE_H
-#include "../webc-core.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef struct {
-    Cstr name;
-    Cstr link;
-    Cstr lang;
-    Cstr license;
-    Cstr version;
-    Cstr desc;
-    Cstr image;
-} Project;
-
-typedef struct {
-    Cstr title;
-    Cstr author;
-    Cstr about;
-    Cstr email;
-    Cstr github_username;
-    int year;
-    Cstr style_path;
-    Cstr lang;
-} Template;
-
-WEBCAPI void WEBC_TemplateFooter(char** buffer, Cstr author, size_t year);
-WEBCAPI void WEBC_TemplateContact(char** buffer, Cstr email, Cstr github_username);
-WEBCAPI void WEBC_TemplateSection(char** buffer, Cstr title);
-WEBCAPI void WEBC_TemplateSidebar(char** buffer, Template portfolio, BlockContents links);
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif // WEBC_TEMPLATE_H
-
+#include "webc-templates/template.h"
+typedef enum {
+    DARK, LIGHT
+} Theme;
+char* WEBC_Markdown(Template template, const char* file, Theme theme);
