@@ -42,11 +42,11 @@ extern "C" {
 
 typedef struct {
     Cstr lang;
-    Cstr about_path;
     Template template;
 } Blog;
 
 #define POSTS_PATH "./posts"
+#define ABOUT_PATH "./about.md"
 
 WEBCAPI Tree WEBC_TemplateBlog(Cstr root, Blog blog);
 

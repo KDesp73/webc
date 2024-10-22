@@ -86,11 +86,11 @@ void Seperator(char** buffer)
 void WEBC_Content(char** buffer, SinglePagePortfolio portfolio)
 {
 
-    WEBC_Intro(buffer, portfolio.author, portfolio.about);
+    WEBC_Intro(buffer, portfolio.template.author, portfolio.template.about);
     Seperator(buffer);
     WEBC_Projects(buffer, portfolio.projects, portfolio.projects_count);
     Seperator(buffer);
     WEBC_Skills(buffer, portfolio.skills, portfolio.skills_count);
     Seperator(buffer);
-    WEBC_TemplateContact(buffer, portfolio.email, portfolio.github_username);
+    WEBC_TemplateContact(buffer, portfolio.template.email, portfolio.template.github_username);
 }

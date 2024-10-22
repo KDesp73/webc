@@ -1,3 +1,4 @@
+#include "webc-core.h"
 #include "webc-templates/spp.h"
 #include "webc-templates/template.h"
 
@@ -25,11 +26,11 @@ void WEBC_SidebarLinks(char** buffer)
     }
 }
 
-void WEBC_SideBar(char** buffer, SinglePagePortfolio portfolio)
+void WEBC_TemplateSidebar(char** buffer, Template portfolio, BlockContents links)
 {
     WEBC_H2(buffer, NO_ATTRIBUTES, portfolio.github_username);
     WEBC_UlStart(buffer, NO_ATTRIBUTES);
-        WEBC_SidebarLinks(buffer);
+        links(buffer);
     WEBC_UlEnd(buffer);
     WEBC_TemplateFooter(buffer, portfolio.author, portfolio.year);
 }

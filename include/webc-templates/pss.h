@@ -40,13 +40,8 @@ extern "C" {
 #endif
 
 typedef struct {
-    Cstr title;
-    Cstr author;
-    Cstr email;
-    int year;
-    Cstr github_username;
+    Template template;
     Project project;
-    Cstr style_path;
 } ProjectShowcaseSite;
 
 WEBCAPI char* WEBC_TemplateProjectShowcaseSite(ProjectShowcaseSite site);

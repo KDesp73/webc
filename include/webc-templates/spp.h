@@ -40,13 +40,7 @@ extern "C" {
 #endif
 
 typedef struct {
-    Cstr title;
-    Cstr author;
-    Cstr about;
-    Cstr email;
-    Cstr github_username;
-    int year;
-    Cstr style_path;
+    Template template;
     Project* projects;
     size_t projects_count;
     Cstr* skills;
@@ -54,7 +48,6 @@ typedef struct {
 } SinglePagePortfolio;
 
 WEBCAPI void WEBC_SidebarLinks(char** buffer);
-WEBCAPI void WEBC_SideBar(char** buffer, SinglePagePortfolio portfolio);
 WEBCAPI void WEBC_Intro(char** buffer, Cstr name, Cstr about);
 WEBCAPI void WEBC_Projects(char** buffer, Project projects[], size_t count);
 WEBCAPI void WEBC_Skills(char** buffer, Cstr skills[], size_t skills_count);

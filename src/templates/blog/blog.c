@@ -6,21 +6,9 @@
 #include "webc-ui.h"
 #include "./utils.c"
 
-char* BlogLayout(Cstr title, Blog blog, BlockContents contents)
+void links(char** buffer) 
 {
-    char* buffer = NULL;
-    WEBC_HtmlStart(&buffer, blog.lang);
-    WEBC_Head(&buffer, title, 
-        LINK_STYLESHEET_TAG(blog.template.style_path),
-        META_AUTHOR_TAG(blog.template.author),
-        META_DESCRIPTION_TAG(blog.template.about),
-        DAISYUI_LINK,
-        NULL
-    );
-
-    TAILWINDCSS_SCRIPT(&buffer)
-
-    WEBC_BodyStart(&buffer, NO_ATTRIBUTES);
+    
         NavLink nav_items[] = {
             (NavLink) {
                 .title = "Home",
@@ -32,19 +20,43 @@ char* BlogLayout(Cstr title, Blog blog, BlockContents contents)
             },
         };
 
-        NavLink side_items[] = {
-            (NavLink) {
-                .title = "Home",
-                .link = "/",
-            },
-            (NavLink) {
-                .title = "About",
-                .link = "/about",
-            },
-        };
 
-        WEBC_DaisyNavbarSidebar(&buffer, title, nav_items, ARRAY_LEN(nav_items), side_items, ARRAY_LEN(side_items), contents);
-        WEBC_DaisyFooter(&buffer, (Footer) {.text = "Copyright © 2024 - All right reserved"});
+    for (size_t i = 0; i < ARRAY_LEN(nav_items); ++i) {
+        char* link = (char*) malloc(1); 
+        memset(link, 0, 1);
+        WEBC_Li(&link, NO_ATTRIBUTES, nav_items[i].title); 
+        WEBC_Anchor(buffer, WEBC_UseModifier((Modifier) {.href = nav_items[i].link, .target = nav_items[i].target}), link);
+        free(link);
+    }
+}
+
+char* BlogLayout(Cstr title, Blog blog, BlockContents contents)
+{
+    char* buffer = NULL;
+    WEBC_HtmlStart(&buffer, blog.lang);
+    WEBC_Head(&buffer, title, 
+        META_AUTHOR_TAG(blog.template.author),
+        META_DESCRIPTION_TAG(blog.template.about),
+        NULL
+    );
+
+    WEBC_StyleStart(&buffer, NO_ATTRIBUTES);
+        if(blog.template.style_path == NULL) {
+            // Get library style
+        } else {
+            WEBC_IntegrateFile(&buffer, blog.template.style_path);
+        }
+    WEBC_StyleEnd(&buffer);
+
+    WEBC_BodyStart(&buffer, NO_ATTRIBUTES);
+        WEBC_DivStart(&buffer, WEBC_UseModifier((Modifier) {.class = "sidebar"}));
+            WEBC_TemplateSidebar(&buffer, blog.template, links);
+        WEBC_DivEnd(&buffer);
+
+            WEBC_MainStart(&buffer, NO_ATTRIBUTES);
+                contents(&buffer);
+            WEBC_MainEnd(&buffer);
+
     WEBC_BodyEnd(&buffer);
 
     WEBC_HtmlEnd(&buffer);
@@ -62,9 +74,20 @@ void IndexContents(char** buffer)
         char* name = (char*) get_filename_without_extension(md_files[i]);
         char* route = clib_format_text("/posts/%s/", name);
         replaceUnderscoresAndCapitalize(name);
-        WEBC_LiStart(buffer, NO_ATTRIBUTES);
-            WEBC_Anchor(buffer, WEBC_UseModifier((Modifier){.href = route}), name);
-        WEBC_LiEnd(buffer);
+        WEBC_DivStart(buffer, WEBC_UseModifier((Modifier) {.class = "post"}));
+            char* anchor = (char*) malloc(1);
+            memset(anchor, 0, 1);
+            WEBC_Anchor(&anchor, WEBC_UseModifier((Modifier) {.href = route}), name);
+            WEBC_H2(buffer, NO_ATTRIBUTES, anchor);
+            free(anchor);
+
+            char* subtitle = clib_format_text("Lorem Ipsum\n");
+            WEBC_Paragraph(buffer, NO_ATTRIBUTES, subtitle);
+            free(subtitle);
+
+            WEBC_Paragraph(buffer, NO_ATTRIBUTES, "Preview...");
+
+        WEBC_DivEnd(buffer);
         free(route);
     }
     WEBC_UlEnd(buffer);
@@ -72,7 +95,9 @@ void IndexContents(char** buffer)
 
 void AboutContents(char** buffer)
 {
-    WEBC_H1(buffer, NO_ATTRIBUTES, "About");
+    WEBC_DivStart(buffer, WEBC_UseModifier((Modifier) {.class = "markdown-body", .style = "padding = 1em;"}));
+        WEBC_IntegrateFile(buffer, ABOUT_PATH);
+    WEBC_DivEnd(buffer);
 }
 
 char* BlogIndex(Blog blog)
@@ -96,11 +121,18 @@ char* BlogArticle(Cstr md, Blog blog)
     WEBC_Head(&buffer, name, 
         META_AUTHOR_TAG(blog.template.author),
         META_DESCRIPTION_TAG(blog.template.about),
-        LINK_STYLESHEET_TAG(blog.template.style_path),
         NULL
     );
 
     WEBC_StyleStart(&buffer, NO_ATTRIBUTES);
+        if(blog.template.style_path == NULL) {
+            // TODO: Get library style
+        } else {
+            WEBC_IntegrateFile(&buffer, blog.template.style_path);
+        }
+
+        WEBC_InfoComment(&buffer, "Markdown Style");
+
         WEBC_IntegrateFile(&buffer, "https://raw.githubusercontent.com/KDesp73/webc/main/style/github-markdown.css");
     WEBC_StyleEnd(&buffer);
 

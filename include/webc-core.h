@@ -744,10 +744,23 @@ The following macros are used to append the html tags that don't use tags
     WEBC_PlainText(buffer, text)
 #define WEBC_Comment(buffer, text) \
     do { \
-        char* comment = clib_format_text("<!--%s-->"); \
+        char* comment = clib_format_text("<!--%s-->\n", text); \
         WEBC_AppendLn(buffer, comment); \
         free(comment); \
     } while(0);
+#define WEBC_LogComment(buffer, tag, text) \
+    do { \
+        char* comment = clib_format_text("<!--[%s] %s-->\n", tag, text); \
+        WEBC_AppendLn(buffer, comment); \
+        free(comment); \
+    } while(0);
+#define WEBC_InfoComment(buffer, text) \
+    WEBC_LogComment(buffer, "INFO", text);
+#define WEBC_TipComment(buffer, text) \
+    WEBC_LogComment(buffer, "TIP", text);
+#define WEBC_TodoComment(buffer, text) \
+    WEBC_LogComment(buffer, "TODO", text);
+
 
 /*
 Specific Heading elements
