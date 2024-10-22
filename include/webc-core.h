@@ -32,8 +32,8 @@
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 0
-#define VERSION_PATCH 12
-#define VERSION "0.0.12"
+#define VERSION_PATCH 13
+#define VERSION "0.0.13"
 
 #ifndef WEBCAPI
     #define WEBCAPI extern // Functions defined as 'extern' by default (implicit specifiers)
