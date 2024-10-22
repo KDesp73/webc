@@ -7,5 +7,6 @@ site/
 src/main.c
 sync-docs.sh
 docs/documentation/
+.changelog
 
 *.o
