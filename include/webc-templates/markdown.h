@@ -28,8 +28,9 @@
  * @version 0.0.1
  */
 
-#include "webc-templates/template.h"
+#include "./template.h"
 typedef enum {
     DARK, LIGHT
 } Theme;
-char* WEBC_Markdown(Template template, const char* file, Theme theme);
+
+WEBCAPI char* WEBC_Markdown(Template template, const char* file, Theme theme);
